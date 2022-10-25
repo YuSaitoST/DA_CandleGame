@@ -4,15 +4,15 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - BombLocation
+  - BombArea
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
+  - Ground
   - 
   - 
   - 
