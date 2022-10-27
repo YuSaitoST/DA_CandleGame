@@ -23,7 +23,7 @@ public class root : MonoBehaviour
     [SerializeField] float quitRange = 0f;
     [SerializeField] bool tracking = false;
     [SerializeField] private SphereCollider searchArea;
-    [SerializeField] private float searchAngle = 120f;
+    [SerializeField] private float searchAngle = 90f;
 
     void Start()
 
@@ -39,7 +39,7 @@ public class root : MonoBehaviour
         GotoNextPoint();
 
         //追跡したいオブジェクトの名前を入れる
-        enemy = GameObject.Find("player");
+        enemy = GameObject.Find("Player");
         //ghost2 = GameObject.Find("Cube1");
     }
 
@@ -59,7 +59,7 @@ public class root : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "target") //視界の範囲内の当たり判定
+        if (other.gameObject.tag == "Player") //視界の範囲内の当たり判定
         {
             //視界の角度内に収まっているか
             Vector3 posDelta = other.transform.position - this.transform.position;
@@ -154,8 +154,8 @@ public class root : MonoBehaviour
         moveRotation.x = 0;
         transform.rotation = Quaternion.Lerp(transform.rotation, moveRotation, 0.1f);
 
-        float forward_x = transform.forward.x * 10;
-        float forward_z = transform.forward.z * 10;
+        float forward_x = transform.forward.x * 8;
+        float forward_z = transform.forward.z * 8;
 
         rigidbody.velocity = new Vector3(forward_x, rigidbody.velocity.y, forward_z);
     }

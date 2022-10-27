@@ -101,7 +101,7 @@ public class Objectrange : MonoBehaviour
         Gizmos.color = MESH_COLOR;
 
         Transform transform = i_object.transform;
-        Vector3 pos = transform.position + Vector3.up * 0.01f; // 0.01fは地面と高さだと見づらいので調整用。
+        Vector3 pos = transform.position + Vector3.up * 0.03f; // 0.01fは地面と高さだと見づらいので調整用。
         Quaternion rot = transform.rotation;
         Vector3 scale = Vector3.one * i_object.Length;
 
