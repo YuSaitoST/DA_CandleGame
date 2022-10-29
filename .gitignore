@@ -1,3 +1,6 @@
+
+UserSettings/
+
 # This .gitignore file should be placed at the root of your Unity project directory
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
@@ -58,5 +61,6 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
-UserSettings/Layouts/default-2021.dwlt.bak
-UserSettings/Layouts/default-2021.dwlt.orig
+UserSettings/
+Assets/Scenes/1024MainScene.unity
+Assets/Scenes/1024MainScene.unity.meta
