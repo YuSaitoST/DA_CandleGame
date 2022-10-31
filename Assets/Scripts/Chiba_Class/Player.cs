@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     Rigidbody rb_;
-    MeshRenderer mesh_;
+    //MeshRenderer mesh_;
     [SerializeField,Tooltip("カメラを入れる")]
     private Camera cameraPos_;
 
@@ -27,17 +27,19 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float moveTemp_ = 0.3f;
 
-    [SerializeField,Tooltip("(毎秒)体温のぶれ")]
-    private Vector2 tempRandom_ = new Vector2(-0.45f, 0f);
+    //[SerializeField,Tooltip("(毎秒)体温のぶれ")]
+    //private Vector2 tempRandom_ = new Vector2(-0.45f, 0f);
 
     [SerializeField,Tooltip("体温の最低値と最大値")]
    
     private Vector2 tempRange_ = new Vector2(37.0f, 50.0f);
 
     
-    [SerializeField,Tooltip("ステルスの使用後にどれくらい体温が上がるか")]
-    private float tempStealth_ = 20.0f;
+    //[SerializeField,Tooltip("ステルスの使用後にどれくらい体温が上がるか")]
+    //private float tempStealth_ = 20.0f;
 
+    //プレイヤーがパソコンの近くにいるかどうか
+    private bool pcFlg_ = false;
 
     private bool moveFlg_ = true;
     //プレイヤーが爆弾設置範囲内に入ったらtrueになる
@@ -50,16 +52,16 @@ public class Player : MonoBehaviour
     //カメラの向きを取得する用
     private Vector3 forward_ = new Vector3(1, 0, 1);
 
-    //元のマテリアルカラーの一時保存用
-    private Color32 mat_ = new Color32(0, 0, 0, 0);
+    ////元のマテリアルカラーの一時保存用
+    //private Color32 mat_ = new Color32(0, 0, 0, 0);
 
-    //敵のゲームオブジェクトの取得用
-    private GameObject enemy_;
+    ////敵のゲームオブジェクトの取得用
+    //private GameObject enemy_;
 
     void Start()
     {
         rb_ = GetComponent<Rigidbody>();
-        mesh_ = GetComponent<MeshRenderer>();
+        //mesh_ = GetComponent<MeshRenderer>();
 
         //体温の初期値
         temp_ = Random.Range(37.0f, 39.0f);
@@ -68,16 +70,28 @@ public class Player : MonoBehaviour
         tempSlider_.maxValue = tempRange_.y;
 
         //マテリアル
-        mat_ = mesh_.material.color;
+       // mat_ = mesh_.material.color;
     }
 
     void Update()
     {
-        //爆弾設置
-        if (Input.GetButton("Fire1") && rangeFlg_ == true)
+        if (Input.GetButton("Fire1"))
         {
+            if(pcFlg_ == true)
+            {
+                Debug.Log("a");
+            }
 
-            moveFlg_ = false;
+            //爆弾設置
+            if (rangeFlg_ == true)
+            {
+
+                moveFlg_ = false;
+            }
+            //else
+            //{
+            //    moveFlg_ = true;
+            //}
         }
         else
         {
@@ -85,12 +99,12 @@ public class Player : MonoBehaviour
         }
 
         //敵のスキャン(Downは仮なので後で外す)
-        if (Input.GetButtonDown("Fire2")&& moveFlg_ == true&& scanFlg_ == false&&temp_<tempRange_.y)
+        if (Input.GetButtonDown("Fire2")&& moveFlg_ == true&& scanFlg_ == false/*&&temp_<tempRange_.y*/)
         {
             //スキャンのシステムができるまで成功フラグはここに入れとく
-            scanSuccess_ = true;
+            //scanSuccess_ = true;
 
-            scanFlg_ = true;
+            //scanFlg_ = true;
             Debug.Log("Bボタンが押された");
         }
         //else
@@ -118,13 +132,14 @@ public class Player : MonoBehaviour
         }
 
         //スキャンが成功したら実行される
-        if (scanSuccess_ == true )
-        {
-            StartCoroutine("Scan");
-            scanSuccess_ = false;
-        }
+        //if (scanSuccess_ == true )
+        //{
+        //    StartCoroutine("Scan");
+        //    scanSuccess_ = false;
+        //}
 
-        Temp();
+        //体温
+        //Temp();
         //カメラリセットを作る
 
         //UIに反映
@@ -156,47 +171,47 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Temp()
-    {
-        temp_ += Random.Range(tempRandom_.x,tempRandom_.y) *Time.deltaTime;
+    //private void Temp()
+    //{
+    //    temp_ += Random.Range(tempRandom_.x,tempRandom_.y) *Time.deltaTime;
         
-        //最低体温
-        if(temp_ < tempRange_.x)
-        {
-            temp_ = tempRange_.x+0.2f;
-        }
+    //    //最低体温
+    //    //if(temp_ < tempRange_.x)
+    //    //{
+    //    //    temp_ = tempRange_.x+0.2f;
+    //    //}
 
         
-    }
+    //}
 
    
     //コルーチンわからんので没
-    IEnumerator Scan()
-    {
-        for (int i = 0; i < tempStealth_; i++)
-        {
-            mesh_.material.color -= new Color32(0, 0, 0, 10);
-            yield return new WaitForSeconds(0.1f);
-        }
-        //mesh_.material.color = new Color32(0, 0, 0, 30);
-        //ステルスの秒数
-        yield return new WaitForSeconds(5.0f);
+    //IEnumerator Scan()
+    //{
+    //    for (int i = 0; i < tempStealth_; i++)
+    //    {
+    //        mesh_.material.color -= new Color32(0, 0, 0, 10);
+    //        yield return new WaitForSeconds(0.1f);
+    //    }
+    //    //mesh_.material.color = new Color32(0, 0, 0, 30);
+    //    //ステルスの秒数
+    //    yield return new WaitForSeconds(5.0f);
 
-        mesh_.material.color = mat_;
-        scanFlg_ = false;
-        Debug.Log("ステルスリセット");
-        for (int k = 0; k < tempStealth_; k++)
-        {
-            //mesh_.material.color -= new Color32(0, 0, 0, 10);
-            temp_ += 1.0f;
-            yield return new WaitForSeconds(0.2f);
-        }
+    //    mesh_.material.color = mat_;
+    //    scanFlg_ = false;
+    //    Debug.Log("ステルスリセット");
+    //    for (int k = 0; k < tempStealth_; k++)
+    //    {
+    //        //mesh_.material.color -= new Color32(0, 0, 0, 10);
+    //        temp_ += 1.0f;
+    //        yield return new WaitForSeconds(0.2f);
+    //    }
         
-        //for (int i = 0; i < 255; i++)
-        //{
-        //    
-        //}
-    }
+    //    //for (int i = 0; i < 255; i++)
+    //    //{
+    //    //    
+    //    //}
+    //}
 
   
 
@@ -206,7 +221,11 @@ public class Player : MonoBehaviour
         {
             rangeFlg_ = true;
         }
-       
+        //if (other.gameObject.tag == "PC")
+        //{ 
+        //    pcFlg_ = true;
+        //}
+
     }
     private void OnTriggerExit(Collider other)
     {
@@ -214,5 +233,9 @@ public class Player : MonoBehaviour
         {
             rangeFlg_ = false;
         }
+        //if (other.gameObject.tag == "PC")
+        //{
+        //    pcFlg_ = false;
+        //}
     }
 }
