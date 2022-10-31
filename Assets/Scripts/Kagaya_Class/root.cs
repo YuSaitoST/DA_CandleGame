@@ -19,8 +19,8 @@ public class root : MonoBehaviour
     Vector3 playerPos;
     GameObject enemy;
     float distance;
-    [SerializeField] float trackingRange = 0f;
-    [SerializeField] float quitRange = 0f;
+    [SerializeField] float trackingRange = 5f;
+    [SerializeField] float quitRange = 7f;
     [SerializeField] bool tracking = false;
     [SerializeField] private SphereCollider searchArea;
     [SerializeField] private float searchAngle = 90f;
@@ -57,26 +57,26 @@ public class root : MonoBehaviour
         destPoint = (destPoint + 1) % points.Length;
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.tag == "Player") //Ž‹ŠE‚Ì”ÍˆÍ“à‚Ì“–‚½‚è”»’è
-        {
-            //Ž‹ŠE‚ÌŠp“x“à‚ÉŽû‚Ü‚Á‚Ä‚¢‚é‚©
-            Vector3 posDelta = other.transform.position - this.transform.position;
-            float target_angle = Vector3.Angle(this.transform.forward, posDelta);
+    //private void OnTriggerStay(Collider other)
+    //{
+    //    if (other.gameObject.tag == "Player") //Ž‹ŠE‚Ì”ÍˆÍ“à‚Ì“–‚½‚è”»’è
+    //    {
+    //        //Ž‹ŠE‚ÌŠp“x“à‚ÉŽû‚Ü‚Á‚Ä‚¢‚é‚©
+    //        Vector3 posDelta = other.transform.position - this.transform.position;
+    //        float target_angle = Vector3.Angle(this.transform.forward, posDelta);
 
-            if (target_angle < angle) //target_angle‚ªangle‚ÉŽû‚Ü‚Á‚Ä‚¢‚é‚©‚Ç‚¤‚©
-            {
-                if (Physics.Raycast(this.transform.position, posDelta, out RaycastHit hit)) //Ray‚ðŽg—p‚µ‚Ätarget‚É“–‚½‚Á‚Ä‚¢‚é‚©”»•Ê
-                {
-                    if (hit.collider == other)
-                    {
-                        Debug.Log("range of view");
-                    }
-                }
-            }
-        }
-    }
+    //        if (target_angle < angle) //target_angle‚ªangle‚ÉŽû‚Ü‚Á‚Ä‚¢‚é‚©‚Ç‚¤‚©
+    //        {
+    //            if (Physics.Raycast(this.transform.position, posDelta, out RaycastHit hit)) //Ray‚ðŽg—p‚µ‚Ätarget‚É“–‚½‚Á‚Ä‚¢‚é‚©”»•Ê
+    //            {
+    //                if (hit.collider == other)
+    //                {
+    //                    Debug.Log("range of view");
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
 
     
     void Update()
@@ -153,9 +153,9 @@ public class root : MonoBehaviour
         moveRotation.z = 0;
         moveRotation.x = 0;
         transform.rotation = Quaternion.Lerp(transform.rotation, moveRotation, 0.1f);
-
-        float forward_x = transform.forward.x * 8;
-        float forward_z = transform.forward.z * 8;
+        //*‚±‚±‚Åenemy‚Ì‘¬‚³’²ß
+        float forward_x = transform.forward.x * 4;
+        float forward_z = transform.forward.z * 4;
 
         rigidbody.velocity = new Vector3(forward_x, rigidbody.velocity.y, forward_z);
     }
