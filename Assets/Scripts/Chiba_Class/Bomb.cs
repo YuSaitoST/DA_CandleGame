@@ -89,6 +89,7 @@ public class Bomb : MonoBehaviour
             rangeFlg_ = true;
             bombCanvas_.enabled = true;
         }
+       
     }
     private void OnTriggerExit(Collider other)
     {
@@ -97,5 +98,6 @@ public class Bomb : MonoBehaviour
             rangeFlg_ = false;
             bombCanvas_.enabled = false;
         }
+       
     }
 }

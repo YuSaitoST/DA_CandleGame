@@ -9,10 +9,10 @@ public class Player : MonoBehaviour
 {
     Rigidbody rb_;
     //MeshRenderer mesh_;
-    [SerializeField,Tooltip("カメラを入れる")]
+    [SerializeField, Tooltip("カメラを入れる")]
     private Camera cameraPos_;
 
-    [SerializeField,Tooltip("プレイヤーのスピード")]
+    [SerializeField, Tooltip("プレイヤーのスピード")]
     private float moveSpeed_ = 1.0f;
 
     [SerializeField]
@@ -30,16 +30,35 @@ public class Player : MonoBehaviour
     //[SerializeField,Tooltip("(毎秒)体温のぶれ")]
     //private Vector2 tempRandom_ = new Vector2(-0.45f, 0f);
 
-    [SerializeField,Tooltip("体温の最低値と最大値")]
-   
+    [SerializeField, Tooltip("体温の最低値と最大値")]
+
     private Vector2 tempRange_ = new Vector2(37.0f, 50.0f);
 
-    
+
     //[SerializeField,Tooltip("ステルスの使用後にどれくらい体温が上がるか")]
     //private float tempStealth_ = 20.0f;
 
     //プレイヤーがパソコンの近くにいるかどうか
     private bool pcFlg_ = false;
+    private bool pccloseFlg_ = false;
+
+    [SerializeField]
+    private GameObject t;
+
+    [SerializeField, Tooltip("移動速度のパラメータ")]
+    private float[] speedP_ = new float[4];
+    //0.3,0.4,0.6,0.75;
+  
+        
+    [SerializeField, Tooltip("視野範囲のパラメータ")]
+    private float[] viewP_ = new float[4];
+    //3,6,9,16;
+
+
+    [SerializeField, Tooltip("聴力のパラメータ")]
+    private float[] hearP_ = new float[4];
+
+
 
     private bool moveFlg_ = true;
     //プレイヤーが爆弾設置範囲内に入ったらtrueになる
@@ -58,8 +77,12 @@ public class Player : MonoBehaviour
     ////敵のゲームオブジェクトの取得用
     //private GameObject enemy_;
 
+
+
     void Start()
     {
+        t.SetActive(true);
+
         rb_ = GetComponent<Rigidbody>();
         //mesh_ = GetComponent<MeshRenderer>();
 
@@ -77,10 +100,6 @@ public class Player : MonoBehaviour
     {
         if (Input.GetButton("Fire1"))
         {
-            if(pcFlg_ == true)
-            {
-                Debug.Log("a");
-            }
 
             //爆弾設置
             if (rangeFlg_ == true)
@@ -93,24 +112,33 @@ public class Player : MonoBehaviour
             //    moveFlg_ = true;
             //}
         }
-        else
+        else if (Input.GetButtonUp("Fire1"))
         {
             moveFlg_ = true;
         }
 
+        //PC起動もう一回押すと閉じる
         //敵のスキャン(Downは仮なので後で外す)
-        if (Input.GetButtonDown("Fire2")&& moveFlg_ == true&& scanFlg_ == false/*&&temp_<tempRange_.y*/)
+        if (Input.GetButtonDown("Fire2"))
         {
-            //スキャンのシステムができるまで成功フラグはここに入れとく
-            //scanSuccess_ = true;
+            if (pcFlg_ == true && pccloseFlg_ == false)
+            {
+                moveFlg_ = false;
+                pccloseFlg_ = true;
+                t.SetActive(false);
 
-            //scanFlg_ = true;
-            Debug.Log("Bボタンが押された");
+
+                Debug.Log("Bボタンが押された");
+            }
+            //閉じる
+            else if (/*pcFlg_ == true && */pccloseFlg_ == true)
+            {
+                moveFlg_ = true;
+                pccloseFlg_ = false;
+                t.SetActive(true);
+                Debug.Log("Bボタンが押された2");
+            }
         }
-        //else
-        //{
-        //    ScanFlg_ = false;
-        //}
 
 
 
@@ -221,10 +249,10 @@ public class Player : MonoBehaviour
         {
             rangeFlg_ = true;
         }
-        //if (other.gameObject.tag == "PC")
-        //{ 
-        //    pcFlg_ = true;
-        //}
+        if (other.gameObject.tag == "PC")
+        {
+            pcFlg_ = true;
+        }
 
     }
     private void OnTriggerExit(Collider other)
@@ -233,9 +261,9 @@ public class Player : MonoBehaviour
         {
             rangeFlg_ = false;
         }
-        //if (other.gameObject.tag == "PC")
-        //{
-        //    pcFlg_ = false;
-        //}
+        if (other.gameObject.tag == "PC")
+        {
+            pcFlg_ = false;
+        }
     }
 }
