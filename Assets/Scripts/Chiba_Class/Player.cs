@@ -42,8 +42,11 @@ public class Player : MonoBehaviour
     private bool pcFlg_ = false;
     private bool pccloseFlg_ = false;
 
-    [SerializeField]
-    private GameObject t;
+    [SerializeField, Tooltip("PCを起動したとき表示させたいキャンバスをここに入れる")]
+    private GameObject pcObj_;
+
+    [SerializeField, Tooltip("PCを起動したとき表示させたいキャンバスをここに入れる")]
+    private Canvas pcCan_;
 
     [SerializeField, Tooltip("移動速度のパラメータ")]
     private float[] speedP_ = new float[4];
@@ -57,7 +60,7 @@ public class Player : MonoBehaviour
 
     [SerializeField, Tooltip("聴力のパラメータ")]
     private float[] hearP_ = new float[4];
-
+    //1,10,100,1000
 
 
     private bool moveFlg_ = true;
@@ -81,7 +84,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        t.SetActive(true);
+        pcObj_.SetActive(true);
 
         rb_ = GetComponent<Rigidbody>();
         //mesh_ = GetComponent<MeshRenderer>();
@@ -125,7 +128,7 @@ public class Player : MonoBehaviour
             {
                 moveFlg_ = false;
                 pccloseFlg_ = true;
-                t.SetActive(false);
+                pcObj_.SetActive(false);
 
 
                 Debug.Log("Bボタンが押された");
@@ -135,7 +138,7 @@ public class Player : MonoBehaviour
             {
                 moveFlg_ = true;
                 pccloseFlg_ = false;
-                t.SetActive(true);
+                pcObj_.SetActive(true);
                 Debug.Log("Bボタンが押された2");
             }
         }
