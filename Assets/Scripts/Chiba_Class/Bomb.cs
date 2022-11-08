@@ -30,6 +30,8 @@ public class Bomb : MonoBehaviour
 
     //連続で実行されないようにする
     private bool flg_ = false;
+    [SerializeField]
+    bool isInstalled_ = false;
 
 
 
@@ -56,6 +58,10 @@ public class Bomb : MonoBehaviour
 
         //角度を同じにする
         bombCanvas_.transform.localRotation = Camera.main.transform.rotation;
+
+
+
+       
     }
 
     private void FixedUpdate()
@@ -78,6 +84,15 @@ public class Bomb : MonoBehaviour
             //this.gameObject.SetActive(false);
             this.transform.localPosition = setPos_;
             flg_ = true;
+
+            // ゲーム終了後は処理をしない
+            if (BombManager.instance_.IsAllInstalled())
+            {
+                return;
+            }
+
+            isInstalled_ = true;
+            BombManager.instance_.Check_AllInstalled();   // 全ての設置エリアを調べる
         }
        bombSlider_.value = bombLimit_;
     }

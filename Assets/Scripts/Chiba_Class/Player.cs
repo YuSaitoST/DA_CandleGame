@@ -12,8 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("カメラを入れる")]
     private Camera cameraPos_;
 
-    [SerializeField, Tooltip("プレイヤーのスピード")]
-    private float moveSpeed_ = 1.0f;
+   
 
     [SerializeField]
     private TMP_Text tempText_;
@@ -22,7 +21,7 @@ public class Player : MonoBehaviour
     private Slider tempSlider_;
 
     [SerializeField]
-    private float temp_;
+    private float temp_ = 200.0f;
 
     [SerializeField]
     private float moveTemp_ = 0.3f;
@@ -51,52 +50,58 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("移動速度のパラメータ")]
     private float[] speedP_ = new float[4];
     //0.3,0.4,0.6,0.75;
-  
+  　//初期0
         
     [SerializeField, Tooltip("視野範囲のパラメータ")]
     private float[] viewP_ = new float[4];
     //3,6,9,16;
-
+    //初期1
 
     [SerializeField, Tooltip("聴力のパラメータ")]
     private float[] hearP_ = new float[4];
     //1,10,100,1000
-
+    //初期0
 
     private bool moveFlg_ = true;
     //プレイヤーが爆弾設置範囲内に入ったらtrueになる
     private bool rangeFlg_ = false;
-    //プレイヤーがスキャン行動に入ったらtrueになる
-    private bool scanFlg_ = false;
-    //スキャンに成功したらtrue
-    private bool scanSuccess_ = false;
+    ////プレイヤーがスキャン行動に入ったらtrueになる
+    //private bool scanFlg_ = false;
+    ////スキャンに成功したらtrue
+    //private bool scanSuccess_ = false;
 
     //カメラの向きを取得する用
     private Vector3 forward_ = new Vector3(1, 0, 1);
 
-    ////元のマテリアルカラーの一時保存用
-    //private Color32 mat_ = new Color32(0, 0, 0, 0);
+    //プレイヤーのスピード
+    private float moveSpeed_ = 0f;
 
-    ////敵のゲームオブジェクトの取得用
-    //private GameObject enemy_;
+    //プレイヤーの視野
+    private float view_ = 0f;
+
+    //プレイヤーの聴覚
+    private float hear_ = 0f;
 
 
 
     void Start()
     {
+        //パラメータの初期設定
+        moveSpeed_ = speedP_[0];
+        view_      = viewP_[1];
+        hear_      = hearP_[0];
+
         pcObj_.SetActive(true);
 
         rb_ = GetComponent<Rigidbody>();
-        //mesh_ = GetComponent<MeshRenderer>();
+        
 
-        //体温の初期値
-        temp_ = Random.Range(37.0f, 39.0f);
+       
 
         //体温の最大値
         tempSlider_.maxValue = tempRange_.y;
 
-        //マテリアル
-       // mat_ = mesh_.material.color;
+      
     }
 
     void Update()
@@ -110,10 +115,7 @@ public class Player : MonoBehaviour
 
                 moveFlg_ = false;
             }
-            //else
-            //{
-            //    moveFlg_ = true;
-            //}
+           
         }
         else if (Input.GetButtonUp("Fire1"))
         {
@@ -143,7 +145,7 @@ public class Player : MonoBehaviour
             }
         }
 
-
+        Sync();
 
     }
 
@@ -170,11 +172,11 @@ public class Player : MonoBehaviour
         //}
 
         //体温
-        //Temp();
+        Temp();
         //カメラリセットを作る
 
         //UIに反映
-        tempText_.SetText(temp_.ToString("F1") + ("℃"));
+        tempText_.SetText(temp_.ToString("F1") /*+ ("℃")*/);
         tempSlider_.value = temp_;
 
     }
@@ -195,27 +197,31 @@ public class Player : MonoBehaviour
         {
             transform.rotation = Quaternion.LookRotation(_moveForward);
         }
-        //スティックが入力されているときに温度が上がる
-        if (_leftStick.x != 0|| _leftStick.y != 0)
+        //スティックが入力されているときにバッテリーを消費する
+        if (_leftStick.x != 0 || _leftStick.y != 0)
         {
-            temp_ += moveTemp_*Time.deltaTime;
+            temp_ -= moveSpeed_*0.2f * Time.deltaTime;
         }
     }
 
-    //private void Temp()
-    //{
-    //    temp_ += Random.Range(tempRandom_.x,tempRandom_.y) *Time.deltaTime;
+    private void Temp()
+    {
+        temp_ -=  Time.deltaTime;
         
-    //    //最低体温
-    //    //if(temp_ < tempRange_.x)
-    //    //{
-    //    //    temp_ = tempRange_.x+0.2f;
-    //    //}
+        //tempが0になったらゲームオーバー
 
-        
-    //}
 
-   
+    }
+
+    //パラメータの反映
+    private void Sync()
+    {
+        //パラメータの更新s
+        //moveSpeed_ = speedP_[0];
+        //view_ = viewP_[1];
+        //hear_ = hearP_[0];
+    }
+
     //コルーチンわからんので没
     //IEnumerator Scan()
     //{
@@ -237,14 +243,14 @@ public class Player : MonoBehaviour
     //        temp_ += 1.0f;
     //        yield return new WaitForSeconds(0.2f);
     //    }
-        
+
     //    //for (int i = 0; i < 255; i++)
     //    //{
     //    //    
     //    //}
     //}
 
-  
+
 
     private void OnTriggerEnter(Collider other)
     {
