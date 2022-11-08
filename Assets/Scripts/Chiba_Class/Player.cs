@@ -4,6 +4,7 @@ using UnityEngine;
 //using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
@@ -73,30 +74,47 @@ public class Player : MonoBehaviour
     //カメラの向きを取得する用
     private Vector3 forward_ = new Vector3(1, 0, 1);
 
+    [SerializeField]
     //プレイヤーのスピード
     private float moveSpeed_ = 0f;
 
+    [SerializeField]
     //プレイヤーの視野
     private float view_ = 0f;
 
+    [SerializeField]
     //プレイヤーの聴覚
     private float hear_ = 0f;
 
+    //メニューを開いたときに最初に選択されるボタン
+    [SerializeField,Tooltip("メニューを開いたときに最初に選択されるボタン")]
+    private GameObject firstButton_;
 
+
+    [SerializeField]
+    GameObject lightObject_;
+    private float lightStrength_;
+
+    [SerializeField]
+    private Parameter parameter_;
 
     void Start()
     {
+
         //パラメータの初期設定
-        moveSpeed_ = speedP_[0];
-        view_      = viewP_[1];
-        hear_      = hearP_[0];
+        Sync();
+        //moveSpeed_ = speedP_[0];
+        //view_      = viewP_[1];
+        //hear_      = hearP_[0];
+
+       
 
         pcObj_.SetActive(true);
 
         rb_ = GetComponent<Rigidbody>();
-        
 
-       
+        pcCan_.enabled = false;
+
 
         //体温の最大値
         tempSlider_.maxValue = tempRange_.y;
@@ -106,7 +124,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButton("Fire1"))
+        if (Input.GetButton("Fire1") && pccloseFlg_ == false)
         {
 
             //爆弾設置
@@ -117,7 +135,7 @@ public class Player : MonoBehaviour
             }
            
         }
-        else if (Input.GetButtonUp("Fire1"))
+        else if (Input.GetButtonUp("Fire1") && pccloseFlg_ == false)
         {
             moveFlg_ = true;
         }
@@ -130,8 +148,11 @@ public class Player : MonoBehaviour
             {
                 moveFlg_ = false;
                 pccloseFlg_ = true;
-                pcObj_.SetActive(false);
+               // pcObj_.SetActive(false);
+                pcCan_.enabled = true;
 
+                //ボタンをフォーカス
+                EventSystem.current.SetSelectedGameObject(firstButton_);
 
                 Debug.Log("Bボタンが押された");
             }
@@ -140,15 +161,28 @@ public class Player : MonoBehaviour
             {
                 moveFlg_ = true;
                 pccloseFlg_ = false;
-                pcObj_.SetActive(true);
+               // pcObj_.SetActive(true);
                 Debug.Log("Bボタンが押された2");
+                pcCan_.enabled = false;
+
+                EventSystem.current.SetSelectedGameObject(null);
+                Sync();
             }
         }
 
-        Sync();
+       
 
     }
-
+    public void Close() 
+    {
+        moveFlg_ = true;
+        pccloseFlg_ = false;
+        // pcObj_.SetActive(true);
+        Debug.Log("Bボタンが押された2");
+        pcCan_.enabled = false;
+        EventSystem.current.SetSelectedGameObject(null);
+        Sync();
+    }
     void FixedUpdate()
     {
         //if (Gamepad.current == null && Keyboard.current == null)
@@ -162,6 +196,8 @@ public class Player : MonoBehaviour
         if (moveFlg_ == true )
         {
             Move();
+            Temp();
+
         }
 
         //スキャンが成功したら実行される
@@ -172,7 +208,7 @@ public class Player : MonoBehaviour
         //}
 
         //体温
-        Temp();
+       
         //カメラリセットを作る
 
         //UIに反映
@@ -216,10 +252,12 @@ public class Player : MonoBehaviour
     //パラメータの反映
     private void Sync()
     {
+       
         //パラメータの更新s
-        //moveSpeed_ = speedP_[0];
-        //view_ = viewP_[1];
-        //hear_ = hearP_[0];
+        moveSpeed_ = speedP_[parameter_.speed_];
+        view_ = viewP_[parameter_.view_];
+        hear_ = hearP_[parameter_.hear_];
+        lightObject_.GetComponent<Light>().intensity = view_;
     }
 
     //コルーチンわからんので没
