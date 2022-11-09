@@ -61,7 +61,7 @@ public class Player : MonoBehaviour
         //Aボタン
         if (Input.GetButton("Fire1"))
         {
-            Debug.Log("Bボタンが押されている");
+            Debug.Log("Aボタンが押されている");
             //爆弾設置
             if (fire1_range_flg_ == true)
             {
@@ -135,7 +135,7 @@ public class Player : MonoBehaviour
     private void Sync()
     {
        
-        oxy_text_.SetText(oxy_.ToString("F1") /*+ ("℃")*/);
+        oxy_text_.SetText(oxy_.ToString("F1")/* + ("％")*/);
         oxy_slider_.value = oxy_;
     }
 
