@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     //[SerializeField, Tooltip("プレイヤーのアニメーターを入れる")]
     //private Animator palyer_animator_;
 
+    [SerializeField]
     private bool     player_move_flg_ = true;//プレイヤーの移動停止用trueで移動可
 
     
@@ -25,7 +26,7 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("酸素ゲージの最大値(初期値)")]
     private float    oxy_max_       = 100.0f;
 
-    [SerializeField, Tooltip("移動時の追加消費酸素")]
+    [SerializeField, Tooltip("移動時の追加消費酸素(未実装)")]
     private float    oxy_cost_move_ = 0.3f;
 
     [SerializeField, Tooltip("平常時の消費酸素")]
@@ -37,65 +38,80 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("酸素ゲージ")]
     private Slider   oxy_slider_;
 
-   
-    
+    [SerializeField, Tooltip("酸素ゲージが0になるとfalse")]
+    private bool     oxy_flg_ = true;
+
     private bool fire1_range_flg_ = false;//プレイヤーが爆弾設置範囲内に入ったらtrueになる
+
+    private bool fire2_flg_ = false;
 
     //[SerializeField, Tooltip("メニューを開いたときに最初に選択されるボタン")]
     //private GameObject ui_button_firstSelect_;
 
-    private bool fire2_flg_ = false;
 
-    
+
+
 
     void Start()
     {
         rb_ = GetComponent<Rigidbody>();
-        oxy_ = oxy_max_;
+        oxy_ = oxy_max_ -0.01f;
+        oxy_flg_ = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //プレイヤーの入力
-        //Aボタン
-        if (Input.GetButton("Fire1"))
+        if (oxy_flg_ == true)
         {
-            Debug.Log("Aボタンが押されている");
-            //爆弾設置
-            if (fire1_range_flg_ == true)
+            //プレイヤーの入力
+            //Aボタン
+            if (Input.GetButton("Fire1"))
             {
+                Debug.Log("Aボタンが押されている");
+                //爆弾設置
+                if (fire1_range_flg_ == true)
+                {
 
-                player_move_flg_ = false;
+                    player_move_flg_ = false;
+                }
+
+            }
+            else if (Input.GetButtonUp("Fire1"))
+            {
+                player_move_flg_ = true;
             }
 
-        }
-        else if (Input.GetButtonUp("Fire1"))
-        {
-            player_move_flg_ = true;
-        }
-
-        //Bボタン
-        if (Input.GetButtonDown("Fire2"))
-        {
-            Debug.Log("Bボタンが押された");
-            if (fire2_flg_ ==false)
+            //Bボタン
+            if (Input.GetButtonDown("Fire2"))
             {
-                fire2_flg_ = true;
-            }
-            else if (fire2_flg_ == true)
-            {
-                fire2_flg_ = false;
-                //EventSystem.current.SetSelectedGameObject(button_firstSelect_);
-            }
+                Debug.Log("Bボタンが押された");
+                if (fire2_flg_ == false)
+                {
+                    fire2_flg_ = true;
+                }
+                else if (fire2_flg_ == true)
+                {
+                    fire2_flg_ = false;
+                    //EventSystem.current.SetSelectedGameObject(button_firstSelect_);
+                }
 
+            }
         }
-            Sync();
+        else
+        {
+            player_move_flg_ = false;
+        }
+        Sync();
     }
 
     void FixedUpdate()
     {
-        Oxy();
+        if (oxy_flg_ == true)
+        {
+            Oxy();
+        }
+
         if (player_move_flg_ == true)
         {
             Move();
@@ -116,7 +132,7 @@ public class Player : MonoBehaviour
                 new Vector3(_position_.normalized.x * player_move_speed,
                             0,
                             _position_.normalized.z * player_move_speed);
-            oxy_ -= oxy_cost_move_ * Time.deltaTime;
+            //oxy_ -= oxy_cost_move_ * Time.deltaTime;
             //animator_.SetBool("walking", true);
 
             // スティックが倒れていれば、倒れている方向を向く
@@ -143,6 +159,11 @@ public class Player : MonoBehaviour
     {
         oxy_ -= oxy_cost_ * Time.deltaTime;
 
+        if(oxy_ <= 0.01f)
+        {
+           oxy_flg_ = false;
+           oxy_ = 0;
+        }
         //oxyが0になったらゲームオーバー
     }
 
