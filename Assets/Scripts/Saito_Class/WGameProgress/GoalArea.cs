@@ -22,5 +22,6 @@ public class GoalArea : MonoBehaviour
         }
 
         // ƒS[ƒ‹ˆ—
+        GameProgress.instance_.GameFine();
     }
 }
