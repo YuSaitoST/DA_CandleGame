@@ -749,7 +749,7 @@ GameObject:
   - component: {fileID: 1948659188}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -976,8 +976,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uFF05"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 88acbaa5834992940b438f04af270083, type: 2}
+  m_sharedMaterial: {fileID: 2872522277717518234, guid: 88acbaa5834992940b438f04af270083,
+    type: 2}
   m_fontSharedMaterials:
   - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
@@ -1302,8 +1303,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: 39.0
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 88acbaa5834992940b438f04af270083, type: 2}
+  m_sharedMaterial: {fileID: 2872522277717518234, guid: 88acbaa5834992940b438f04af270083,
+    type: 2}
   m_fontSharedMaterials:
   - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
@@ -1738,15 +1740,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4866dd836c1050345877cfe4309541f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player_move_speed: 2
+  player_move_speed_: 0.5
+  player_move_boost_: 2
   player_move_flg_: 1
   oxy_: 0
   oxy_max_: 100
-  oxy_cost_move_: 0.3
+  oxy_cost_boost_: 2
   oxy_cost_: 0.3
   oxy_text_: {fileID: 1755595579766528417}
   oxy_slider_: {fileID: 1755595580017313586}
   oxy_flg_: 1
+  fire1_range_flg_: 0
+  fire2_flg_: 0
+  x_clip_: {x: -9, y: 9}
+  y_clip_: {x: -200, y: 200}
+  z_clip_: {x: -5, y: 5}
 --- !u!1 &6583123109318327202
 GameObject:
   m_ObjectHideFlags: 0
