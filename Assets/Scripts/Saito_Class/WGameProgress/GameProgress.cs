@@ -62,10 +62,7 @@ public class GameProgress : MonoBehaviour
     public void GameFine()
     {
 #if _DEBUG_ON
-        debugPanel_.SetMessageText("Not Clear", "GameClear");
+        debugPanel_.SetMessageText("GameClear");
 #endif
-
-        // d—Í‚ğ‰ğœ
-        Physics.gravity = Vector3.zero;
     }
 }

@@ -33,9 +33,8 @@ public class DebugPanel : MonoBehaviour
     /// デバッグメッセージを表示させる
     /// </summary>
     /// <param name="message">メッセージ</param>
-    /// <param name="before">変換前のテキスト</param>
-    public void SetMessageText(string message, string before)
+    public void SetMessageText(string message)
     {
-        txt_message_.text.Replace(before, message);
+        txt_message_.text = message;
     }
 }
