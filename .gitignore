@@ -63,6 +63,7 @@ crashlytics-build.properties
 
 UserSettings/
 GameData/
+ProjectSettings/
 Assets/Effekseer
 Assets/Scenes/1024MainScene.unity
 Assets/Scenes/1024MainScene.unity.meta
@@ -71,3 +72,5 @@ Assets/Fonts/Main/smart_font.otf.meta
 Assets/Scenes/SampleScene.unity.meta
 Assets/Fonts/Main/smart_font SDF.asset
 Assets/Fonts/Main/smart_font SDF.asset.meta
+Assets/Scenes/MainScene.unity
+Assets/Scenes/SampleScene.unity
