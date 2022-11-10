@@ -1,218 +1,187 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
     Rigidbody rb_;
-    MeshRenderer mesh_;
-    [SerializeField,Tooltip("カメラを入れる")]
-    private Camera cameraPos_;
 
-    [SerializeField,Tooltip("プレイヤーのスピード")]
-    private float moveSpeed_ = 1.0f;
+    [SerializeField,Tooltip("プレイヤーの移動速度")]
+    private float    player_move_speed =2.0f;
 
-    [SerializeField]
-    private TMP_Text tempText_;
+    //[SerializeField, Tooltip("プレイヤーのアニメーターを入れる")]
+    //private Animator palyer_animator_;
 
     [SerializeField]
-    private Slider tempSlider_;
-
-    [SerializeField]
-    private float temp_;
-
-    [SerializeField]
-    private float moveTemp_ = 0.3f;
-
-    [SerializeField,Tooltip("(毎秒)体温のぶれ")]
-    private Vector2 tempRandom_ = new Vector2(-0.45f, 0f);
-
-    [SerializeField,Tooltip("体温の最低値と最大値")]
-   
-    private Vector2 tempRange_ = new Vector2(37.0f, 50.0f);
+    private bool     player_move_flg_ = true;//プレイヤーの移動停止用trueで移動可
 
     
-    [SerializeField,Tooltip("ステルスの使用後にどれくらい体温が上がるか")]
-    private float tempStealth_ = 20.0f;
+
+    [SerializeField]
+    private float    oxy_           = 0.0f;
+
+    [SerializeField, Tooltip("酸素ゲージの最大値(初期値)")]
+    private float    oxy_max_       = 100.0f;
+
+    [SerializeField, Tooltip("移動時の追加消費酸素(未実装)")]
+    private float    oxy_cost_move_ = 0.3f;
+
+    [SerializeField, Tooltip("平常時の消費酸素")]
+    private float    oxy_cost_      = 0.3f;
+
+    [SerializeField, Tooltip("酸素ゲージの値表示用テキスト")]
+    private TMP_Text oxy_text_;
+
+    [SerializeField, Tooltip("酸素ゲージ")]
+    private Slider   oxy_slider_;
+
+    [SerializeField, Tooltip("酸素ゲージが0になるとfalse")]
+    private bool     oxy_flg_ = true;
+
+    private bool fire1_range_flg_ = false;//プレイヤーが爆弾設置範囲内に入ったらtrueになる
+
+    private bool fire2_flg_ = false;
+
+    //[SerializeField, Tooltip("メニューを開いたときに最初に選択されるボタン")]
+    //private GameObject ui_button_firstSelect_;
 
 
-    private bool moveFlg_ = true;
-    //プレイヤーが爆弾設置範囲内に入ったらtrueになる
-    private bool rangeFlg_ = false;
-    //プレイヤーがスキャン行動に入ったらtrueになる
-    private bool scanFlg_ = false;
-    //スキャンに成功したらtrue
-    private bool scanSuccess_ = false;
 
-    //カメラの向きを取得する用
-    private Vector3 forward_ = new Vector3(1, 0, 1);
 
-    //元のマテリアルカラーの一時保存用
-    private Color32 mat_ = new Color32(0, 0, 0, 0);
-
-    //敵のゲームオブジェクトの取得用
-    private GameObject enemy_;
 
     void Start()
     {
         rb_ = GetComponent<Rigidbody>();
-        mesh_ = GetComponent<MeshRenderer>();
-
-        //体温の初期値
-        temp_ = Random.Range(37.0f, 39.0f);
-
-        //体温の最大値
-        tempSlider_.maxValue = tempRange_.y;
-
-        //マテリアル
-        mat_ = mesh_.material.color;
+        oxy_ = oxy_max_ -0.01f;
+        oxy_flg_ = true;
     }
 
+    // Update is called once per frame
     void Update()
     {
-        //爆弾設置
-        if (Input.GetButton("Fire1") && rangeFlg_ == true)
+        if (oxy_flg_ == true)
         {
+            //プレイヤーの入力
+            //Aボタン
+            if (Input.GetButton("Fire1"))
+            {
+                Debug.Log("Aボタンが押されている");
+                //爆弾設置
+                if (fire1_range_flg_ == true)
+                {
 
-            moveFlg_ = false;
+                    player_move_flg_ = false;
+                }
+
+            }
+            else if (Input.GetButtonUp("Fire1"))
+            {
+                player_move_flg_ = true;
+            }
+
+            //Bボタン
+            if (Input.GetButtonDown("Fire2"))
+            {
+                Debug.Log("Bボタンが押された");
+                if (fire2_flg_ == false)
+                {
+                    fire2_flg_ = true;
+                }
+                else if (fire2_flg_ == true)
+                {
+                    fire2_flg_ = false;
+                    //EventSystem.current.SetSelectedGameObject(button_firstSelect_);
+                }
+
+            }
         }
         else
         {
-            moveFlg_ = true;
+            player_move_flg_ = false;
         }
-
-        //敵のスキャン(Downは仮なので後で外す)
-        if (Input.GetButtonDown("Fire2")&& moveFlg_ == true&& scanFlg_ == false&&temp_<tempRange_.y)
-        {
-            //スキャンのシステムができるまで成功フラグはここに入れとく
-            scanSuccess_ = true;
-
-            scanFlg_ = true;
-            Debug.Log("Bボタンが押された");
-        }
-        //else
-        //{
-        //    ScanFlg_ = false;
-        //}
-
-
-
+        Sync();
     }
 
     void FixedUpdate()
     {
-        //if (Gamepad.current == null && Keyboard.current == null)
-        //{
-        //    Debug.Log("ゲームパッドかキーボードを接続してください");
-        //    return;
-        //}
+        if (oxy_flg_ == true)
+        {
+            Oxy();
+        }
 
-
-        //移動関連の関数(体温が一定以上だと動けなくなる)
-        if (moveFlg_ == true )
+        if (player_move_flg_ == true)
         {
             Move();
         }
 
-        //スキャンが成功したら実行される
-        if (scanSuccess_ == true )
-        {
-            StartCoroutine("Scan");
-            scanSuccess_ = false;
-        }
-
-        Temp();
-        //カメラリセットを作る
-
-        //UIに反映
-        tempText_.SetText(temp_.ToString("F1") + ("℃"));
-        tempSlider_.value = temp_;
-
     }
+    //移動処理
     private void Move()
     {
-        Vector2 _leftStick = new(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        // カメラの方向から、ベクトルを取得
-        Vector3 _cameraForward = Vector3.Scale(cameraPos_.transform.forward, forward_).normalized;
+        Vector3 _position_ = new Vector3(0, 0, 0);
+        Vector2 _stick_left = new(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
-        // 方向キーの入力値とカメラの向きから、移動方向を決定
-        Vector3 _moveForward = _cameraForward * _leftStick.y + Camera.main.transform.right * _leftStick.x;
-
-        
-        rb_.velocity = _moveForward * moveSpeed_ + new Vector3(0, rb_.velocity.y, 0).normalized;
-
-        // キャラクターの向きを進行方向に
-        if (_moveForward != Vector3.zero)
+        if (_stick_left.x != 0.0f || _stick_left.y != 0.0f)
         {
-            transform.rotation = Quaternion.LookRotation(_moveForward);
+            _position_.x = _stick_left.x;
+            _position_.z = _stick_left.y;
+            rb_.velocity =
+                new Vector3(_position_.normalized.x * player_move_speed,
+                            0,
+                            _position_.normalized.z * player_move_speed);
+            //oxy_ -= oxy_cost_move_ * Time.deltaTime;
+            //animator_.SetBool("walking", true);
+
+            // スティックが倒れていれば、倒れている方向を向く
+            var direction2 = new Vector3(_stick_left.x, 0, _stick_left.y);
+            transform.localRotation = Quaternion.LookRotation(direction2);
+
         }
-        //スティックが入力されているときに温度が上がる
-        if (_leftStick.x != 0|| _leftStick.y != 0)
+        else
         {
-            temp_ += moveTemp_*Time.deltaTime;
+            //animator_.SetBool("walking", false);
+
         }
     }
 
-    private void Temp()
+    //UI同期
+    private void Sync()
     {
-        temp_ += Random.Range(tempRandom_.x,tempRandom_.y) *Time.deltaTime;
-        
-        //最低体温
-        if(temp_ < tempRange_.x)
-        {
-            temp_ = tempRange_.x+0.2f;
-        }
-
-        
+       
+        oxy_text_.SetText(oxy_.ToString("F1")/* + ("％")*/);
+        oxy_slider_.value = oxy_;
     }
 
-   
-    //コルーチンわからんので没
-    IEnumerator Scan()
+    private void Oxy()
     {
-        for (int i = 0; i < tempStealth_; i++)
-        {
-            mesh_.material.color -= new Color32(0, 0, 0, 10);
-            yield return new WaitForSeconds(0.1f);
-        }
-        //mesh_.material.color = new Color32(0, 0, 0, 30);
-        //ステルスの秒数
-        yield return new WaitForSeconds(5.0f);
+        oxy_ -= oxy_cost_ * Time.deltaTime;
 
-        mesh_.material.color = mat_;
-        scanFlg_ = false;
-        Debug.Log("ステルスリセット");
-        for (int k = 0; k < tempStealth_; k++)
+        if(oxy_ <= 0.01f)
         {
-            //mesh_.material.color -= new Color32(0, 0, 0, 10);
-            temp_ += 1.0f;
-            yield return new WaitForSeconds(0.2f);
+           oxy_flg_ = false;
+           oxy_ = 0;
         }
-        
-        //for (int i = 0; i < 255; i++)
-        //{
-        //    
-        //}
+        //oxyが0になったらゲームオーバー
     }
-
-  
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "BombArea")
         {
-            rangeFlg_ = true;
+            fire1_range_flg_ = true;
         }
-       
+        
+
     }
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "BombArea")
         {
-            rangeFlg_ = false;
+            fire1_range_flg_ = false;
         }
+        
     }
 }

@@ -50,12 +50,9 @@ public class BombManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    /// <summary>
+    /// 全ての設置箇所に爆弾が置かれているかをチェックする
+    /// </summary>
     public void Check_AllInstalled()
     {
         bool _isInstalled = false;
@@ -67,6 +64,10 @@ public class BombManager : MonoBehaviour
         txt_gameClear_.text = "Game Clear !";
     }
 
+    /// <summary>
+    /// 全ての設置箇所に置かれているかを取得する
+    /// </summary>
+    /// <returns>設置状態</returns>
     public bool IsAllInstalled()
     {
         return isAllInstalled_;
