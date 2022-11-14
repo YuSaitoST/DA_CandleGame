@@ -28,11 +28,11 @@ public class GameProgress : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // 重力がかかる方向を変更する(NavMeshを楽に機能させるために)
-        Physics.gravity = new Vector3(0.0f, 0.0f, -1.0f);
+        // 重力の強さを調整
+        Physics.gravity = new Vector3(0.0f, -1.0f, 0.0f);
 
         // ゴール設置
-        goalCreater_.CreateGoalArea(new Vector3(7.0f, 0.0f, 3.0f));
+        goalCreater_.CreateGoalArea(new Vector3(7.0f, 0.2f, 0.0f));
 
         // デバッグパネルの表示状態の変更
 #if _DEBUG_ON

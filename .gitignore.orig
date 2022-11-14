@@ -61,9 +61,20 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
-<<<<<<< HEAD
-UserSettings/Layouts/default-2021.dwlt.bak
-UserSettings/Layouts/default-2021.dwlt.orig
-=======
 UserSettings/
->>>>>>> DA_CandleGame/chiba
+GameData/
+ProjectSettings/
+Assets/Effekseer
+Assets/Scenes/1024MainScene.unity
+Assets/Scenes/1024MainScene.unity.meta
+Assets/Fonts/Main/smart_font.otf
+Assets/Fonts/Main/smart_font.otf.meta
+Assets/Scenes/SampleScene.unity.meta
+Assets/Fonts/Main/smart_font SDF.asset
+<<<<<<< HEAD
+Assets/Fonts/Main/smart_font SDF.asset.meta
+Assets/Scenes/MainScene.unity
+Assets/Scenes/SampleScene.unity
+=======
+Assets/Fonts/Main/smart_font SDF.asset.meta
+>>>>>>> DA_CandleGame/Work_Kaga_2
