@@ -273,12 +273,12 @@ public class Player : MonoBehaviour
                 fire3_Draw.Off();
                 fire3_flg2_ = false;
                 // 弾を生成して飛ばす
-                GameObject obj = Instantiate(fire3_tank_prefab_, instantiatePosition_, Quaternion.identity);
-                Rigidbody rid = obj.GetComponent<Rigidbody>();
-                rid.AddForce(shootVelocity * rid.mass, ForceMode.Impulse);
+                GameObject _obj = Instantiate(fire3_tank_prefab_, instantiatePosition_, Quaternion.identity);
+                Rigidbody _rid = _obj.GetComponent<Rigidbody>();
+                _rid.AddForce(shootVelocity * _rid.mass, ForceMode.Impulse);
 
                 // 5秒後に消える
-                Destroy(obj, 5.0F);
+                Destroy(_obj, 5.0F);
                 Debug.Log("アクション実行02-2");
             }
         }
