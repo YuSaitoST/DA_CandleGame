@@ -32,7 +32,7 @@ public class GameProgress : MonoBehaviour
         Physics.gravity = new Vector3(0.0f, -1.0f, 0.0f);
 
         // ゴール設置
-        goalCreater_.CreateGoalArea(new Vector3(7.0f, 0.2f, 0.0f));
+        goalCreater_.CreateGoalArea(new Vector3(7.0f, -1.0f, 0.0f));
 
         // デバッグパネルの表示状態の変更
 #if _DEBUG_ON
