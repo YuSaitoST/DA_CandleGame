@@ -96,12 +96,12 @@ public class Player : MonoBehaviour
 
    
     // 弾の初速度
-    private Vector3 shootVelocity;
+    private Vector3 shootVelocity_;
  
     // 弾の初速度(読み取り専用)
     public Vector3 ShootVelocity
     {
-        get { return shootVelocity; }
+        get { return shootVelocity_; }
     }
 
     [Header("フィールド移動制限(下限、上限)")]
@@ -147,7 +147,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         // 弾の初速度を更新
-        shootVelocity = fire3_point_.transform.up * fire3_speed_;
+        shootVelocity_ = fire3_point_.transform.up * fire3_speed_;
 
         // 弾の生成座標を更新
         instantiatePosition_ = fire3_point_.transform.position;
@@ -278,8 +278,10 @@ public class Player : MonoBehaviour
                 // 弾を生成して飛ばす
                 GameObject _obj = Instantiate(fire3_tank_prefab_, instantiatePosition_, Quaternion.identity);
                 Rigidbody _rid = _obj.GetComponent<Rigidbody>();
-                _rid.AddForce(shootVelocity * _rid.mass, ForceMode.Impulse);
+                _rid.AddForce(shootVelocity_ * _rid.mass, ForceMode.Impulse);
 
+                oxy_max_[oxy_count_] = 0;
+                oxy_count_++;
                 // 5秒後に消える
                 Destroy(_obj, 5.0F);
                 Debug.Log("アクション実行02-2");
@@ -400,10 +402,10 @@ public class Player : MonoBehaviour
             player_animator_.SetBool("isRunning", false);
             player_animator_.SetBool("isWalking", false);
 
-
+            oxy_text_.SetText("");
             oxy_flg_ = false;
-           oxy_total_ = 0;
-           Debug.Log("a");
+            oxy_total_ = 0;
+         　 Debug.Log("a");
         }
         //oxyが0になったらゲームオーバー
     }
