@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 //ある程度形にしたら関数を消して一つにまとめる予定
-public class Player : MonoBehaviour
+public class Player1 : MonoBehaviour
 {
     Transform tr_;
     Rigidbody rb_;
@@ -121,6 +121,7 @@ public class Player : MonoBehaviour
     public enum State
     {
         Idle,     //通常
+        Move,     //移動
         Dash,     //移動(加速)
         Action01, //ポンプ落とす
         Action02, //ポンプ投げ
@@ -157,28 +158,108 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //同期
-        oxy_total_ = oxy_max_[0] + oxy_max_[1] + oxy_max_[2];
-        oxy_text_.SetText(oxy_total_.ToString("F1")/* + ("％")*/);
+        //stateテスト
+        switch (type_)
+        {
+            case State.Idle:
+                {
+                    //処理
+                }
+                break;
+            case State.Move:
+                {
+                    //処理
+                }
+                break;
+            case State.Dash:
+                {
+                    //処理
+                }
+                break;
+            
+            case State.Action01:
+                {
+                    //処理
+                }
+                break;
+            case State.Action02:
+                {
+                    //処理
+                }
+                break;
+            case State.Action03:
+                {
+                    //処理
+                }
+                break;
 
-        oxy_slider_[0].value = oxy_max_[0];
-        oxy_slider_[1].value = oxy_max_[1];
-        oxy_slider_[2].value = oxy_max_[2];
-        // 弾の初速度を更新
-        shootVelocity_ = fire3_point_.transform.up * fire3_speed_;
+            case State.Death:
+                {
+                    //処理
+                }
+                break;
+        }
+
+                // 弾の初速度を更新
+                shootVelocity_ = fire3_point_.transform.up * fire3_speed_;
 
         // 弾の生成座標を更新
         instantiatePosition_ = fire3_point_.transform.position;
-        //stateテスト
 
 
-
-        PlayerInput();
-
-        if (oxy_total_ <= 0.01f)
+        if (oxy_flg_ == true)
         {
-            type_ = State.Death;
-        }
+            //プレイヤーの入力
+            //Aボタン
+            if (Input.GetButton("Fire1"))
+            {
+                Debug.Log("Aボタンが押されている");
+                //爆弾設置
+                if (fire1_range_flg_ == true)
+                {
+
+                    player_move_flg_ = false;
+                }
+
+            }
+            else if (Input.GetButtonUp("Fire1"))
+            {
+                player_move_flg_ = true;
+            }
+
+            //Bボタン
+            //移動速度上昇
+            if (Input.GetButton("Fire2"))
+            {
+                Debug.Log("Bボタンが押された");
+                fire2_flg_ = true;
+            }
+            else 
+            {
+                fire2_flg_ = false;
+            }
+
+            //Xボタン
+            //ボンベアクション
+            if (oxy_count_ != 2)
+            {
+               
+                if (Input.GetButton("Fire3"))
+                {
+                    fire3_flg_ = true;
+                }
+                if (Input.GetButtonUp("Fire3"))
+                {
+                    fire3_flg_ = false;
+                    if (fire3_button_count_ <= 1.0f)
+                    {
+                        oxy_max_[oxy_count_] = 0;
+                        oxy_count_++;
+                        Debug.Log("アクション実行01-2");
+                    }
+
+                }
+            }
 
             //if (Input.GetButtonDown("Fire2"))
             //{
@@ -195,178 +276,79 @@ public class Player : MonoBehaviour
             //    }
 
             //}
-
         }
-    void PlayerInput()
-    {
-        //プレイヤーの入力
-        //Aボタン
-        //if (Input.GetButton("Fire1"))
-        //{
-        //    Debug.Log("Aボタンが押されている");
-        //    //爆弾設置
-        //    if (fire1_range_flg_ == true)
-        //    {
-
-        //        player_move_flg_ = false;
-        //    }
-
-        //}
-        //else if (Input.GetButtonUp("Fire1"))
-        //{
-        //    player_move_flg_ = true;
-        //}
-
-        //Bボタン
-        //移動速度上昇
-        if (Input.GetButton("Fire2"))
+        else
         {
-            type_ = State.Dash;
-            Debug.Log("Bボタンが押された");
-           
+            player_move_flg_ = false;
         }
-        else if(Input.GetButtonUp("Fire2"))
-        {
-            type_ = State.Idle;
-            Debug.Log("Bボタンが離された");
-            
-        }
-
-        //Xボタン
-        //ボンベアクション
-        if (oxy_count_ != 2)
-        {
-
-            if (Input.GetButton("Fire3"))
-            {
-                fire3_button_count_ += Time.deltaTime;
-                type_ = State.Action01;
-                if (fire3_button_count_ >= 1.0f)
-                {
-                    //別クラス呼び出し
-                    fire3_draw_.On();
-
-                }
-            }
-            if (Input.GetButtonUp("Fire3"))
-            {
-
-                if (fire3_button_count_ <= 1.0f)
-                {
-
-                    type_ = State.Action02;//捨てるステート
-                    Debug.Log("アクション実行02-1");
-                }
-                else if (fire3_button_count_ >= 1.0f)
-                {
-                    
-
-                    type_ = State.Action03;//投げるステート
-                    Debug.Log("アクション実行03-1");
-                }
-
-                oxy_max_[oxy_count_] = 0;
-                oxy_count_++;
-
-                fire3_button_count_ = 0;
-
-            }
-        }
-
-     
-        
+        Sync();
     }
 
     void FixedUpdate()
     {
-        switch (type_)
+        if (oxy_flg_ == true)
         {
-            case State.Idle:
-                {
-                    fire2_flg_ = false;
-                    Oxy();
-                    oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
-                    Move();
-                    //処理
-
-                }
-                break;
-            
-            case State.Dash://走る
-                {
-                    fire2_flg_ = true;
-                    Move();
-                    //処理
-                    //ブースト中は酸素消費量も上昇する
-                    Oxy();
-                    oxy_max_[oxy_count_] -= oxy_cost_ * oxy_cost_boost_ * Time.deltaTime;
-                }
-                break;
-
-            case State.Action01:
-                {
-                    Oxy();
-                    oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
-                    Move();
-                    //処理
-
-                }
-                break;
-            case State.Action02://落とす
-                {
-                    Oxy();
-                    oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
-                  
-                    //処理
-                    type_ = State.Idle; //idleに移行
-                }
-                break;
-            case State.Action03://投げる
-                {
-                    Oxy();
-                    oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
-                    
-                    //処理
-                    //別クラス呼び出し
-                    fire3_draw_.Off();
-                    fire3_flg2_ = false;
-                    // 弾を生成して飛ばす
-                    GameObject _obj = Instantiate(fire3_tank_prefab_, instantiatePosition_, Quaternion.identity);
-                    Rigidbody  _rid = _obj.GetComponent<Rigidbody>();
-                    _rid.AddForce(shootVelocity_ * _rid.mass, ForceMode.Impulse);
- 
-                    // 5秒後に消える
-                    Destroy(_obj, 5.0F);
-                    type_=State.Idle; //idleに移行
-                    Debug.Log("アクション実行02-2");
-                }
-                break;
-
-            case State.Death:
-                {
-                    //oxyが0になったらゲームオーバー
-                    Debug.Log("死亡");
-                    //処理
-                    //アニメーターリセット
-                    player_animator_.SetBool("isRunning", false);
-                    player_animator_.SetBool("isWalking", false);
-
-                    oxy_text_.SetText("");
-                    oxy_flg_ = false;
-                    oxy_total_ = 0;
-                    Debug.Log("a");
-                }
-                break;
+            Oxy();
+            OxyAction02();
         }
 
-             
+        if (player_move_flg_ == true)
+        {
+            Move();
+        }
+
+        
 
 
     }
-   
+    //長押し処理
+    private void OxyAction02()
+    {
+        if (fire3_flg_ == true)
+        {
+
+            fire3_button_count_ += Time.deltaTime;
+            if (fire3_button_count_ >= 1.0f)
+            {
+                fire3_flg2_ = true;
+                Debug.Log("アクション実行02-1");
+
+                //別クラス呼び出し
+                fire3_draw_.On();
+            }
+            else
+            {
+
+                Debug.Log("アクション実行01-1");
+            }
+        }
+        else if (fire3_flg_ == false)
+        {
+            fire3_button_count_ = 0;
+            if (fire3_flg2_ == true)
+            {
+                //別クラス呼び出し
+                fire3_draw_.Off();
+                fire3_flg2_ = false;
+                // 弾を生成して飛ばす
+                GameObject _obj = Instantiate(fire3_tank_prefab_, instantiatePosition_, Quaternion.identity);
+                Rigidbody _rid = _obj.GetComponent<Rigidbody>();
+                _rid.AddForce(shootVelocity_ * _rid.mass, ForceMode.Impulse);
+
+                oxy_max_[oxy_count_] = 0;
+                oxy_count_++;
+                // 5秒後に消える
+                Destroy(_obj, 5.0F);
+                Debug.Log("アクション実行02-2");
+            }
+        }
+    }
         //移動処理
         private void Move()
     {
+      
+        
+
         Vector3 _position   = Vector3.zero;
         Vector2 _stick_left = new(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
@@ -436,16 +418,52 @@ public class Player : MonoBehaviour
     }
 
     //UI同期
+    private void Sync()
+    {
+        oxy_total_ = oxy_max_[0] + oxy_max_[1] + oxy_max_[2];
+        oxy_text_.SetText(oxy_total_.ToString("F1")/* + ("％")*/);
+
+        oxy_slider_[0].value = oxy_max_[0];
+        oxy_slider_[1].value = oxy_max_[1];
+        oxy_slider_[2].value = oxy_max_[2];
+    }
+
     private void Oxy()
     {
+       
         if (oxy_max_[oxy_count_] <= 0.0f)
         {
             oxy_count_++;
             Debug.Log(oxy_count_);
         }
-    }
 
-    
+        if (fire2_flg_ == true)
+        {      
+            
+            //ブースト中は酸素消費量も上昇する
+            oxy_max_[oxy_count_] -= oxy_cost_ * oxy_cost_boost_ * Time.deltaTime;
+
+        }
+        else
+        {
+            oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
+        }
+        
+       
+
+        if(oxy_total_ <= 0.01f)
+        {
+            //アニメーターリセット
+            player_animator_.SetBool("isRunning", false);
+            player_animator_.SetBool("isWalking", false);
+
+            oxy_text_.SetText("");
+            oxy_flg_ = false;
+            oxy_total_ = 0;
+         　 Debug.Log("a");
+        }
+        //oxyが0になったらゲームオーバー
+    }
 
     private void OnTriggerEnter(Collider other)
     {
