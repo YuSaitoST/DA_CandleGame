@@ -21,8 +21,8 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("現在のの移動速度(最大値)")]
     private float player_move_ = 1.0f;
 
-    //[SerializeField, Tooltip("プレイヤーのアニメーターを入れる")]
-    //private Animator palyer_animator_;
+    [SerializeField, Tooltip("プレイヤーのアニメーターを入れる")]
+    private Animator player_animator_ =null;
 
     [SerializeField]
     private bool     player_move_flg_ = true;//プレイヤーの移動停止用trueで移動可
@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
     [Header("酸素ゲージ関連")]
     //[SerializeField,Tooltip("酸素ゲージ量(現在の値)")]
     //private float    oxy_           = 0.0f;
-
+    [SerializeField,Tooltip("いじらない")]
     private int      oxy_count_ =0;
 
     [SerializeField, Tooltip("酸素ゲージ量(現在の値)")]
@@ -79,7 +79,7 @@ public class Player : MonoBehaviour
     //bulletPrefab;
 
    
-    private DrawArc fire3_Draw;
+    private DrawArc fire3_draw_;
 
     [SerializeField, Tooltip("砲身のオブジェクト")]
     private GameObject fire3_point_;
@@ -92,7 +92,7 @@ public class Player : MonoBehaviour
     }
 
     [SerializeField, Range(1.0F, 20.0F), Tooltip("弾の射出する速さ")]
-    private float speed = 1.0F;
+    private float fire3_speed_ = 1.0F;
 
    
     // 弾の初速度
@@ -124,7 +124,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         // 弾の初速度や生成座標を持つコンポーネント
-        fire3_Draw = gameObject.GetComponent<DrawArc>();
+        fire3_draw_ = gameObject.GetComponent<DrawArc>();
 
         for (int i = 0; i < oxy_max_.Length; i++)
        {
@@ -147,7 +147,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         // 弾の初速度を更新
-        shootVelocity = fire3_point_.transform.up * speed;
+        shootVelocity = fire3_point_.transform.up * fire3_speed_;
 
         // 弾の生成座標を更新
         instantiatePosition_ = fire3_point_.transform.position;
@@ -256,8 +256,10 @@ public class Player : MonoBehaviour
             if (fire3_button_count_ >= 1.0f)
             {
                 fire3_flg2_ = true;
-                Debug.Log("アクション実行02");
-                fire3_Draw.On();
+                Debug.Log("アクション実行02-1");
+
+                //別クラス呼び出し
+                fire3_draw_.On();
             }
             else
             {
@@ -270,7 +272,8 @@ public class Player : MonoBehaviour
             fire3_button_count_ = 0;
             if (fire3_flg2_ == true)
             {
-                fire3_Draw.Off();
+                //別クラス呼び出し
+                fire3_draw_.Off();
                 fire3_flg2_ = false;
                 // 弾を生成して飛ばす
                 GameObject _obj = Instantiate(fire3_tank_prefab_, instantiatePosition_, Quaternion.identity);
@@ -297,9 +300,9 @@ public class Player : MonoBehaviour
         {
             if (player_move_<= player_move_boost_)
             {
-                
+                player_animator_.SetBool("isRunning", true);
                 //徐々に足されていく
-                player_move_+= 0.1f* Time.deltaTime;
+                player_move_ += 0.1f* Time.deltaTime;
             }
             else 
             {
@@ -313,9 +316,9 @@ public class Player : MonoBehaviour
         {
             if (player_move_>= player_move_speed_)
             {
-              
+                player_animator_.SetBool("isRunning", false);
                 //徐々にひかれていく
-                player_move_-= 0.1f * Time.deltaTime;
+                player_move_ -= 0.1f * Time.deltaTime;
             }
             else 
             {
@@ -342,8 +345,8 @@ public class Player : MonoBehaviour
                 new Vector3(_position.normalized.x * player_move_,
                             0,
                             _position.normalized.z * player_move_);
-           
-            //animator_.SetBool("walking", true);
+
+            player_animator_.SetBool("isWalking", true);
 
             // スティックが倒れていれば、倒れている方向を向く
             var direction2 = new Vector3(_stick_left.x, 0, _stick_left.y);
@@ -352,7 +355,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            //animator_.SetBool("walking", false);
+            player_animator_.SetBool("isWalking", false);
 
         }
     }
@@ -393,7 +396,12 @@ public class Player : MonoBehaviour
 
         if(oxy_total_ <= 0.01f)
         {
-           oxy_flg_ = false;
+            //アニメーターリセット
+            player_animator_.SetBool("isRunning", false);
+            player_animator_.SetBool("isWalking", false);
+
+
+            oxy_flg_ = false;
            oxy_total_ = 0;
            Debug.Log("a");
         }
