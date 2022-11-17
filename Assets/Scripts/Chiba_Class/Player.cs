@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     private float    player_move_boost_ = 1.0f;
 
     [SerializeField, Tooltip("現在のの移動速度(最大値)")]
-    private float player_move_ = 1.0f;
+    private float    player_move_ = 1.0f;
 
     [SerializeField, Tooltip("プレイヤーのアニメーターを入れる")]
     private Animator player_animator_ =null;
@@ -27,6 +27,17 @@ public class Player : MonoBehaviour
     [SerializeField]
     private bool     player_move_flg_ = true;//プレイヤーの移動停止用trueで移動可
 
+    [SerializeField, Tooltip("プレイヤーの体力(マテリアルの不透明度で表現)")]
+    private float player_life_ = 100.0f; 
+
+    [SerializeField, Tooltip("被ダメージ時の無敵時間")]
+    private bool player_life_inv_ = false;
+
+    [SerializeField]
+    private float player_life_inv_time_ = 3.0f;
+
+    //無敵時間
+    //float inv_tmp_ = 0;
 
     [Header("酸素ゲージ関連")]
     //[SerializeField,Tooltip("酸素ゲージ量(現在の値)")]
@@ -63,8 +74,8 @@ public class Player : MonoBehaviour
     private bool fire1_range_flg_ = false;//プレイヤーが爆弾設置範囲内に入ったらtrueになる
 
     [Header("Bボタン関連")]
-    [SerializeField]
-    private bool fire2_flg_ = false;
+    //[SerializeField]
+    //private bool fire2_flg_ = false;
 
 
     [Header("Xボタン関連")]
@@ -120,6 +131,19 @@ public class Player : MonoBehaviour
     //[SerializeField, Tooltip("メニューを開いたときに最初に選択されるボタン")]
     //private GameObject ui_button_firstSelect_;
 
+    [Header("ダメージ設定など")]
+    [SerializeField]
+    private float damage_ = 10.0f;
+
+    [SerializeField]
+    private float knockback_power_ =1.1f;
+
+    [SerializeField]
+    private float knockback_power_up_ = 0.7f;
+
+    [SerializeField]
+    private float knockback_stan_ = 1.0f;
+
     //state
     public enum State
     {
@@ -129,6 +153,7 @@ public class Player : MonoBehaviour
         Action01, //ポンプ落とす
         Action02, //ポンプ投げ
         Action03, //パーツを拾う
+        Damage,   //ダメージくらう
         Death     //死
     }
     //2型の作成
@@ -150,11 +175,19 @@ public class Player : MonoBehaviour
         rb_ = GetComponent<Rigidbody>();
         player_move_= player_move_speed_;
         oxy_total_ = oxy_max_[0] + oxy_max_[1] + oxy_max_[2];
+        
+        ////無敵時間からスタン時間分を引く
+        //player_life_inv_time_ -= knockback_stan_;
+
+        //inv_tmp_ = player_life_inv_time_;
+
     }
 
     // Update is called once per frame
     void Update()
     {
+       
+
         //プレイヤー入力
         PlayerInput();
 
@@ -178,8 +211,9 @@ public class Player : MonoBehaviour
         }
 
         //ボンベのゲージが0になったら次のボンベに切り替える
-        if (oxy_max_[oxy_count_] <= 0.0f && oxy_count_ < 0)
+        if (oxy_max_[oxy_count_] <= 0.0f && oxy_count_ < 2)
         {
+            oxy_max_[oxy_count_] = 0.0f;
             //別クラス呼び出し
             fire3_draw_.Off();
 
@@ -226,13 +260,13 @@ public class Player : MonoBehaviour
 
         //Bボタン
         //移動速度上昇
-        if (Input.GetButton("Fire2"))
+        if (Input.GetButton("Fire2")&&type_!=State.Damage)
         {
             type_ = State.Dash;
             Debug.Log("Bボタンが押された");
            
         }
-        else if(Input.GetButtonUp("Fire2"))
+        else if(Input.GetButtonUp("Fire2") && type_ != State.Damage)
         {
             type_ = State.Idle;
             Debug.Log("Bボタンが離された");
@@ -241,7 +275,7 @@ public class Player : MonoBehaviour
 
         //Xボタン
         //ボンベアクション
-        if (oxy_count_ != 2&&fire2_flg_==false)
+        if (oxy_count_ != 2 && type_ != State.Damage)
         {
 
             if (Input.GetButton("Fire3"))
@@ -262,21 +296,24 @@ public class Player : MonoBehaviour
 
                 if (fire3_button_count_ <= 1.0f)
                 {
-                   
+
+                    //oxy_max_[oxy_count_] = 0;
+                    //oxy_count_++;
+
                     type_ = State.Action02;//捨てるステート
                     Debug.Log("アクション実行02-1");
                 }
                 else if (fire3_button_count_ >= 1.0f)
                 {
-                    
+                    oxy_max_[oxy_count_] = 0;
+                    oxy_count_++;
 
                     type_ = State.Action03;//投げるステート
                     Debug.Log("アクション実行03-1");
                 }
 
                 //canvasOff
-                oxy_max_[oxy_count_] = 0;
-                oxy_count_++;
+                
 
                 fire3_button_count_ = 0;
 
@@ -293,7 +330,7 @@ public class Player : MonoBehaviour
                 {
                     
                     oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
-                    fire2_flg_ = false;                    
+                    //fire2_flg_ = false;                    
                     Move();
                     //処理
 
@@ -307,7 +344,7 @@ public class Player : MonoBehaviour
 
                     //ブースト中は酸素消費量も上昇する
                     oxy_max_[oxy_count_] -= oxy_cost_ * oxy_cost_boost_ * Time.deltaTime;
-                    fire2_flg_ = true;
+                   // fire2_flg_ = true;
                     Move();       
                     
                 }
@@ -353,6 +390,15 @@ public class Player : MonoBehaviour
                     
                 }
                 break;
+            case State.Damage://ダメージくらう
+                {
+
+                    oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
+
+                    //処理
+                    StartCoroutine("Damage");
+                }
+                break;
 
             case State.Death:
                 {
@@ -363,15 +409,19 @@ public class Player : MonoBehaviour
                     player_animator_.SetBool("isRunning", false);
                     player_animator_.SetBool("isWalking", false);
 
-                    oxy_text_.SetText("");
+                    oxy_text_.SetText(" ");
                     oxy_total_ = 0;
-                    Debug.Log("a");
+                    
                 }
                 break;
         }
 
         //敵に当たった時の処理
-
+       
+        if (player_life_inv_time_> 0)
+        {
+            player_life_inv_time_ -= 1.0f*Time.deltaTime;
+        }
 
     }
     
@@ -401,21 +451,32 @@ public class Player : MonoBehaviour
         Debug.Log("アクション実行02-2");
     }
 
-    private void Oxy()
-    {
+    IEnumerator Damage()
+    {    
+        //別クラス呼び出し
+        fire3_draw_.Off();
 
-       
+        //アニメーターリセット
+        player_animator_.SetBool("isRunning", false);
+        player_animator_.SetBool("isWalking", false);
+
+        yield return new WaitForSeconds(knockback_stan_);
+        type_ = State.Idle; //idleに移行
+        
+        
     }
 
-    //移動処理
-    private void Move()
+
+
+        //移動処理
+        private void Move()
     {
         Vector3 _position   = Vector3.zero;
         Vector2 _stick_left = new(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
 
         //移動ブースト
-        if (fire2_flg_== true)
+        if (type_==State.Dash)
         {
             if (player_move_<= player_move_boost_)
             {
@@ -472,12 +533,39 @@ public class Player : MonoBehaviour
 
         }
     }
+    //ダメージ判定
+    private void OnCollisionStay(Collision collision)
+    {
+        //tagは変える
+        if (collision.gameObject.tag == "BombArea"&&player_life_inv_time_<=0)
+        {
+            
+            type_ = State.Damage;
+            //ダメージ食らう
+            oxy_max_[oxy_count_] -= damage_;
+
+            //無敵時間開始
+            player_life_inv_time_ = 3.0f;
+
+            rb_.velocity = Vector3.zero;
+            // 自分の位置と接触してきたオブジェクトの位置とを計算して、距離と方向を出して正規化(速度ベクトルを算出)
+            Vector3 distination = (transform.position - collision.transform.position).normalized;
+
+            rb_.AddForce(distination * knockback_power_, ForceMode.VelocityChange);
+            rb_.AddForce(transform.up * knockback_power_up_, ForceMode.VelocityChange);
+
+          
+        }
+    }
+   
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "BombArea")
-        {
-            fire1_range_flg_ = true;
-        }
+        //アイテムの範囲
+        //if (other.gameObject.tag == "BombArea")
+        //{
+        //    fire1_range_flg_ = true;
+        //}
 
         //ゲージ回復アイテム
         //if (other.gameObject.tag == "BombArea")
@@ -496,14 +584,19 @@ public class Player : MonoBehaviour
         //   
         //}
 
+    
 
-    }
+
+        
+
+}
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "BombArea")
-        {
-            fire1_range_flg_ = false;
-        }
+        //アイテムの範囲から出た
+        //if (other.gameObject.tag == "BombArea")
+        //{
+        //    fire1_range_flg_ = false;
+        //}
         
     }
 }
