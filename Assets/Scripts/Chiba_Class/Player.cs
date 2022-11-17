@@ -31,6 +31,10 @@ public class Player : MonoBehaviour
     [Header("酸素ゲージ関連")]
     //[SerializeField,Tooltip("酸素ゲージ量(現在の値)")]
     //private float    oxy_           = 0.0f;
+
+    [SerializeField, Tooltip("酸素ゲージ量(現在の値)")]
+    private float    oxy_recovery_ = 0.5f;
+
     [SerializeField,Tooltip("いじらない")]
     private int      oxy_count_ =0;
 
@@ -52,8 +56,7 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("聴力のパラメータ")]
     private Slider[] oxy_slider_ = new Slider[3];
 
-    [SerializeField, Tooltip("酸素ゲージが0になるとfalse")]
-    private bool     oxy_flg_       = true;
+  
 
     [Header("Aボタン関連")]
     [SerializeField]
@@ -68,8 +71,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private bool fire3_flg_ = false;
 
-    [SerializeField]
-    private bool fire3_flg2_ = false;
+  
 
     //長押し秒数の取得
     private float fire3_button_count_ = 0.0f;
@@ -140,23 +142,20 @@ public class Player : MonoBehaviour
         for (int i = 0; i < oxy_max_.Length; i++)
        {
             oxy_max_[i] = 33.3f;
-       }
-        
+       }        
 
         tr_ = GetComponent<Transform>();
         rb_ = GetComponent<Rigidbody>();
-        
-
-        oxy_flg_ = true;
-
         player_move_= player_move_speed_;
-
         oxy_total_ = oxy_max_[0] + oxy_max_[1] + oxy_max_[2];
     }
 
     // Update is called once per frame
     void Update()
     {
+        //プレイヤー入力
+        PlayerInput();
+
         //同期
         oxy_total_ = oxy_max_[0] + oxy_max_[1] + oxy_max_[2];
         oxy_text_.SetText(oxy_total_.ToString("F1")/* + ("％")*/);
@@ -169,16 +168,15 @@ public class Player : MonoBehaviour
 
         // 弾の生成座標を更新
         instantiatePosition_ = fire3_point_.transform.position;
-        //stateテスト
-
-
-
-        PlayerInput();
 
         if (oxy_total_ <= 0.01f)
         {
             type_ = State.Death;
         }
+
+       
+
+       
 
             //if (Input.GetButtonDown("Fire2"))
             //{
@@ -272,13 +270,11 @@ public class Player : MonoBehaviour
 
             }
         }
-
-     
-        
     }
 
     void FixedUpdate()
     {
+        //state
         switch (type_)
         {
             case State.Idle:
@@ -329,7 +325,7 @@ public class Player : MonoBehaviour
                     //処理
                     //別クラス呼び出し
                     fire3_draw_.Off();
-                    fire3_flg2_ = false;
+                  
                     // 弾を生成して飛ばす
                     GameObject _obj = Instantiate(fire3_tank_prefab_, instantiatePosition_, Quaternion.identity);
                     Rigidbody  _rid = _obj.GetComponent<Rigidbody>();
@@ -345,27 +341,26 @@ public class Player : MonoBehaviour
             case State.Death:
                 {
                     //oxyが0になったらゲームオーバー
-                    Debug.Log("死亡");
+                    Debug.Log("ゲームオーバー");
                     //処理
                     //アニメーターリセット
                     player_animator_.SetBool("isRunning", false);
                     player_animator_.SetBool("isWalking", false);
 
                     oxy_text_.SetText("");
-                    oxy_flg_ = false;
                     oxy_total_ = 0;
                     Debug.Log("a");
                 }
                 break;
         }
 
-             
+        //敵に当たった時の処理
 
 
     }
-   
-        //移動処理
-        private void Move()
+
+    //移動処理
+    private void Move()
     {
         Vector3 _position   = Vector3.zero;
         Vector2 _stick_left = new(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
@@ -453,7 +448,24 @@ public class Player : MonoBehaviour
         {
             fire1_range_flg_ = true;
         }
-        
+
+        //ゲージ回復アイテム
+        //if (other.gameObject.tag == "BombArea")
+        //{
+        //    oxy_max_[oxy_count_] += oxy_recovery_;
+
+        //}
+
+        //ボンベ回復アイテム
+        //if (other.gameObject.tag == "BombArea")
+        //{
+        // if(oxy_count_<2)
+        //{
+        //    oxy_count_++;
+        //}
+        //   
+        //}
+
 
     }
     private void OnTriggerExit(Collider other)
