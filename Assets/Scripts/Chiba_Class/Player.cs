@@ -156,7 +156,8 @@ public class Player : MonoBehaviour
     //2型の作成
     public State type_ = State.Idle;
 
-
+    [SerializeField,Tooltip("BloodDirectionをアタッチ")]
+    BloodDirection bloodDirection_ = null;
 
     void Start()
     {
@@ -400,6 +401,9 @@ public class Player : MonoBehaviour
 
             case State.Death:
                 {
+                    //
+                    GameProgress.instance_.GameOver();
+                    //
                     //oxyが0になったらゲームオーバー
                     Debug.Log("ゲームオーバー");
                     //処理
@@ -464,7 +468,8 @@ public class Player : MonoBehaviour
     }
 
     IEnumerator OnDamage()
-    {    
+    {
+        bloodDirection_.DamageDone();
         //別クラス呼び出し
         fire3_draw_.Off();
 

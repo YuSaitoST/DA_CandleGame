@@ -28,7 +28,7 @@ public class Parts : MonoBehaviour
         yield return null;
 
         this.gameObject.SetActive(false);
-        Debug.Log("aaaaaaaaaaaaaaaa");
+        Debug.Log("ƒAƒCƒeƒ€‚ğE‚Á‚½");
        
 
     }
