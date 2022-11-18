@@ -61,7 +61,7 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("酸素ゲージの値表示用テキスト")]
     private TMP_Text oxy_text_      = null;
 
-    [SerializeField, Tooltip("聴力のパラメータ")]
+    [SerializeField, Tooltip("ボンベの数")]
     private Slider[] oxy_slider_ = new Slider[3];
 
   
@@ -302,8 +302,7 @@ public class Player : MonoBehaviour
                 }
                 else if (fire3_button_count_ >= 1.0f)
                 {
-                    oxy_max_[oxy_count_] = 0;
-                    oxy_count_++;
+                    
 
                     type_ = State.Action03;//投げるステート
                     Debug.Log("アクション実行03-1");
@@ -425,7 +424,7 @@ public class Player : MonoBehaviour
     }
     private void Action00()
     {
-        StartCoroutine("OnAction00");
+        StartCoroutine(OnAction00());
 
     }
 
@@ -445,6 +444,10 @@ public class Player : MonoBehaviour
         //別クラス呼び出し
         fire3_draw_.Off();
 
+        //ボンベを一つ消費
+        oxy_max_[oxy_count_] = 0;
+        oxy_count_++;
+
         // 弾を生成して飛ばす
         GameObject _obj = Instantiate(fire3_tank_prefab_, instantiatePosition_, Quaternion.identity);
         Rigidbody _rid = _obj.GetComponent<Rigidbody>();
@@ -457,7 +460,7 @@ public class Player : MonoBehaviour
 
     private void Damage()
     {
-        StartCoroutine("OnDamage");
+        StartCoroutine(OnDamage());
     }
 
     IEnumerator OnDamage()
@@ -568,13 +571,24 @@ public class Player : MonoBehaviour
     }
    
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         //アイテムの範囲
-        //if (other.gameObject.tag == "BombArea")
-        //{
-        //    fire1_range_flg_ = true;
-        //}
+        if (other.gameObject.tag == "PC")
+        {
+            fire1_range_flg_ = true;
+            if (Input.GetButton("Fire1"))
+            {
+                Debug.Log("押された");
+                var _stageScene = other;
+                _stageScene.GetComponent<Parts>().Pickup();
+
+                _stageScene = null;
+
+            }
+            
+        }
+       
 
         //ゲージ回復アイテム
         //if (other.gameObject.tag == "BombArea")
@@ -593,19 +607,19 @@ public class Player : MonoBehaviour
         //   
         //}
 
-    
 
 
-        
 
-}
+
+
+    }
     private void OnTriggerExit(Collider other)
     {
         //アイテムの範囲から出た
-        //if (other.gameObject.tag == "BombArea")
-        //{
-        //    fire1_range_flg_ = false;
-        //}
-        
+        if (other.gameObject.tag == "PC")
+        {
+            fire1_range_flg_ = false;
+        }
+
     }
 }

@@ -8,6 +8,7 @@ TagManager:
   - target
   - PC
   - Ground
+  - PartsManager
   layers:
   - Default
   - TransparentFX
