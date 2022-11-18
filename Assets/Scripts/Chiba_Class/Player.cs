@@ -302,8 +302,7 @@ public class Player : MonoBehaviour
                 }
                 else if (fire3_button_count_ >= 1.0f)
                 {
-                    oxy_max_[oxy_count_] = 0;
-                    oxy_count_++;
+                    
 
                     type_ = State.Action03;//投げるステート
                     Debug.Log("アクション実行03-1");
@@ -444,6 +443,10 @@ public class Player : MonoBehaviour
     {
         //別クラス呼び出し
         fire3_draw_.Off();
+
+        //ボンベを一つ消費
+        oxy_max_[oxy_count_] = 0;
+        oxy_count_++;
 
         // 弾を生成して飛ばす
         GameObject _obj = Instantiate(fire3_tank_prefab_, instantiatePosition_, Quaternion.identity);
