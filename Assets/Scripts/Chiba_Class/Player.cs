@@ -411,7 +411,10 @@ public class Player : MonoBehaviour
                     player_animator_.SetBool("isRunning", false);
                     player_animator_.SetBool("isWalking", false);
 
-                    oxy_text_.enabled = false;
+                    //oxy_text_.enabled = false;
+                    oxy_max_[0] = 0;
+                    oxy_max_[1] = 0;
+                    oxy_max_[2] = 0;
                     oxy_total_ = 0;
                     
                 }
