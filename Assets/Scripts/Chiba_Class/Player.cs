@@ -354,7 +354,7 @@ public class Player : MonoBehaviour
                     oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
                     //処理
                     //アニメーション
-                    StartCoroutine("Action00");
+                    Action00();
                 }
                 break;
             case State.Action01: //Xボタン待機
@@ -392,8 +392,10 @@ public class Player : MonoBehaviour
 
                     oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
 
+
                     //処理
-                    StartCoroutine("Damage");
+                    Damage();
+                    
                 }
                 break;
 
@@ -421,8 +423,13 @@ public class Player : MonoBehaviour
         }
 
     }
-    
-    IEnumerator Action00()
+    private void Action00()
+    {
+        StartCoroutine("OnAction00");
+
+    }
+
+    IEnumerator OnAction00()
     {
       
        //yield return null;
@@ -448,7 +455,12 @@ public class Player : MonoBehaviour
         Debug.Log("アクション実行02-2");
     }
 
-    IEnumerator Damage()
+    private void Damage()
+    {
+        StartCoroutine("OnDamage");
+    }
+
+    IEnumerator OnDamage()
     {    
         //別クラス呼び出し
         fire3_draw_.Off();
