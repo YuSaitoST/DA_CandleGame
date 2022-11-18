@@ -987,7 +987,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1739.3, y: -140}
+  m_AnchoredPosition: {x: 205.30005, y: -152}
   m_SizeDelta: {x: 240, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &755065837
@@ -1185,7 +1185,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1629.3, y: -140}
+  m_AnchoredPosition: {x: 95.30005, y: -152}
   m_SizeDelta: {x: 240, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1008009382
@@ -3715,7 +3715,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1764, y: -270}
+  m_AnchoredPosition: {x: 230, y: -282}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1755595579766528423
@@ -3824,7 +3824,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1849.3, y: -140}
+  m_AnchoredPosition: {x: 315.30005, y: -152}
   m_SizeDelta: {x: 240, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &1755595580249772104
@@ -4076,7 +4076,6 @@ MonoBehaviour:
   player_animator_: {fileID: 556639504892113512}
   player_move_flg_: 1
   player_life_: 100
-  player_life_inv_: 0
   player_life_inv_time_: 3
   oxy_recovery_: 0.5
   oxy_count_: 0
@@ -4099,7 +4098,7 @@ MonoBehaviour:
   y_clip_: {x: -200, y: 200}
   z_clip_: {x: -5, y: 5}
   damage_: 10
-  knockback_power_: 1.1
+  knockback_power_: 0.8
   knockback_power_up_: 0.7
   knockback_stan_: 2.04
   type_: 0

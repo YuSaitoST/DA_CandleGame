@@ -30,14 +30,11 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("プレイヤーの体力(マテリアルの不透明度で表現)")]
     private float player_life_ = 100.0f; 
 
-    [SerializeField, Tooltip("被ダメージ時の無敵時間")]
-    private bool player_life_inv_ = false;
-
     [SerializeField]
     private float player_life_inv_time_ = 3.0f;
 
     //無敵時間
-    //float inv_tmp_ = 0;
+    private float player_life_inv_tmp_ = 0.0f;
 
     [Header("酸素ゲージ関連")]
     //[SerializeField,Tooltip("酸素ゲージ量(現在の値)")]
@@ -136,7 +133,7 @@ public class Player : MonoBehaviour
     private float damage_ = 10.0f;
 
     [SerializeField]
-    private float knockback_power_ =1.1f;
+    private float knockback_power_ =0.8f;
 
     [SerializeField]
     private float knockback_power_up_ = 0.7f;
@@ -179,7 +176,7 @@ public class Player : MonoBehaviour
         ////無敵時間からスタン時間分を引く
         //player_life_inv_time_ -= knockback_stan_;
 
-        //inv_tmp_ = player_life_inv_time_;
+        
 
     }
 
@@ -409,7 +406,7 @@ public class Player : MonoBehaviour
                     player_animator_.SetBool("isRunning", false);
                     player_animator_.SetBool("isWalking", false);
 
-                    oxy_text_.SetText(" ");
+                    oxy_text_.enabled = false;
                     oxy_total_ = 0;
                     
                 }
@@ -418,9 +415,9 @@ public class Player : MonoBehaviour
 
         //敵に当たった時の処理
        
-        if (player_life_inv_time_> 0)
+        if (player_life_inv_tmp_ > 0)
         {
-            player_life_inv_time_ -= 1.0f*Time.deltaTime;
+            player_life_inv_tmp_ -= 1.0f*Time.deltaTime;
         }
 
     }
@@ -537,7 +534,7 @@ public class Player : MonoBehaviour
     private void OnCollisionStay(Collision collision)
     {
         //tagは変える
-        if (collision.gameObject.tag == "BombArea"&&player_life_inv_time_<=0)
+        if (collision.gameObject.tag == "BombArea"&& player_life_inv_tmp_ <= 0)
         {
             
             type_ = State.Damage;
@@ -545,7 +542,7 @@ public class Player : MonoBehaviour
             oxy_max_[oxy_count_] -= damage_;
 
             //無敵時間開始
-            player_life_inv_time_ = 3.0f;
+            player_life_inv_tmp_ = player_life_inv_time_;
 
             rb_.velocity = Vector3.zero;
             // 自分の位置と接触してきたオブジェクトの位置とを計算して、距離と方向を出して正規化(速度ベクトルを算出)
