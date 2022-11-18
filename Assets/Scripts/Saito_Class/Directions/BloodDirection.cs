@@ -19,7 +19,6 @@ public class BloodDirection : MonoBehaviour
     {
         alpha_ = 0.0f;
         SetAlpha();
-        DamageDone();
     }
 
     // Update is called once per frame
