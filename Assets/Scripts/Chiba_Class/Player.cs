@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     Rigidbody rb_;
 
     [Header("プレイヤーの挙動")]
+
     [SerializeField,Tooltip("プレイヤーの移動速度(初期値)")]
     private float    player_move_speed_ = 0.5f;
 
@@ -35,6 +36,21 @@ public class Player : MonoBehaviour
 
     //無敵時間
     private float player_life_inv_tmp_ = 0.0f;
+
+    //state
+    public enum State
+    {
+        Idle,     //通常
+        Dash,     //移動(加速)
+        Action00, //アイテムを拾う
+        Action01, //ポンプ落とす
+        Action02, //ポンプ投げ
+        Action03, //パーツを拾う
+        Damage,   //ダメージくらう
+        Death     //死
+    }
+    //2型の作成
+    public State type_ = State.Idle;
 
     [Header("酸素ゲージ関連")]
     //[SerializeField,Tooltip("酸素ゲージ量(現在の値)")]
@@ -141,20 +157,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float knockback_stan_ = 1.0f;
 
-    //state
-    public enum State
-    {
-        Idle,     //通常
-        Dash,     //移動(加速)
-        Action00, //アイテムを拾う
-        Action01, //ポンプ落とす
-        Action02, //ポンプ投げ
-        Action03, //パーツを拾う
-        Damage,   //ダメージくらう
-        Death     //死
-    }
-    //2型の作成
-    public State type_ = State.Idle;
+    
 
     [SerializeField,Tooltip("BloodDirectionをアタッチ")]
     BloodDirection bloodDirection_ = null;
