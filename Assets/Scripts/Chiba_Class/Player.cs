@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     Rigidbody rb_;
 
     [Header("プレイヤーの挙動")]
+
     [SerializeField,Tooltip("プレイヤーの移動速度(初期値)")]
     private float    player_move_speed_ = 0.5f;
 
@@ -30,11 +31,26 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("プレイヤーの体力(マテリアルの不透明度で表現)")]
     private float player_life_ = 100.0f; 
 
-    [SerializeField]
+    [SerializeField,Tooltip("無敵時間")]
     private float player_life_inv_time_ = 3.0f;
 
     //無敵時間
     private float player_life_inv_tmp_ = 0.0f;
+
+    //state
+    public enum State
+    {
+        Idle,     //通常
+        Dash,     //移動(加速)
+        Action00, //アイテムを拾う
+        Action01, //ポンプ落とす
+        Action02, //ポンプ投げ
+        Action03, //パーツを拾う
+        Damage,   //ダメージくらう
+        Death     //死
+    }
+    //2型の作成
+    public State type_ = State.Idle;
 
     [Header("酸素ゲージ関連")]
     //[SerializeField,Tooltip("酸素ゲージ量(現在の値)")]
@@ -129,32 +145,19 @@ public class Player : MonoBehaviour
     //private GameObject ui_button_firstSelect_;
 
     [Header("ダメージ設定など")]
-    [SerializeField]
+    [SerializeField, Tooltip("酸素ゲージへのダメージ量")]
     private float damage_ = 10.0f;
 
-    [SerializeField]
+    [SerializeField, Tooltip("ノックバック時の力")]
     private float knockback_power_ =0.8f;
 
-    [SerializeField]
+    [SerializeField, Tooltip("ノックバック時の上への力")]
     private float knockback_power_up_ = 0.7f;
 
-    [SerializeField]
+    [SerializeField, Tooltip("動けない時間")]
     private float knockback_stan_ = 1.0f;
 
-    //state
-    public enum State
-    {
-        Idle,     //通常
-        Dash,     //移動(加速)
-        Action00, //アイテムを拾う
-        Action01, //ポンプ落とす
-        Action02, //ポンプ投げ
-        Action03, //パーツを拾う
-        Damage,   //ダメージくらう
-        Death     //死
-    }
-    //2型の作成
-    public State type_ = State.Idle;
+    
 
     [SerializeField,Tooltip("BloodDirectionをアタッチ")]
     BloodDirection bloodDirection_ = null;
@@ -288,6 +291,16 @@ public class Player : MonoBehaviour
                     fire3_draw_.On();
 
                 }
+
+                //キャンセル
+                if(Input.GetButtonDown("Fire1"))               
+                {
+                    fire3_button_count_ = 0;
+                    //別クラス呼び出し
+                    fire3_draw_.Off();
+                    //処理
+                    type_ = State.Dash; //idleに移行
+                }
             }
             if (Input.GetButtonUp("Fire3"))
             {
@@ -347,10 +360,8 @@ public class Player : MonoBehaviour
                 }
                 break;
 
-            case State.Action00: //拾う
-                {
-                  
-                   
+            case State.Action00: //パーツを拾う
+                {        
                     oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
                     //処理
                     //アニメーション
@@ -358,21 +369,19 @@ public class Player : MonoBehaviour
                 }
                 break;
             case State.Action01: //Xボタン待機
-                {
-
-                   
+                {      
                     oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
                     Move();
                     //処理
 
                 }
                 break;
-            case State.Action02://落とす
-                {
-                    
+            case State.Action02://落とす未完成
+                {                   
                     oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
-                  
+
                     //処理
+                    Action02();
                     type_ = State.Idle; //idleに移行
                 }
                 break;
@@ -394,8 +403,7 @@ public class Player : MonoBehaviour
 
 
                     //処理
-                    Damage();
-                    
+                    Damage();                
                 }
                 break;
 
@@ -411,9 +419,11 @@ public class Player : MonoBehaviour
                     player_animator_.SetBool("isRunning", false);
                     player_animator_.SetBool("isWalking", false);
 
-                    oxy_text_.enabled = false;
-                    oxy_total_ = 0;
-                    
+                    //oxy_text_.enabled = false;
+                    oxy_max_[0] = 0;
+                    oxy_max_[1] = 0;
+                    oxy_max_[2] = 0;
+                    oxy_total_ = 0;                
                 }
                 break;
         }
@@ -441,6 +451,12 @@ public class Player : MonoBehaviour
         //ここに再開後の処理を書く
         type_ = State.Idle;
        
+    }
+    private void Action02()
+    {
+        //別クラス呼び出し
+        fire3_draw_.Off();
+
     }
 
     private void Action03()
