@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("プレイヤーの体力(マテリアルの不透明度で表現)")]
     private float player_life_ = 100.0f; 
 
-    [SerializeField]
+    [SerializeField,Tooltip("無敵時間")]
     private float player_life_inv_time_ = 3.0f;
 
     //無敵時間
@@ -145,16 +145,16 @@ public class Player : MonoBehaviour
     //private GameObject ui_button_firstSelect_;
 
     [Header("ダメージ設定など")]
-    [SerializeField]
+    [SerializeField, Tooltip("酸素ゲージへのダメージ量")]
     private float damage_ = 10.0f;
 
-    [SerializeField]
+    [SerializeField, Tooltip("ノックバック時の力")]
     private float knockback_power_ =0.8f;
 
-    [SerializeField]
+    [SerializeField, Tooltip("ノックバック時の上への力")]
     private float knockback_power_up_ = 0.7f;
 
-    [SerializeField]
+    [SerializeField, Tooltip("動けない時間")]
     private float knockback_stan_ = 1.0f;
 
     
@@ -291,6 +291,16 @@ public class Player : MonoBehaviour
                     fire3_draw_.On();
 
                 }
+
+                //キャンセル
+                if(Input.GetButtonDown("Fire1"))               
+                {
+                    fire3_button_count_ = 0;
+                    //別クラス呼び出し
+                    fire3_draw_.Off();
+                    //処理
+                    type_ = State.Dash; //idleに移行
+                }
             }
             if (Input.GetButtonUp("Fire3"))
             {
@@ -370,9 +380,10 @@ public class Player : MonoBehaviour
 
                 }
                 break;
-            case State.Action02://落とす
+            case State.Action02://落とす未完成
                 {
-                    
+                    //別クラス呼び出し
+                    fire3_draw_.Off();
                     oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
                   
                     //処理
