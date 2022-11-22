@@ -360,10 +360,8 @@ public class Player : MonoBehaviour
                 }
                 break;
 
-            case State.Action00: //拾う
-                {
-                  
-                   
+            case State.Action00: //パーツを拾う
+                {        
                     oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
                     //処理
                     //アニメーション
@@ -371,9 +369,7 @@ public class Player : MonoBehaviour
                 }
                 break;
             case State.Action01: //Xボタン待機
-                {
-
-                   
+                {      
                     oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
                     Move();
                     //処理
@@ -381,12 +377,11 @@ public class Player : MonoBehaviour
                 }
                 break;
             case State.Action02://落とす未完成
-                {
-                    //別クラス呼び出し
-                    fire3_draw_.Off();
+                {                   
                     oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
-                  
+
                     //処理
+                    Action02();
                     type_ = State.Idle; //idleに移行
                 }
                 break;
@@ -408,8 +403,7 @@ public class Player : MonoBehaviour
 
 
                     //処理
-                    Damage();
-                    
+                    Damage();                
                 }
                 break;
 
@@ -429,8 +423,7 @@ public class Player : MonoBehaviour
                     oxy_max_[0] = 0;
                     oxy_max_[1] = 0;
                     oxy_max_[2] = 0;
-                    oxy_total_ = 0;
-                    
+                    oxy_total_ = 0;                
                 }
                 break;
         }
@@ -458,6 +451,12 @@ public class Player : MonoBehaviour
         //ここに再開後の処理を書く
         type_ = State.Idle;
        
+    }
+    private void Action02()
+    {
+        //別クラス呼び出し
+        fire3_draw_.Off();
+
     }
 
     private void Action03()
