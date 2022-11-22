@@ -12,7 +12,7 @@ public class PartsManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        count_ui_.SetText(count_.ToString("F1")/* + ("“")*/);
+        count_ui_.SetText(count_.ToString("F0")/* + ("“")*/);
     }
 
     public static PartsManager GetInstance()
