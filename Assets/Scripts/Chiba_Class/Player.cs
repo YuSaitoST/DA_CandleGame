@@ -610,30 +610,26 @@ public class Player : MonoBehaviour
             
         }
        
-
-        //ゲージ回復アイテム
-        //if (other.gameObject.tag == "BombArea")
-        //{
-        //    oxy_max_[oxy_count_] += oxy_recovery_;
-
-        //}
-
-        //ボンベ回復アイテム
-        //if (other.gameObject.tag == "BombArea")
-        //{
-        // if(oxy_count_<2)
-        //{
-        //    oxy_count_++;
-        //}
-        //   
-        //}
-
-
-
-
-
-
     }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //ゲージ回復アイテム
+    //if (other.gameObject.tag == "BombArea"&&oxy_max_[oxy_count_]<33.3f)
+    //{
+    //    oxy_max_[oxy_count_] += oxy_recovery_;
+
+    //}
+
+    //ボンベ回復アイテム
+    //if (other.gameObject.tag == "BombArea")
+    //{
+    // if(oxy_count_<2)
+    //{
+    //    oxy_count_++;
+    //}
+    //   
+    //}
+    //}
     private void OnTriggerExit(Collider other)
     {
         //アイテムの範囲から出た
