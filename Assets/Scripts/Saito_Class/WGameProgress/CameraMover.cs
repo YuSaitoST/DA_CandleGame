@@ -13,7 +13,7 @@ public class CameraMover : MonoBehaviour
     {
         Vector3 pos = GameProgress.instance_.GetPlayerPos();
         pos.y = 3.0f;
-        pos.z += -4.0f;
+        pos.z -= 1.0f;
         transform.position = pos;
     }
 }
