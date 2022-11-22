@@ -5,7 +5,7 @@ public class MakeDark : MonoBehaviour
     [SerializeField] bool dark_on_ = false;
     [SerializeField] GameObject light_ = null;
 
-    
+
     // Start is called before the first frame update
     void Start()
     {
