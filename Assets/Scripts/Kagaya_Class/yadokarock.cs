@@ -29,7 +29,7 @@ public class yadokarock : MonoBehaviour
     const float angle = 90f;
     Vector3 playerPos;
     GameObject enemy;
-    float distance;
+    
     const float trackingRange = 3f;
     
     bool tracking = false;
@@ -37,9 +37,9 @@ public class yadokarock : MonoBehaviour
     //[SerializeField, Range(0.0f, 360.0f)]
     const float widthAngle = 90.0f;
     //[SerializeField, Range(0.0f, 360.0f)]
-    private float heightAngle = 0.0f;
+    const float heightAngle = 0.0f;
     //[SerializeField, Range(0.0f, 15.0f)]
-    private float length = 2.5f;
+    const float length = 2.5f;
 
     public float WidthAngle { get { return widthAngle; } }
     public float HeightAngle { get { return heightAngle; } }
@@ -83,10 +83,19 @@ public class yadokarock : MonoBehaviour
     {
         if (tracking)
         {
-            //í«ê’ÇÃéûÅAtrackingRangeÇÊÇËãóó£Ç™ó£ÇÍÇΩÇÁíÜé~
-            if (distance > trackingRange)
-                tracking = false;
             DoMove(Agent.destination);
+            //í«ê’ÇÃéûÅAtrackingRangeÇÊÇËãóó£Ç™ó£ÇÍÇΩÇÁíÜé~
+            float dist = Vector3.Distance(GameProgress.instance_.GetPlayerPos(), transform.position);
+            if (dist > trackingRange)
+            {
+
+                tracking = false;
+                //rigidbody.velocity = Vector3.zero;
+                rigidbody.velocity = new Vector3(0.0f, rigidbody.velocity.y, 0.0f);
+                Debug.Log("äOÇÍÇΩ");
+            }
+                
+           
         }
         else
         {
@@ -130,8 +139,8 @@ public class yadokarock : MonoBehaviour
         moveRotation.x = 0;
         transform.rotation = Quaternion.Lerp(transform.rotation, moveRotation, 0.1f);
 
-        float forward_x = transform.forward.x * 0.01f;  //*Ç±Ç±Ç≈enemyÇÃë¨Ç≥í≤êﬂ
-        float forward_z = transform.forward.z * 0.01f;  //*Ç±Ç±Ç≈enemyÇÃë¨Ç≥í≤êﬂ
+        float forward_x = transform.forward.x * 1.0f;  //*Ç±Ç±Ç≈enemyÇÃë¨Ç≥í≤êﬂ
+        float forward_z = transform.forward.z * 1.0f;  //*Ç±Ç±Ç≈enemyÇÃë¨Ç≥í≤êﬂ
 
         rigidbody.velocity = new Vector3(forward_x, rigidbody.velocity.y, forward_z);
     }
