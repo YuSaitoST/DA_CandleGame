@@ -46,7 +46,7 @@ public class GameProgress : MonoBehaviour
         Physics.gravity = new Vector3(0.0f, -1.0f, 0.0f);
 
         // ゴール設置
-        goalCreater_.CreateGoalArea(new Vector3(7.0f, -1.0f, 0.0f));
+        //goalCreater_.CreateGoalArea(new Vector3(7.0f, -1.0f, 0.0f));
 
         // ゲームの進行状態をセット
         progress_ = GAME_PROGRESS.START;
@@ -81,6 +81,15 @@ public class GameProgress : MonoBehaviour
     {
         progress_ = GAME_PROGRESS.OVER;
         debugPanel_.SetMessageText("GameOver...");
+    }
+
+    /// <summary>
+    /// プレイヤー本体を返す
+    /// </summary>
+    /// <returns>プレイヤー</returns>
+    public GameObject Get_PlayerC()
+    {
+        return player_;
     }
 
     /// <summary>
