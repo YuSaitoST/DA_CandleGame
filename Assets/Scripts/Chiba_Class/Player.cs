@@ -8,6 +8,10 @@ using UnityEngine.EventSystems;
 //ある程度形にしたら関数を消して一つにまとめる予定
 public class Player : MonoBehaviour
 {
+    [Header("デバック用")]
+    [SerializeField,Tooltip("trueでゲームオーバーにならなくなります")]
+    private bool debug_death_ = false;
+
     Transform tr_;
     Rigidbody rb_;
 
@@ -57,7 +61,7 @@ public class Player : MonoBehaviour
     //private float    oxy_           = 0.0f;
 
     [SerializeField, Tooltip("酸素ゲージ量(現在の値)")]
-    private float    oxy_recovery_ = 0.5f;
+    private float    oxy_recovery_ = 33.3f;
 
     [SerializeField,Tooltip("いじらない")]
     private int      oxy_count_ =0;
@@ -157,7 +161,13 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("動けない時間")]
     private float knockback_stan_ = 1.0f;
 
-    
+    //ButtonUI
+    //潜水艦
+    [SerializeField]
+    private Canvas submarine_ui_ = null;
+    //ボタン
+    [SerializeField]
+    private Canvas item_ui_ = null;
 
     [SerializeField,Tooltip("BloodDirectionをアタッチ")]
     BloodDirection bloodDirection_ = null;
@@ -176,12 +186,15 @@ public class Player : MonoBehaviour
         rb_ = GetComponent<Rigidbody>();
         player_move_= player_move_speed_;
         oxy_total_ = oxy_max_[0] + oxy_max_[1] + oxy_max_[2];
-        
+
         ////無敵時間からスタン時間分を引く
         //player_life_inv_time_ -= knockback_stan_;
 
-        
-
+        //ButtonUI
+        //潜水艦
+        submarine_ui_.enabled = false;
+        //ボタン
+        item_ui_.enabled = false;
     }
 
     // Update is called once per frame
@@ -206,9 +219,12 @@ public class Player : MonoBehaviour
         instantiatePosition_ = fire3_point_.transform.position;
 
         //0になったらゲームオーバー
-        if (oxy_total_ <= 0.01f)
+        if (debug_death_==false) 
         {
-            type_ = State.Death;
+            if (oxy_total_ <= 0.01f)
+            {
+                type_ = State.Death;
+            }
         }
 
         //ボンベのゲージが0になったら次のボンベに切り替える
@@ -594,52 +610,91 @@ public class Player : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        //アイテムの範囲
+        //潜水艦
+        if(other.gameObject.tag == "Submarine")
+        {
+            submarine_ui_.enabled = true;
+        }
+
+        //パーツの範囲
         if (other.gameObject.tag == "PC")
         {
+            item_ui_.enabled = true;
             fire1_range_flg_ = true;
             if (Input.GetButton("Fire1"))
             {
                 Debug.Log("押された");
-                var _stageScene = other;
-                _stageScene.GetComponent<Parts>().Pickup();
-
-                _stageScene = null;
+                var _parts = other;
+                _parts.GetComponent<Parts>().Pickup();
+                _parts = null;
 
             }
             
         }
-       
 
-        //ゲージ回復アイテム
-        //if (other.gameObject.tag == "BombArea")
-        //{
-        //    oxy_max_[oxy_count_] += oxy_recovery_;
+        //ボンベ回復
+        if (other.gameObject.tag == "Tank")
+        {
+            item_ui_.enabled = true;
+            fire1_range_flg_ = true;
+            if (Input.GetButton("Fire1"))
+            {
+                Debug.Log("押された");
+                if (oxy_count_ >= 1)
+                {
+                    oxy_max_[oxy_count_] += oxy_recovery_;
 
-        //}
+                    //1案
+                    float _tmp = 0.0f;
+                    _tmp = oxy_max_[oxy_count_] - 33.3f;
+                    oxy_max_[oxy_count_] = 33.3f;
+                    oxy_count_--;
+                    oxy_max_[oxy_count_] = _tmp;
 
-        //ボンベ回復アイテム
-        //if (other.gameObject.tag == "BombArea")
-        //{
-        // if(oxy_count_<2)
-        //{
-        //    oxy_count_++;
-        //}
-        //   
-        //}
+                    //2案
+                    //oxy_count_--;
+                    //oxy_max_[oxy_count_] += oxy_recovery_;
 
+                    var _tank = other;
+                    _tank.GetComponent<Tank>().Pickup();
+                    _tank = null;
+                }
+   
+            }
 
-
-
-
+        }
 
     }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //ゲージ回復アイテム
+    //if (other.gameObject.tag == "BombArea"&&oxy_max_[oxy_count_]<33.3f)
+    //{
+    //    oxy_max_[oxy_count_] += oxy_recovery_;
+
+    //}
+
+    
     private void OnTriggerExit(Collider other)
     {
         //アイテムの範囲から出た
         if (other.gameObject.tag == "PC")
         {
+            item_ui_.enabled = false;
             fire1_range_flg_ = false;
+        }
+
+        if (other.gameObject.tag == "Tank")
+        {
+            item_ui_.enabled = false;
+            fire1_range_flg_ = false;
+        }
+
+        //潜水艦
+        if (other.gameObject.tag == "Submarine")
+        {
+            fire1_range_flg_ = false;
+            submarine_ui_.enabled = false;
         }
 
     }

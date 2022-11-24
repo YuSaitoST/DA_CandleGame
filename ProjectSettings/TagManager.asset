@@ -9,6 +9,8 @@ TagManager:
   - PC
   - Ground
   - PartsManager
+  - Tank
+  - Submarine
   layers:
   - Default
   - TransparentFX
