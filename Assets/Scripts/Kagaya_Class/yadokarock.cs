@@ -6,6 +6,13 @@ using UnityEditor;
 using Unity.Services.Analytics.Internal;
 using Unity.VisualScripting;
 
+enum ENE_STATE { 
+    STAY,
+    TRACKING,
+    TRACKING_NEXT
+}
+
+
 //オブジェクトにNavMeshAgentコンポーネントを設置
 [RequireComponent(typeof(NavMeshAgent))]
 
@@ -17,10 +24,11 @@ public class yadokarock : MonoBehaviour
     private GameObject PlayerC;
 
     private NavMeshAgent Agent;
-
+    int number = 1;
+    float time = 0;
     Mesh mesh;
     Vector3[] vertices;
-
+    private GameObject player;
     [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected)]
 
     private static readonly int TRIANGLE_COUNT = 12;
@@ -28,18 +36,19 @@ public class yadokarock : MonoBehaviour
 
     const float angle = 90f;
     Vector3 playerPos;
-    GameObject enemy;
+    //GameObject enemy;
     
-    const float trackingRange = 3f;
+    const float trackingRange = 3.5f;
     
-    bool tracking = false;
+    //bool tracking = false;
+    ENE_STATE state = ENE_STATE.STAY;
 
     //[SerializeField, Range(0.0f, 360.0f)]
     const float widthAngle = 90.0f;
     //[SerializeField, Range(0.0f, 360.0f)]
     const float heightAngle = 0.0f;
     //[SerializeField, Range(0.0f, 15.0f)]
-    const float length = 2.5f;
+    const float length = 3.0f;
 
     public float WidthAngle { get { return widthAngle; } }
     public float HeightAngle { get { return heightAngle; } }
@@ -51,6 +60,11 @@ public class yadokarock : MonoBehaviour
     {
         Agent = GetComponent<NavMeshAgent>();
         rigidbody = this.GetComponent<Rigidbody>();
+        player = GameProgress.instance_.Get_PlayerC();
+        number = 1;
+        //time = 0.0f;
+
+        state = ENE_STATE.STAY;
     }
 
     private void OnTriggerStay(Collider other)
@@ -69,9 +83,11 @@ public class yadokarock : MonoBehaviour
                 {
                     if (hit.collider == other)
                     {
-                        tracking = true;
+                        //tracking = true;
+                        state = ENE_STATE.TRACKING;
                         Debug.Log("range of view");
                         Agent.destination = PlayerC.transform.position;
+                        
                     }
                 }
             }
@@ -81,27 +97,47 @@ public class yadokarock : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (tracking)
+        if (state==ENE_STATE.TRACKING)
         {
+            //time = 0.0f;
+            
+            
             DoMove(Agent.destination);
             //追跡の時、trackingRangeより距離が離れたら中止
             float dist = Vector3.Distance(GameProgress.instance_.GetPlayerPos(), transform.position);
             if (dist > trackingRange)
             {
+                //tracking = false;
+                state = ENE_STATE.TRACKING_NEXT;
 
-                tracking = false;
                 //rigidbody.velocity = Vector3.zero;
                 rigidbody.velocity = new Vector3(0.0f, rigidbody.velocity.y, 0.0f);
                 Debug.Log("外れた");
+                Agent.destination = PlayerC.transform.position;
+                DoMove(Agent.destination);
+
             }
-                
-           
+        }
+        else if (state == ENE_STATE.TRACKING_NEXT)
+        {
+            time += Time.deltaTime;
+
+            //float number = 1;
+            if (time >= 5.0f)
+            {
+                Debug.Log("処理３");
+                rigidbody.velocity = Vector3.zero;
+                time = 0.0f;
+                state = ENE_STATE.STAY;
+            }
         }
         else
         {
-
+            
+            
         }
 
+        
     }
 #if UNITY_EDITOR
     void OnDrawGizmos()
@@ -207,7 +243,7 @@ public class yadokarock : MonoBehaviour
     }
 
     [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected)]
-    private static void DrawPointGizmos(root i_object, GizmoType i_gizmoType)
+    private static void DrawPointGizmos(yadokarock i_object, GizmoType i_gizmoType)
     {
         if (i_object.Length <= 0.0f)
         {
