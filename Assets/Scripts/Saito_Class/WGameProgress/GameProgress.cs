@@ -22,6 +22,8 @@ public class GameProgress : MonoBehaviour
     [SerializeField] GoalCreate goalCreater_    = null; // ゴールクリエイター
     [SerializeField] DebugPanel debugPanel_     = null; // デバッグパネル
 
+    ParametersSet parameters_;     // パラメータ
+
     GAME_PROGRESS progress_;    // ゲームの進行状態
 
 
@@ -42,6 +44,9 @@ public class GameProgress : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // パラメータをセットする
+        parameters_ = new ParametersSet();
+
         // 重力の強さを調整
         Physics.gravity = new Vector3(0.0f, -1.0f, 0.0f);
 
@@ -57,12 +62,6 @@ public class GameProgress : MonoBehaviour
 #else
         debugPanel_.SetActive(false);
 #endif
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     /// <summary>
@@ -99,5 +98,14 @@ public class GameProgress : MonoBehaviour
 #if _DEBUG_ON
         debugPanel_.SetMessageText("GameClear");
 #endif
+    }
+
+    /// <summary>
+    /// パラメータを取得する
+    /// </summary>
+    /// <returns>パラメータセット</returns>
+    public Parameters GetParameters()
+    {
+        return parameters_.GetParameter();
     }
 }
