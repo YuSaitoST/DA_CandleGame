@@ -9,6 +9,8 @@ public class PartsManager : MonoBehaviour
     [SerializeField, Tooltip("パーツの数をtext表示")]
     private TMP_Text count_ui_ = null;
 
+    [SerializeField, Tooltip("クリアに必要なパーツ数")]
+    private int clear_ = 3;
    
     private int clear_count_ = 0;
 
@@ -37,6 +39,10 @@ public class PartsManager : MonoBehaviour
         count_ui_.SetText(count_.ToString("F0")/* + ("％")*/);
         clear_count_++;
 
-        //clear処理を書く
+        if(clear_>=3)
+        {
+            //clear処理を書く
+        }
+
     }
 }
