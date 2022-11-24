@@ -184,6 +184,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        
         // 弾の初速度や生成座標を持つコンポーネント
         fire3_draw_ = gameObject.GetComponent<DrawArc>();
 
@@ -206,6 +207,12 @@ public class Player : MonoBehaviour
         submarine_ui_.enabled = false;
         //ボタン
         item_ui_.enabled = false;
+
+        tr_.transform.position = new Vector3(
+        GameProgress.instance_.GetParameters().player_pos_x,
+        GameProgress.instance_.GetParameters().player_pos_y,
+        GameProgress.instance_.GetParameters().player_pos_x);
+
     }
 
     // Update is called once per frame
@@ -289,13 +296,13 @@ public class Player : MonoBehaviour
 
         //Bボタン
         //移動速度上昇
-        if (Input.GetButton("Fire2")&&type_!=State.Damage)
+        if (Input.GetButton("Fire2")&&type_!=State.Damage && type_ != State.Action00)
         {
             type_ = State.Dash;
             Debug.Log("Bボタンが押された");
            
         }
-        else if(Input.GetButtonUp("Fire2") && type_ != State.Damage)
+        else if(Input.GetButtonUp("Fire2") && type_ != State.Damage && type_ != State.Action00)
         {
             type_ = State.Idle;
             Debug.Log("Bボタンが離された");
@@ -304,7 +311,7 @@ public class Player : MonoBehaviour
 
         //Xボタン
         //ボンベアクション
-        if (oxy_count_ != 2 && type_ != State.Damage)
+        if (oxy_count_ != 2 && type_ != State.Damage && type_ != State.Action00)
         {
 
             if (Input.GetButton("Fire3"))
