@@ -161,6 +161,16 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("動けない時間")]
     private float knockback_stan_ = 1.0f;
 
+    //潜水艦リミット
+    [SerializeField,Tooltip("潜水艦パーツのゲージ")]
+    private Slider submarine_slider_ = null;
+    [SerializeField, Tooltip("潜水艦パーツのゲージのキャンバス")]
+    private Canvas submarine_slider_canvas_ = null;
+    [SerializeField]
+    private float submarine_limit_ = 5.0f;
+
+    private float submarine_limit_tmp_ = 0.0f;
+  
     //ButtonUI
     //潜水艦
     [SerializeField]
@@ -190,6 +200,7 @@ public class Player : MonoBehaviour
         ////無敵時間からスタン時間分を引く
         //player_life_inv_time_ -= knockback_stan_;
 
+        submarine_slider_canvas_.enabled = false; 
         //ButtonUI
         //潜水艦
         submarine_ui_.enabled = false;
@@ -209,9 +220,10 @@ public class Player : MonoBehaviour
         oxy_total_ = oxy_max_[0] + oxy_max_[1] + oxy_max_[2];
         oxy_text_.SetText(oxy_total_.ToString("F1")/* + ("％")*/);
 
-        oxy_slider_[0].value = oxy_max_[0];
-        oxy_slider_[1].value = oxy_max_[1];
-        oxy_slider_[2].value = oxy_max_[2];
+        oxy_slider_[0].value    = oxy_max_[0];
+        oxy_slider_[1].value    = oxy_max_[1];
+        oxy_slider_[2].value    = oxy_max_[2];
+        submarine_slider_.value = submarine_limit_tmp_;
         // 弾の初速度を更新
         shootVelocity_ = fire3_point_.transform.up * fire3_speed_;
 
@@ -338,7 +350,7 @@ public class Player : MonoBehaviour
                     Debug.Log("アクション実行03-1");
                 }
 
-                //canvasOff
+                
                 
 
                 fire3_button_count_ = 0;
@@ -376,7 +388,7 @@ public class Player : MonoBehaviour
                 }
                 break;
 
-            case State.Action00: //パーツを拾う
+            case State.Action00: //パーツを設置
                 {        
                     oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
                     //処理
@@ -454,19 +466,23 @@ public class Player : MonoBehaviour
     }
     private void Action00()
     {
-        StartCoroutine(OnAction00());
+        //アニメーターリセット
+        player_animator_.SetBool("isRunning", false);
+        player_animator_.SetBool("isWalking", false);
+        //trueのとき1秒ずつ足される
+        if (submarine_limit_ >= submarine_limit_tmp_)
+            submarine_limit_tmp_+= Time.deltaTime;
+       else if(submarine_limit_ <=submarine_limit_tmp_)
+        {
 
-    }
-
-    IEnumerator OnAction00()
-    {
-      
-       //yield return null;
-        yield return new WaitForSeconds(0.5f);
-
-        //ここに再開後の処理を書く
-        type_ = State.Idle;
+            submarine_limit_tmp_ = 0;
+            type_ = State.Idle;
+            PartsManager.GetInstance().submarine();     
+            submarine_slider_canvas_.enabled = false;
+        }
        
+        
+
     }
     private void Action02()
     {
@@ -611,9 +627,23 @@ public class Player : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         //潜水艦
-        if(other.gameObject.tag == "Submarine")
-        {
+        if(other.gameObject.tag == "Submarine" && PartsManager.GetInstance().count_>0)
+        {              
+            
             submarine_ui_.enabled = true;
+            if(Input.GetButton("Fire1"))
+                {
+                submarine_slider_canvas_.enabled = true;
+                //ステート移行
+                type_ = State.Action00;
+                }
+            else //(Input.GetButtonUp("Fire1"))
+            {
+                submarine_limit_tmp_ = 0;
+                submarine_slider_canvas_.enabled = false;
+                type_ = State.Idle;
+            }
+
         }
 
         //パーツの範囲
@@ -693,8 +723,10 @@ public class Player : MonoBehaviour
         //潜水艦
         if (other.gameObject.tag == "Submarine")
         {
+            submarine_limit_tmp_ = 0;
             fire1_range_flg_ = false;
             submarine_ui_.enabled = false;
+            submarine_slider_canvas_.enabled = false;
         }
 
     }

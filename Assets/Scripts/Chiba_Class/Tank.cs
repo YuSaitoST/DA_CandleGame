@@ -20,7 +20,7 @@ public class Tank : MonoBehaviour
     {
         tank_ui_.enabled = false;
         this.transform.position = new Vector3(0, -100, 0);
-        yield return null;
+        yield return new WaitForSeconds(0.5f);
 
         this.gameObject.SetActive(false);
         Debug.Log("ƒ^ƒ“ƒN‚ğE‚Á‚½");

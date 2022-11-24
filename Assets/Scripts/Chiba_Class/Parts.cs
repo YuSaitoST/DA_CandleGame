@@ -25,7 +25,8 @@ public class Parts : MonoBehaviour
         this.transform.position = new Vector3(0, -100, 0);
         PartsManager.GetInstance().CountPlus();
 
-        yield return null;
+        yield return new WaitForSeconds(0.5f);
+        //yield return null;
 
         this.gameObject.SetActive(false);
         Debug.Log("ƒp[ƒc‚ğE‚Á‚½");
