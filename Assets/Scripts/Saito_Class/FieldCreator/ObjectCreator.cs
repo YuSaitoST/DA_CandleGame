@@ -17,7 +17,5 @@ public class ObjectCreator : MonoBehaviour
         {
 
         }
-
-        Destroy(gameObject);
     }
 }

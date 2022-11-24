@@ -12,9 +12,9 @@ public class WavesCreate : MonoBehaviour
     {
         const float DLT = 3.0f;
         GameObject obj;
-        float x = -3;
+        float x = -6;
         float y = 0.7f;
-        float z = -3;
+        float z = -6;
         for(int i = 0; i < 5; ++i)
         {
             for(int j = 0; j < 5; ++j)
