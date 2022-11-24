@@ -161,9 +161,13 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("動けない時間")]
     private float knockback_stan_ = 1.0f;
 
+    //ButtonUI
     //潜水艦
     [SerializeField]
-    private Canvas Submarine_ui_ = null;
+    private Canvas submarine_ui_ = null;
+    //ボタン
+    [SerializeField]
+    private Canvas item_ui_ = null;
 
     [SerializeField,Tooltip("BloodDirectionをアタッチ")]
     BloodDirection bloodDirection_ = null;
@@ -186,8 +190,11 @@ public class Player : MonoBehaviour
         ////無敵時間からスタン時間分を引く
         //player_life_inv_time_ -= knockback_stan_;
 
+        //ButtonUI
         //潜水艦
-        Submarine_ui_.enabled = false;
+        submarine_ui_.enabled = false;
+        //ボタン
+        item_ui_.enabled = false;
     }
 
     // Update is called once per frame
@@ -606,12 +613,13 @@ public class Player : MonoBehaviour
         //潜水艦
         if(other.gameObject.tag == "Submarine")
         {
-            Submarine_ui_.enabled = true;
+            submarine_ui_.enabled = true;
         }
 
         //パーツの範囲
         if (other.gameObject.tag == "PC")
         {
+            item_ui_.enabled = true;
             fire1_range_flg_ = true;
             if (Input.GetButton("Fire1"))
             {
@@ -627,6 +635,7 @@ public class Player : MonoBehaviour
         //ボンベ回復
         if (other.gameObject.tag == "Tank")
         {
+            item_ui_.enabled = true;
             fire1_range_flg_ = true;
             if (Input.GetButton("Fire1"))
             {
@@ -671,11 +680,13 @@ public class Player : MonoBehaviour
         //アイテムの範囲から出た
         if (other.gameObject.tag == "PC")
         {
+            item_ui_.enabled = false;
             fire1_range_flg_ = false;
         }
 
         if (other.gameObject.tag == "Tank")
         {
+            item_ui_.enabled = false;
             fire1_range_flg_ = false;
         }
 
@@ -683,7 +694,7 @@ public class Player : MonoBehaviour
         if (other.gameObject.tag == "Submarine")
         {
             fire1_range_flg_ = false;
-            Submarine_ui_.enabled = false;
+            submarine_ui_.enabled = false;
         }
 
     }
