@@ -22,6 +22,9 @@ public class GameProgress : MonoBehaviour
     [SerializeField] GoalCreate goalCreater_    = null; // ゴールクリエイター
     [SerializeField] DebugPanel debugPanel_     = null; // デバッグパネル
 
+    [SerializeField] Player             sc_player_      = null;
+    [SerializeField] SubmarineManager   sc_submarine_   = null;
+
     ParametersSet parameters_;     // パラメータ
 
     GAME_PROGRESS progress_;    // ゲームの進行状態
@@ -56,6 +59,16 @@ public class GameProgress : MonoBehaviour
         // ゲームの進行状態をセット
         progress_ = GAME_PROGRESS.START;
 
+        // 各種オブジェクトの初期化
+        //if (sc_player_ != null)
+        //{
+        //    sc_player_.Initialize();
+        //}
+        //if(sc_submarine_ != null)
+        //{
+        //    sc_submarine_.Initialize();
+        //}
+
         // デバッグパネルの表示状態の変更
 #if _DEBUG_ON
         debugPanel_.SetActive(true);
@@ -79,7 +92,16 @@ public class GameProgress : MonoBehaviour
     public void GameOver()
     {
         progress_ = GAME_PROGRESS.OVER;
-        debugPanel_.SetMessageText("GameOver...");
+        debugPanel_.SetMessageText("GameOver...", "no Clear");
+    }
+
+    /// <summary>
+    /// プレイヤーの取得
+    /// </summary>
+    /// <returns>プレイヤー</returns>
+    public GameObject Get_PlayerC()
+    {
+        return player_;
     }
 
     /// <summary>
@@ -96,7 +118,7 @@ public class GameProgress : MonoBehaviour
     public void GameFine()
     {
 #if _DEBUG_ON
-        debugPanel_.SetMessageText("GameClear");
+        debugPanel_.SetMessageText("GameClear", "no Clear");
 #endif
     }
 

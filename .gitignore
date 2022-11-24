@@ -75,16 +75,14 @@ Assets/Fonts/Main/smart_font SDF.asset.meta
 Assets/Scenes/MainScene.unity
 Assets/Scenes/SampleScene.unity
 
-Assets/Alstra Infinite/Fish - PolyPack/Scene/
-Assets/Alstra Infinite/Fish - PolyPack/Scene.meta
-Assets/Alstra Infinite/Fish - PolyPack/Models/
-Assets/Alstra Infinite/Fish - PolyPack/Models.meta
-Assets/FreeToolsKit/Demo/
-Assets/FreeToolsKit/Demo.meta
+Assets/Alstra Infinite/Fish - PolyPack/
+Assets/Alstra Infinite/Fish - PolyPack.meta
+Assets/FreeToolsKit/
+Assets/FreeToolsKit.meta
 Assets/FreeToolsKit/Assets/Models/
 Assets/FreeToolsKit/Assets/Models.meta
-Assets/DiverAndSubmarine/DiverAndSubmarine_Demo.unity
-Assets/DiverAndSubmarine/DiverAndSubmarine_Demo.unity.meta
+Assets/DiverAndSubmarine/
+Assets/DiverAndSubmarine.meta
 Assets/HQ Rocks/
 Assets/HQ Rocks.meta
 Assets/Low_poly_styled_rocks/
