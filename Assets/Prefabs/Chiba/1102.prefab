@@ -1214,10 +1214,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4789a7f31b611d040aaa981f952dea16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bombObj_: {fileID: 2252820331340356177}
-  bombTime_: 10
-  bombSlider_: {fileID: 2252820332035172711}
-  bombCanvas_: {fileID: 2252820331126489389}
+  bomb_obj_: {fileID: 0}
+  bomb_time_: 10
+  bomb_slider_: {fileID: 0}
+  bomb_canvas_: {fileID: 0}
+  isInstalled_: 0
 --- !u!1 &2252820330238588367
 GameObject:
   m_ObjectHideFlags: 0
@@ -2507,13 +2508,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraPos_: {fileID: 1960844653715862193}
-  moveSpeed_: 4
   tempText_: {fileID: 290530323075475367}
   tempSlider_: {fileID: 290530323328137524}
   temp_: 0
   moveTemp_: 0.4
   tempRange_: {x: 37, y: 50}
-  t: {fileID: 9062504468383961732}
+  pcObj_: {fileID: 0}
+  pcCan_: {fileID: 0}
   speedP_:
   - 0
   - 0
@@ -2529,6 +2530,12 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  moveSpeed_: 4
+  view_: 0
+  hear_: 0
+  firstButton_: {fileID: 0}
+  lightObject_: {fileID: 0}
+  parameter_: {fileID: 0}
 --- !u!54 &5120303314399672349
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2815,10 +2822,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4789a7f31b611d040aaa981f952dea16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bombObj_: {fileID: 6992105684087529572}
-  bombTime_: 10
-  bombSlider_: {fileID: 2252820330534660369}
-  bombCanvas_: {fileID: 2252820330748535014}
+  bomb_obj_: {fileID: 0}
+  bomb_time_: 10
+  bomb_slider_: {fileID: 0}
+  bomb_canvas_: {fileID: 0}
+  isInstalled_: 0
 --- !u!1 &6992105684087529572
 GameObject:
   m_ObjectHideFlags: 0

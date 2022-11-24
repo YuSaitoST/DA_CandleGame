@@ -2,19 +2,19 @@ Shader "Unlit/WatersSurface_Noise"
 {
 	Properties
 	{
-		_UpperColor			("Upper Color"		, Color		) = (1,1,1,0)
-		_UnderColor			("Under Color"		, Color		) = (1,1,1,1)
-		_MainTex			("Albedo (RGB)"		, 2D		) = "white" {}
-		_Glossiness			("Smoothness"		, Range(0,1)) = 0.5
-		_Metallic			("Metallic"			, Range(0,1)) = 0.0
-		_SeparationHeight	("Separation Height", Float		) = 0.0
+		_UpperColor			("Upper Color"		, Color			) = (1,1,1,0)
+		_UnderColor			("Under Color"		, Color			) = (1,1,1,1)
+		_MainTex			("Albedo (RGB)"		, 2D			) = "white" {}
+		_Glossiness			("Smoothness"		, Range(0,1)	) = 0.5
+		_Metallic			("Metallic"			, Range(0,1)	) = 0.0
+		_SeparationHeight	("Separation Height", Float			) = 0.0
 
-		_NoiseTex("Noise", 2D) = "white" {}
-		_Time("Time", Float) = 0.0
-		_Speed("Speed", Range(0, 1)) = 0.7
-		_NoiseAmount("NoiseAmount", Range(0, 0.05)) = 0.025
-		_Brightness("Brightness", Range(1, 10)) = 5
-		_Color("Color", Color) = (1, 1, 1, 1)
+		_NoiseTex			("Noise"			, 2D			) = "white" {}
+		_Time				("Time"				, Float			) = 0.0
+		_Speed				("Speed"			, Range(0, 1)	) = 0.7
+		_NoiseAmount		("NoiseAmount"		, Range(0, 0.05)) = 0.025
+		_Brightness			("Brightness"		, Range(1, 10)	) = 5
+		_Color				("Color"			, Color			) = (1, 1, 1, 1)
 	}
 
 	SubShader
