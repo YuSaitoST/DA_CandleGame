@@ -97,6 +97,10 @@ Shader "Unlit/WatersSurface_Noise"
 				float alpha = tex2D(_MainTex, i.uv).a * _UnderColor;// lerp(_UnderColor.a, _UpperColor.a, step(_SeparationHeight, i.worldPos.y));
 
 				// 透明度に応じて_DitherMaskLODから網掛け模様をサンプリングし...
+				/*
+				* 0.25		: 荒の細かさ
+				* 0.9375	: アルファ
+				*/
 				float alphaRef = tex3D(_DitherMaskLOD, float3(i.pos.xy * 0.25, alpha * 0.9375)).a;
 
 				// シャドウマップを網掛け模様にすることで透明度に応じた影を作らせる
