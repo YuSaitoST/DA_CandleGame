@@ -16,7 +16,7 @@ public class ParametersSet
 
     public void SetParameter()
     {
-        string inputString = Resources.Load<TextAsset>("input").ToString();
+        string inputString = Resources.Load<TextAsset>("InputData/ParameterData").ToString();
         parameters_ = JsonUtility.FromJson<Parameters>(inputString);
 
 
