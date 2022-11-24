@@ -49,6 +49,7 @@ public class GameProgress : MonoBehaviour
     {
         // パラメータをセットする
         parameters_ = new ParametersSet();
+        parameters_.SetParameter();
 
         // 重力の強さを調整
         Physics.gravity = new Vector3(0.0f, -1.0f, 0.0f);

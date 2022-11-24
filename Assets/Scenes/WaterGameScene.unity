@@ -425,12 +425,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10792c233a7ae5d4393f6d4058805f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointlight_object_: {fileID: 538553600}
-  pointlight_strength_: 0.3
-  pointlight_range_: 1.2
-  spotlight_object_: {fileID: 1051782906}
-  spotlight_strength_: 1
-  spotlight_range_: 2.5
 --- !u!4 &416196018 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6851126065720171401, guid: ec5c1dc02b2cca54cbb41652bc0c7afb,
@@ -448,6 +442,7 @@ GameObject:
   - component: {fileID: 440265404}
   - component: {fileID: 440265407}
   - component: {fileID: 440265406}
+  - component: {fileID: 440265408}
   m_Layer: 5
   m_Name: Panel_Blood
   m_TagString: Untagged
@@ -513,6 +508,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 440265403}
   m_CullTransparentMesh: 1
+--- !u!114 &440265408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440265403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64d0b2d10f1856a47b67215d45b4b86d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  img_blood_: {fileID: 440265406}
+  time_recovery_: 5
+  speed_recovery_: 0.1
+  speed_damageFade_: 1
+  ratio_damage_: 0.5
+  txt_debug_: {fileID: 927765436}
 --- !u!1001 &448337153
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -896,10 +909,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a215910396daaad4ba80271e214c3996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pref_enemys_: []
+  pref_enemys_:
+  - {fileID: 7005308551696332399, guid: c259c945ac0f65640ad441cafed4788c, type: 3}
+  - {fileID: 7977253578579725104, guid: eaeaa611927cc504c88f3f06dda35861, type: 3}
   pref_items_:
   - {fileID: 5693410516630551489, guid: 4a78c3d468ef2a446b372333c05f2ff0, type: 3}
-  - {fileID: 3927696051160442095, guid: f882bc093523c764091c5116c8e8ebfa, type: 3}
+  - {fileID: 5537258919236831711, guid: d4f26a33ff4dc074e891805eb78a56bc, type: 3}
 --- !u!1001 &573083140
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1242,6 +1257,8 @@ MonoBehaviour:
   player_: {fileID: 6583123108844160536}
   goalCreater_: {fileID: 1186003973}
   debugPanel_: {fileID: 1697098676}
+  sc_player_: {fileID: 0}
+  sc_submarine_: {fileID: 0}
 --- !u!4 &603548411
 Transform:
   m_ObjectHideFlags: 0
@@ -1269,7 +1286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df7c02f644221e64aac28aaff2ebafe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dark_on_: 1
+  dark_on_: 0
   light_: {fileID: 1199495216}
 --- !u!1 &630198996
 GameObject:
@@ -1489,6 +1506,12 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &662218014 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8368347981848014827, guid: e3bc85dfa161b404fbafee5396161031,
+    type: 3}
+  m_PrefabInstance: {fileID: 696520663}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &694790925
 GameObject:
   m_ObjectHideFlags: 0
@@ -3738,14 +3761,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1766213590}
-  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 3, z: -4}
+  m_LocalRotation: {x: 0.60876137, y: 0, z: 0, w: 0.7933534}
+  m_LocalPosition: {x: 0, y: 2, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 75, y: 0, z: 0}
 --- !u!114 &1766213594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5588,7 +5611,7 @@ Transform:
   - {fileID: 1674988661}
   - {fileID: 261051538}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &1755595578848384948
 RectTransform:
@@ -6285,7 +6308,7 @@ GameObject:
   - component: {fileID: 6583123108844160540}
   - component: {fileID: 6583123108844160539}
   - component: {fileID: 6583123108844160544}
-  - component: {fileID: 6583123108844160546}
+  - component: {fileID: 6583123108844160545}
   m_Layer: 3
   m_Name: PlayerC
   m_TagString: Player
@@ -6373,8 +6396,8 @@ MonoBehaviour:
   submarine_limit_: 5
   submarine_ui_: {fileID: 1486521535}
   item_ui_: {fileID: 646052594}
-  bloodDirection_: {fileID: 0}
---- !u!114 &6583123108844160546
+  bloodDirection_: {fileID: 440265408}
+--- !u!114 &6583123108844160545
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6383,13 +6406,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6583123108844160536}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fd7691e71d65e2478c2286e711f217d, type: 3}
+  m_Script: {fileID: 11500000, guid: 1fd2a757792392849ac655fc17f01132, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arcMaterial: {fileID: 2100000, guid: 0d02d01c1f9c7744496a2c79742839bb, type: 2}
+  arcMaterial: {fileID: 0}
   arcWidth: 0.02
-  pointerPrefab: {fileID: 4657784273536840201, guid: 94012193f208fb34084eb8446e8c7bbf,
-    type: 3}
+  pointerPrefab: {fileID: 662218014}
 --- !u!1 &6583123109318327202
 GameObject:
   m_ObjectHideFlags: 0

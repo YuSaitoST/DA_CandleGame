@@ -16,13 +16,8 @@ public class ParametersSet
 
     public void SetParameter()
     {
-        string inputString = Resources.Load<TextAsset>("input").ToString();
+        string inputString = Resources.Load<TextAsset>("InputData/ParameterData").ToString();
         parameters_ = JsonUtility.FromJson<Parameters>(inputString);
-
-
-        Debug.Log(parameters_.player_pos_x);
-        Debug.Log(parameters_.player_pos_y);
-        Debug.Log(parameters_.player_pos_z);
     }
 
     public Parameters GetParameter()
