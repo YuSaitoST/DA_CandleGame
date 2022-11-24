@@ -3212,6 +3212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   count_: 0
   count_ui_: {fileID: 1509981524}
+  clear_: 3
 --- !u!1 &1697098672
 GameObject:
   m_ObjectHideFlags: 0
@@ -5237,7 +5238,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 774318440542154665}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 1766213592}
@@ -5321,7 +5322,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8052422165006687701}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6081,7 +6082,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4866dd836c1050345877cfe4309541f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debug_death_: 0
+  debug_death_: 1
   player_move_speed_: 0.5
   player_move_boost_: 1
   player_move_: 1
@@ -6114,6 +6115,8 @@ MonoBehaviour:
   knockback_power_: 0.8
   knockback_power_up_: 0.7
   knockback_stan_: 2.04
+  submarine_slider_: {fileID: 774318440328210002}
+  submarine_slider_canvas_: {fileID: 774318440542154661}
   submarine_limit_: 5
   submarine_ui_: {fileID: 1486521535}
   item_ui_: {fileID: 646052594}

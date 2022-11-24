@@ -474,7 +474,7 @@ public class Player : MonoBehaviour
             submarine_limit_tmp_+= Time.deltaTime;
        else if(submarine_limit_ <=submarine_limit_tmp_)
         {
-
+            submarine_ui_.enabled = false;
             submarine_limit_tmp_ = 0;
             type_ = State.Idle;
             PartsManager.GetInstance().submarine();     
@@ -639,6 +639,7 @@ public class Player : MonoBehaviour
                 }
             else //(Input.GetButtonUp("Fire1"))
             {
+                
                 submarine_limit_tmp_ = 0;
                 submarine_slider_canvas_.enabled = false;
                 type_ = State.Idle;
@@ -670,6 +671,7 @@ public class Player : MonoBehaviour
             if (Input.GetButton("Fire1"))
             {
                 Debug.Log("âüÇ≥ÇÍÇΩ");
+                //1ñ{à»è„è¡îÔÇµÇƒÇ¢ÇÈèÍçá
                 if (oxy_count_ >= 1)
                 {
                     oxy_max_[oxy_count_] += oxy_recovery_;
@@ -685,6 +687,14 @@ public class Player : MonoBehaviour
                     //oxy_count_--;
                     //oxy_max_[oxy_count_] += oxy_recovery_;
 
+                    var _tank = other;
+                    _tank.GetComponent<Tank>().Pickup();
+                    _tank = null;
+                }
+                //1ñ{Ç‡è¡îÔÇµÇƒÇ¢Ç»Ç¢èÍçá
+                else
+                {
+                    oxy_max_[oxy_count_] = 33.3f;
                     var _tank = other;
                     _tank.GetComponent<Tank>().Pickup();
                     _tank = null;
