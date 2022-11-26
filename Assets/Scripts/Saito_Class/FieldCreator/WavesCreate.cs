@@ -12,12 +12,12 @@ public class WavesCreate : MonoBehaviour
     {
         const float DLT = 3.0f;
         GameObject obj;
-        float x = -6;
+        float x = -9;
         float y = 0.7f;
-        float z = -6;
-        for(int i = 0; i < 5; ++i)
+        float z = -9;
+        for(int i = 0; i < 7; ++i)
         {
-            for(int j = 0; j < 5; ++j)
+            for(int j = 0; j < 7; ++j)
             {
                 obj = Instantiate(prefab_, new Vector3(x + DLT * i, y, z + DLT * j), Quaternion.identity);
                 obj.transform.parent = transform;
