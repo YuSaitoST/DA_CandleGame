@@ -290,14 +290,13 @@ public class Player : MonoBehaviour
             if (Input.GetButton("Fire3"))
             {
                 //溜めてる状態をわかりやすくする
-                //canvasOn
+                
                 fire3_button_count_ += Time.deltaTime;
                 type_ = State.Action01;
                 if (fire3_button_count_ >= 1.0f)
                 {
-                    //別クラス呼び出し
-                    fire3_draw_.On();
-                    cancel_ui_.enabled = true;
+                  
+                    type_ = State.Action02;
                 }
 
                 //アクションをキャンセル(Aボタン)
@@ -308,32 +307,19 @@ public class Player : MonoBehaviour
                     //別クラス呼び出し
                     fire3_draw_.Off();
                     //処理
-                    type_ = State.Dash; //idleに移行
+                    type_ = State.Idle; //idleに移行
                 }
             }
             if (Input.GetButtonUp("Fire3"))
             {
-
-                if (fire3_button_count_ <= 1.0f)
+              
+                if (fire3_button_count_ >= 1.0f)
                 {
-
-                    //oxy_max_[oxy_count_] = 0;
-                    //oxy_count_++;
-
-                    //type_ = State.Action02;//捨てるステート
-                    //Debug.Log("アクション実行02-1");
-                }
-                else if (fire3_button_count_ >= 1.0f)
-                {
-                    
-
                     type_ = State.Action03;//投げるステート
                     Debug.Log("アクション実行03-1");
                 }
-
-                
-                
-
+                cancel_ui_.enabled = false;
+                type_ = State.Idle; //idleに移行
                 fire3_button_count_ = 0;
 
             }
@@ -349,7 +335,7 @@ public class Player : MonoBehaviour
                 {
                    
                     oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
-                    //fire2_flg_ = false;                    
+                                     
                     Move();
                     //処理
 
@@ -360,8 +346,7 @@ public class Player : MonoBehaviour
                 {
                     //別クラス呼び出し
                     fire3_draw_.Off();
-                    //不具合修正仮
-                    cancel_ui_.enabled = false;
+                    
 
                     //ブースト中は酸素消費量も上昇する
                     oxy_max_[oxy_count_] -= oxy_cost_ * oxy_cost_boost_ * Time.deltaTime;
@@ -379,28 +364,27 @@ public class Player : MonoBehaviour
                     Action00();
                 }
                 break;
-            case State.Action01: //Xボタン待機(勝手にidleに戻らない)
+            case State.Action01: //Xボタン開始(勝手にidleに戻らない)
                 {      
                     oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
                     Move();
                     //処理
+                   
 
                 }
                 break;
-            case State.Action02://落とす未使用
+            case State.Action02://Xボタン離し待機(勝手にidleに戻らない)
                 {                   
                     oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
-
                     //処理
+                    Move();
                     Action02();
-                    type_ = State.Idle; 
                 }
                 break;
             case State.Action03://投げる
                 {
                     
                     oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
-
                     //処理
                     Action03();
                     type_ =State.Idle;
@@ -411,8 +395,6 @@ public class Player : MonoBehaviour
                 {
 
                     oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
-
-
                     //処理
                     Damage();                
                 }
@@ -422,7 +404,7 @@ public class Player : MonoBehaviour
                 {
                     
                    
-                    //
+                   
                     //oxyが0になったらゲームオーバー
                     Debug.Log("ゲームオーバー");
                     //処理
@@ -474,7 +456,9 @@ public class Player : MonoBehaviour
     private void Action02()
     {
         //別クラス呼び出し
-        fire3_draw_.Off();
+        fire3_draw_.On();
+        cancel_ui_.enabled = true;
+        submarine_ui_.enabled = false;
 
     }
 
@@ -492,8 +476,8 @@ public class Player : MonoBehaviour
         Rigidbody _rid = _obj.GetComponent<Rigidbody>();
         _rid.AddForce(shootVelocity_ * _rid.mass, ForceMode.Impulse);
 
-        // 5秒後に消える
-        Destroy(_obj, 5.0F);
+        // 10秒後に消える
+        Destroy(_obj, 10.0F);
         Debug.Log("アクション実行02-2");
 
         //UIを非表示にする
@@ -616,90 +600,91 @@ public class Player : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        //潜水艦
-        if(other.gameObject.CompareTag("Submarine") && PartsManager.Instance.count_>0)
-        {
-            if (cancel_ui_.enabled == false)
+      
+        if (type_ == State.Idle || type_ == State.Dash|| type_ == State.Action00)
+        {  
+            //潜水艦
+            if (other.gameObject.CompareTag("Submarine") && PartsManager.Instance.count_ > 0)
             {
+               
                 submarine_ui_.enabled = true;
-            }
-            if(Input.GetButton("Fire1"))
-                {
-                submarine_slider_canvas_.enabled = true;
-                //ステート移行
-                type_ = State.Action00;
-                }
-            else //(Input.GetButtonUp("Fire1"))
-            {
+              
                 
-                submarine_limit_tmp_ = 0;
-                submarine_slider_canvas_.enabled = false;
-                type_ = State.Idle;
-            }
-
-        }
-
-        //パーツの範囲
-        if (other.gameObject.CompareTag("PC"))
-        {
-            if (cancel_ui_.enabled == false)
-            {
-                item_ui_.enabled = true;
-            }
-            fire1_range_flg_ = true;
-            if (Input.GetButton("Fire1"))
-            {
-                Debug.Log("押された");
-                var _parts = other;
-                _parts.GetComponent<Parts>().Pickup();
-                _parts = null;
-
-            }
-            
-        }
-
-        //ボンベ回復
-        if (other.gameObject.CompareTag("Tank"))
-        {
-            if (cancel_ui_.enabled == false)
-            {
-                item_ui_.enabled = true;
-            }
-            fire1_range_flg_ = true;
-            if (Input.GetButton("Fire1"))
-            {
-                Debug.Log("押された");
-                //1本以上消費している場合
-                if (oxy_count_ >= 1)
+                if (Input.GetButton("Fire1"))
                 {
-                    oxy_max_[oxy_count_] += oxy_recovery_;
-
-                    //1案
-                    float _tmp = 0.0f;
-                    _tmp = oxy_max_[oxy_count_] - 33.3f;
-                    oxy_max_[oxy_count_] = 33.3f;
-                    oxy_count_--;
-                    oxy_max_[oxy_count_] = _tmp;
-
-                    //2案
-                    //oxy_count_--;
-                    //oxy_max_[oxy_count_] += oxy_recovery_;
-
-                    var _tank = other;
-                    _tank.GetComponent<Tank>().Pickup();
-                    _tank = null;
+                    submarine_slider_canvas_.enabled = true;
+                    //ステート移行
+                    type_ = State.Action00;
                 }
-                //1本も消費していない場合
                 else
                 {
-                    oxy_max_[oxy_count_] = 33.3f;
-                    var _tank = other;
-                    _tank.GetComponent<Tank>().Pickup();
-                    _tank = null;
+
+                    submarine_limit_tmp_ = 0;
+                    submarine_slider_canvas_.enabled = false;
+                    type_ = State.Idle;
                 }
-   
+
+            }
+            //パーツの範囲
+            if (other.gameObject.CompareTag("PC"))
+            {
+
+                item_ui_.enabled = true;
+
+                fire1_range_flg_ = true;
+                if (Input.GetButton("Fire1"))
+                {
+                    Debug.Log("押された");
+                    var _parts = other;
+                    _parts.GetComponent<Parts>().Pickup();
+                    _parts = null;
+
+                }
+
             }
 
+            //ボンベ回復
+            if (other.gameObject.CompareTag("Tank"))
+            {
+               
+                item_ui_.enabled = true;
+                
+                fire1_range_flg_ = true;
+                if (Input.GetButton("Fire1"))
+                {
+                    Debug.Log("押された");
+                    //1本以上消費している場合
+                    if (oxy_count_ >= 1)
+                    {
+                        oxy_max_[oxy_count_] += oxy_recovery_;
+
+                        //1案
+                        float _tmp = 0.0f;
+                        _tmp = oxy_max_[oxy_count_] - 33.3f;
+                        oxy_max_[oxy_count_] = 33.3f;
+                        oxy_count_--;
+                        oxy_max_[oxy_count_] = _tmp;
+
+                        //2案
+                        //oxy_count_--;
+                        //oxy_max_[oxy_count_] += oxy_recovery_;
+
+                        var _tank = other;
+                        _tank.GetComponent<Tank>().Pickup();
+                        _tank = null;
+                    }
+                    //1本も消費していない場合
+                    else
+                    {
+                        oxy_max_[oxy_count_] = 33.3f;
+                        var _tank = other;
+                        _tank.GetComponent<Tank>().Pickup();
+                        _tank = null;
+                    }
+
+                }
+
+            }
         }
 
     }

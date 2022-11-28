@@ -6082,7 +6082,7 @@ GameObject:
   - component: {fileID: 4493236843383699495}
   m_Layer: 5
   m_Name: Oxygen
-  m_TagString: Untagged
+  m_TagString: EditorOnly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6621,8 +6621,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.6, y: 0.47, z: 1.6}
-  m_Center: {x: 0, y: -0.26, z: 0}
+  m_Size: {x: 1.6, y: 0.89500225, z: 1.6}
+  m_Center: {x: 0, y: -0.04749888, z: 0}
 --- !u!1001 &6010056571687541926
 PrefabInstance:
   m_ObjectHideFlags: 0
