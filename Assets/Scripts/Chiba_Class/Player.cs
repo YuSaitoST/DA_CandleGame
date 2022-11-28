@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private bool     player_move_flg_ = true;//プレイヤーの移動停止用trueで移動可
 
-    [SerializeField, Tooltip("プレイヤーの体力(マテリアルの不透明度で表現)")]
+    [SerializeField, Tooltip("プレイヤーの体力(マテリアルの不透明度で表現)未使用")]
     private float player_life_ = 100.0f; 
 
     [SerializeField,Tooltip("無敵時間")]
@@ -87,8 +87,8 @@ public class Player : MonoBehaviour
   
 
     [Header("Aボタン関連")]
-    [SerializeField]
-    private bool fire1_range_flg_ = false;//プレイヤーが爆弾設置範囲内に入ったらtrueになる
+    [SerializeField,Tooltip("debug用")]
+    private bool fire1_range_flg_ = false;//プレイヤーが範囲内に入ったらtrueになる
 
     [Header("Bボタン関連")]
     //[SerializeField]
@@ -107,14 +107,11 @@ public class Player : MonoBehaviour
 
     [SerializeField, Tooltip("弾のPrefab")]
     private GameObject fire3_tank_prefab_;
-    //bulletPrefab;
-
    
     private DrawArc fire3_draw_;
 
     [SerializeField, Tooltip("砲身のオブジェクト")]
     private GameObject fire3_point_;
-    //barrelObject_
 
     private Vector3 instantiatePosition_;
     public Vector3 InstantiatePosition_
@@ -124,13 +121,12 @@ public class Player : MonoBehaviour
 
     [SerializeField, Range(1.0F, 20.0F), Tooltip("弾の射出する速さ")]
     private float fire3_speed_ = 1.0F;
-
    
     // 弾の初速度
     private Vector3 shootVelocity_;
  
     // 弾の初速度(読み取り専用)
-    public Vector3 ShootVelocity
+    public Vector3 ShootVelocity_
     {
         get { return shootVelocity_; }
     }
@@ -184,6 +180,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        
         // 弾の初速度や生成座標を持つコンポーネント
         fire3_draw_ = gameObject.GetComponent<DrawArc>();
 
@@ -201,11 +198,19 @@ public class Player : MonoBehaviour
         //player_life_inv_time_ -= knockback_stan_;
 
         submarine_slider_canvas_.enabled = false; 
+
         //ButtonUI
         //潜水艦
         submarine_ui_.enabled = false;
         //ボタン
         item_ui_.enabled = false;
+
+        tr_.transform.position = new Vector3(
+        GameProgress.instance_.GetParameters().player_pos_x,
+        GameProgress.instance_.GetParameters().player_pos_y,
+        GameProgress.instance_.GetParameters().player_pos_x);
+
+
     }
 
     // Update is called once per frame
@@ -249,53 +254,22 @@ public class Player : MonoBehaviour
             oxy_count_++;
             Debug.Log(oxy_count_);
         }
-
-        //if (Input.GetButtonDown("Fire2"))
-        //{
-        //    Debug.Log("Bボタンが押された");
-        //    if (fire2_flg_ == false)
-        //    {
-        //        fire2_flg_ = true;
-
-        //    }
-        //    else if (fire2_flg_ == true)
-        //    {
-        //        fire2_flg_ = false;
-        //        //EventSystem.current.SetSelectedGameObject(button_firstSelect_);
-        //    }
-
-        //}
-
+        //EventSystem.current.SetSelectedGameObject(button_firstSelect_);
     }
     void PlayerInput()
     {
         //プレイヤーの入力
         //Aボタン
-        //if (Input.GetButton("Fire1"))
-        //{
-        //    Debug.Log("Aボタンが押されている");
-        //    //爆弾設置
-        //    if (fire1_range_flg_ == true)
-        //    {
-
-        //        player_move_flg_ = false;
-        //    }
-
-        //}
-        //else if (Input.GetButtonUp("Fire1"))
-        //{
-        //    player_move_flg_ = true;
-        //}
 
         //Bボタン
         //移動速度上昇
-        if (Input.GetButton("Fire2")&&type_!=State.Damage)
+        if (Input.GetButton("Fire2")&&type_!=State.Damage && type_ != State.Action00)
         {
             type_ = State.Dash;
             Debug.Log("Bボタンが押された");
            
         }
-        else if(Input.GetButtonUp("Fire2") && type_ != State.Damage)
+        else if(Input.GetButtonUp("Fire2") && type_ != State.Damage && type_ != State.Action00)
         {
             type_ = State.Idle;
             Debug.Log("Bボタンが離された");
@@ -304,7 +278,7 @@ public class Player : MonoBehaviour
 
         //Xボタン
         //ボンベアクション
-        if (oxy_count_ != 2 && type_ != State.Damage)
+        if (oxy_count_ != 2 && type_ != State.Damage && type_ != State.Action00)
         {
 
             if (Input.GetButton("Fire3"))
@@ -375,20 +349,20 @@ public class Player : MonoBehaviour
                 }
                 break;
             
-            case State.Dash://走る
+            case State.Dash://走る(勝手にidleに戻らない)
                 {
                     //別クラス呼び出し
                     fire3_draw_.Off();
 
                     //ブースト中は酸素消費量も上昇する
                     oxy_max_[oxy_count_] -= oxy_cost_ * oxy_cost_boost_ * Time.deltaTime;
-                   // fire2_flg_ = true;
+                   
                     Move();       
                     
                 }
                 break;
 
-            case State.Action00: //パーツを設置
+            case State.Action00: //パーツを設置(勝手にidleに戻らない)
                 {        
                     oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
                     //処理
@@ -396,7 +370,7 @@ public class Player : MonoBehaviour
                     Action00();
                 }
                 break;
-            case State.Action01: //Xボタン待機
+            case State.Action01: //Xボタン待機(勝手にidleに戻らない)
                 {      
                     oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
                     Move();
@@ -410,7 +384,7 @@ public class Player : MonoBehaviour
 
                     //処理
                     Action02();
-                    type_ = State.Idle; //idleに移行
+                    type_ = State.Idle; 
                 }
                 break;
             case State.Action03://投げる
@@ -420,7 +394,7 @@ public class Player : MonoBehaviour
 
                     //処理
                     Action03();
-                    type_ =State.Idle; //idleに移行
+                    type_ =State.Idle;
                     
                 }
                 break;
@@ -435,10 +409,10 @@ public class Player : MonoBehaviour
                 }
                 break;
 
-            case State.Death:
+            case State.Death://(idleに戻らない)
                 {
-                    //
-                    GameProgress.instance_.GameOver();
+                    
+                   
                     //
                     //oxyが0になったらゲームオーバー
                     Debug.Log("ゲームオーバー");
@@ -447,11 +421,13 @@ public class Player : MonoBehaviour
                     player_animator_.SetBool("isRunning", false);
                     player_animator_.SetBool("isWalking", false);
 
-                    //oxy_text_.enabled = false;
+                   
                     oxy_max_[0] = 0;
                     oxy_max_[1] = 0;
                     oxy_max_[2] = 0;
-                    oxy_total_ = 0;                
+                    oxy_total_ = 0;
+
+                    GameProgress.instance_.GameOver();
                 }
                 break;
         }
@@ -469,15 +445,17 @@ public class Player : MonoBehaviour
         //アニメーターリセット
         player_animator_.SetBool("isRunning", false);
         player_animator_.SetBool("isWalking", false);
-        //trueのとき1秒ずつ足される
+
         if (submarine_limit_ >= submarine_limit_tmp_)
-            submarine_limit_tmp_+= Time.deltaTime;
-       else if(submarine_limit_ <=submarine_limit_tmp_)
+        {
+            submarine_limit_tmp_ += Time.deltaTime;
+        }
+        else if (submarine_limit_ <= submarine_limit_tmp_)
         {
             submarine_ui_.enabled = false;
             submarine_limit_tmp_ = 0;
             type_ = State.Idle;
-            PartsManager.GetInstance().submarine();     
+            PartsManager.Instance.submarine();
             submarine_slider_canvas_.enabled = false;
         }
        
@@ -496,7 +474,7 @@ public class Player : MonoBehaviour
         //別クラス呼び出し
         fire3_draw_.Off();
 
-        //ボンベを一つ消費
+       
         oxy_max_[oxy_count_] = 0;
         oxy_count_++;
 
@@ -526,7 +504,7 @@ public class Player : MonoBehaviour
         player_animator_.SetBool("isWalking", false);
 
         yield return new WaitForSeconds(knockback_stan_);
-        type_ = State.Idle; //idleに移行
+        type_ = State.Idle; 
         
         
     }
@@ -588,8 +566,8 @@ public class Player : MonoBehaviour
             player_animator_.SetBool("isWalking", true);
 
             // スティックが倒れていれば、倒れている方向を向く
-            var direction2 = new Vector3(_stick_left.x, 0, _stick_left.y);
-            transform.localRotation = Quaternion.LookRotation(direction2);
+            var _direction2 = new Vector3(_stick_left.x, 0, _stick_left.y);
+            transform.localRotation = Quaternion.LookRotation(_direction2);
 
         }
         else
@@ -613,10 +591,10 @@ public class Player : MonoBehaviour
             player_life_inv_tmp_ = player_life_inv_time_;
 
             rb_.velocity = Vector3.zero;
-            // 自分の位置と接触してきたオブジェクトの位置とを計算して、距離と方向を出して正規化(速度ベクトルを算出)
-            Vector3 distination = (transform.position - collision.transform.position).normalized;
+            // 自分の位置と接触してきたオブジェクトの位置を計算
+            Vector3 _distination = (transform.position - collision.transform.position).normalized;
 
-            rb_.AddForce(distination * knockback_power_, ForceMode.VelocityChange);
+            rb_.AddForce(_distination * knockback_power_, ForceMode.VelocityChange);
             rb_.AddForce(transform.up * knockback_power_up_, ForceMode.VelocityChange);
 
           
@@ -627,7 +605,7 @@ public class Player : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         //潜水艦
-        if(other.gameObject.tag == "Submarine" && PartsManager.GetInstance().count_>0)
+        if(other.gameObject.CompareTag("Submarine") && PartsManager.Instance.count_>0)
         {              
             
             submarine_ui_.enabled = true;
@@ -648,7 +626,7 @@ public class Player : MonoBehaviour
         }
 
         //パーツの範囲
-        if (other.gameObject.tag == "PC")
+        if (other.gameObject.CompareTag("PC"))
         {
             item_ui_.enabled = true;
             fire1_range_flg_ = true;
@@ -664,7 +642,7 @@ public class Player : MonoBehaviour
         }
 
         //ボンベ回復
-        if (other.gameObject.tag == "Tank")
+        if (other.gameObject.CompareTag("Tank"))
         {
             item_ui_.enabled = true;
             fire1_range_flg_ = true;
@@ -705,38 +683,32 @@ public class Player : MonoBehaviour
         }
 
     }
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //ゲージ回復アイテム
-    //if (other.gameObject.tag == "BombArea"&&oxy_max_[oxy_count_]<33.3f)
-    //{
-    //    oxy_max_[oxy_count_] += oxy_recovery_;
-
-    //}
-
-    
     private void OnTriggerExit(Collider other)
     {
         //アイテムの範囲から出た
-        if (other.gameObject.tag == "PC")
+        if (other.gameObject.CompareTag("PC"))
         {
             item_ui_.enabled = false;
             fire1_range_flg_ = false;
         }
 
-        if (other.gameObject.tag == "Tank")
+        if (other.gameObject.CompareTag("Tank"))
         {
             item_ui_.enabled = false;
             fire1_range_flg_ = false;
         }
 
         //潜水艦
-        if (other.gameObject.tag == "Submarine")
+        if (other.gameObject.CompareTag("Submarine"))
         {
             submarine_limit_tmp_ = 0;
             fire1_range_flg_ = false;
             submarine_ui_.enabled = false;
             submarine_slider_canvas_.enabled = false;
+            if (type_ == State.Action00)
+            {
+                type_= State.Idle;
+            }
         }
 
     }

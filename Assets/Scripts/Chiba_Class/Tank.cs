@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Tank : MonoBehaviour
@@ -30,7 +29,7 @@ public class Tank : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //”ÍˆÍ“à
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.CompareTag("Player"))
         {
             tank_ui_.enabled = true;
         }
@@ -40,7 +39,7 @@ public class Tank : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         //”ÍˆÍŠO
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.CompareTag("Player"))
         {
             tank_ui_.enabled = false;
         }

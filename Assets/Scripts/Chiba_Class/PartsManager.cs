@@ -7,8 +7,6 @@ public class PartsManager : MonoBehaviour
     [SerializeField]
     public int count_ = 0;
 
-  
-
     [SerializeField, Tooltip("クリアに必要なパーツ数")]
     private int clear_ = 3;
    
@@ -19,25 +17,30 @@ public class PartsManager : MonoBehaviour
     [SerializeField]
     private Sprite[] count_ui_sprite_ = new Sprite[4];
 
-    // Start is called before the first frame update
-    void Start()
+    public static PartsManager Instance
     {
+        get{ return instance; }
+        private set { instance = value; }
+        
+    }
+    static PartsManager instance = null;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+    void Start()
+    {   
         count_ui_.sprite = count_ui_sprite_[count_];
         //count_ui_.SetText(count_.ToString("F0")/* + ("％")*/);
     }
 
-    public static PartsManager GetInstance()
-    {
-        // タグによる検索
-        var partsManager = GameObject.FindWithTag("PartsManager");
-        return partsManager.GetComponent<PartsManager>();
-    }
+   
 
     public void CountPlus()
     {
         count_++;
         count_ui_.sprite = count_ui_sprite_[count_];
-        //count_ui_.SetText(count_.ToString("F0")/* + ("％")*/);
     }
 
     public void submarine()
@@ -46,7 +49,7 @@ public class PartsManager : MonoBehaviour
         count_ui_.sprite = count_ui_sprite_[count_];
         clear_count_++;
 
-        if(clear_>=3)
+        if (clear_count_>= clear_)
         {
             //clear処理を書く
         }

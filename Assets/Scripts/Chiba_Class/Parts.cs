@@ -23,10 +23,9 @@ public class Parts : MonoBehaviour
     {
         parts_ui_.enabled = false;
         this.transform.position = new Vector3(0, -100, 0);
-        PartsManager.GetInstance().CountPlus();
+        PartsManager.Instance.CountPlus();
 
         yield return new WaitForSeconds(0.5f);
-        //yield return null;
 
         this.gameObject.SetActive(false);
         Debug.Log("パーツを拾った");
@@ -38,7 +37,7 @@ public class Parts : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //範囲内
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.CompareTag("Player"))
         {
             parts_ui_.enabled = true;
         }
@@ -48,7 +47,7 @@ public class Parts : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         //範囲外
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.CompareTag("Player"))
         {
           parts_ui_.enabled = false;
         }
