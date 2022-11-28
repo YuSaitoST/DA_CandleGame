@@ -175,6 +175,10 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Canvas item_ui_ = null;
 
+    //アクションキャンセルボタン
+    [SerializeField]
+    private Canvas cancel_ui_ = null;
+
     [SerializeField,Tooltip("BloodDirectionをアタッチ")]
     BloodDirection bloodDirection_ = null;
 
@@ -204,6 +208,8 @@ public class Player : MonoBehaviour
         submarine_ui_.enabled = false;
         //ボタン
         item_ui_.enabled = false;
+        //アクションキャンセルボタン
+        cancel_ui_.enabled = false;
 
         tr_.transform.position = new Vector3(
         GameProgress.instance_.GetParameters().player_pos_x,
@@ -259,7 +265,7 @@ public class Player : MonoBehaviour
     void PlayerInput()
     {
         //プレイヤーの入力
-        //Aボタン
+       
 
         //Bボタン
         //移動速度上昇
@@ -291,12 +297,13 @@ public class Player : MonoBehaviour
                 {
                     //別クラス呼び出し
                     fire3_draw_.On();
-
+                    cancel_ui_.enabled = true;
                 }
 
-                //キャンセル
+                //アクションをキャンセル(Aボタン)
                 if(Input.GetButtonDown("Fire1"))               
                 {
+                    cancel_ui_.enabled = false;
                     fire3_button_count_ = 0;
                     //別クラス呼び出し
                     fire3_draw_.Off();
@@ -486,6 +493,9 @@ public class Player : MonoBehaviour
         // 5秒後に消える
         Destroy(_obj, 5.0F);
         Debug.Log("アクション実行02-2");
+
+        //UIを非表示にする
+        cancel_ui_.enabled = false;
     }
 
     private void Damage()
@@ -606,9 +616,11 @@ public class Player : MonoBehaviour
     {
         //潜水艦
         if(other.gameObject.CompareTag("Submarine") && PartsManager.Instance.count_>0)
-        {              
-            
-            submarine_ui_.enabled = true;
+        {
+            if (cancel_ui_.enabled == false)
+            {
+                submarine_ui_.enabled = true;
+            }
             if(Input.GetButton("Fire1"))
                 {
                 submarine_slider_canvas_.enabled = true;
@@ -628,7 +640,10 @@ public class Player : MonoBehaviour
         //パーツの範囲
         if (other.gameObject.CompareTag("PC"))
         {
-            item_ui_.enabled = true;
+            if (cancel_ui_.enabled == false)
+            {
+                item_ui_.enabled = true;
+            }
             fire1_range_flg_ = true;
             if (Input.GetButton("Fire1"))
             {
@@ -644,7 +659,10 @@ public class Player : MonoBehaviour
         //ボンベ回復
         if (other.gameObject.CompareTag("Tank"))
         {
-            item_ui_.enabled = true;
+            if (cancel_ui_.enabled == false)
+            {
+                item_ui_.enabled = true;
+            }
             fire1_range_flg_ = true;
             if (Input.GetButton("Fire1"))
             {
