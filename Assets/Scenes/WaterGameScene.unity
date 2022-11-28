@@ -5191,7 +5191,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3269662863702253429}
   m_Layer: 0
-  m_Name: PartsObjects
+  m_Name: PartsObjects(debug)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5952,7 +5952,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5613914731511167645}
   m_Layer: 0
-  m_Name: TankObjects
+  m_Name: TankObjects(debug)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
