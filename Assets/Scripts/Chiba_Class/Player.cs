@@ -320,8 +320,8 @@ public class Player : MonoBehaviour
                     //oxy_max_[oxy_count_] = 0;
                     //oxy_count_++;
 
-                    type_ = State.Action02;//捨てるステート
-                    Debug.Log("アクション実行02-1");
+                    //type_ = State.Action02;//捨てるステート
+                    //Debug.Log("アクション実行02-1");
                 }
                 else if (fire3_button_count_ >= 1.0f)
                 {
@@ -347,7 +347,7 @@ public class Player : MonoBehaviour
         {
             case State.Idle:
                 {
-                    
+                   
                     oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
                     //fire2_flg_ = false;                    
                     Move();
@@ -360,6 +360,8 @@ public class Player : MonoBehaviour
                 {
                     //別クラス呼び出し
                     fire3_draw_.Off();
+                    //不具合修正仮
+                    cancel_ui_.enabled = false;
 
                     //ブースト中は酸素消費量も上昇する
                     oxy_max_[oxy_count_] -= oxy_cost_ * oxy_cost_boost_ * Time.deltaTime;
@@ -385,7 +387,7 @@ public class Player : MonoBehaviour
 
                 }
                 break;
-            case State.Action02://落とす未完成
+            case State.Action02://落とす未使用
                 {                   
                     oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
 
