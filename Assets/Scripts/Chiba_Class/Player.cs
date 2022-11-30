@@ -91,6 +91,9 @@ public class Player : MonoBehaviour
     [SerializeField,Tooltip("debug用")]
     private bool fire1_range_flg_ = false;//プレイヤーが範囲内に入ったらtrueになる
 
+    [SerializeField]
+    private bool fire1_cancel_ = false;
+
     [Header("Bボタン関連")]
     //[SerializeField]
     //private bool fire2_flg_ = false;
@@ -101,10 +104,6 @@ public class Player : MonoBehaviour
     private bool fire3_flg_ = false;
 
     private int count_ = 0;
-    public int Count
-    {
-        get { return count_; }
-    }
 
     //長押し秒数の取得
     [SerializeField]
@@ -112,7 +111,7 @@ public class Player : MonoBehaviour
 
     //酸素消費量
     [SerializeField]
-    private float[] fire3_button_cost_ = new float[] { 5, 10, 15, 20, 25};
+    private float[] fire3_button_cost_ = new float[] { 5, 8, 11, 14, 17, 20};
 
     [SerializeField, Tooltip("弾のPrefab")]
     private GameObject[] fire3_tank_prefab_ = new GameObject[] {null};
@@ -284,6 +283,7 @@ public class Player : MonoBehaviour
         }
         //EventSystem.current.SetSelectedGameObject(button_firstSelect_);
     }
+    
     void PlayerInput()
     {
         //プレイヤーの入力
@@ -306,11 +306,12 @@ public class Player : MonoBehaviour
 
         //Xボタン
         //ボンベアクション
-        if (/*oxy_count_ != 2 &&*/ type_ != State.Damage && type_ != State.Action00)
+        if (/*oxy_count_ != 2 &&*/ type_ != State.Damage && type_ != State.Action00 )
         {
 
-            if (Input.GetButton("Fire3"))
+            if (Input.GetButton("Fire3")&&fire1_cancel_ == false )
             {
+                
                 //溜めてる状態をわかりやすくする
                 
                 fire3_button_count_ += Time.deltaTime;
@@ -324,7 +325,7 @@ public class Player : MonoBehaviour
                 //アクションをキャンセル(Aボタン)
                 if(Input.GetButtonDown("Fire1"))               
                 {
-
+                    fire1_cancel_ = true;
                     cancel_ui_.enabled = false;
                     fire3_button_count_ = 0;
                     //別クラス呼び出し
@@ -335,51 +336,54 @@ public class Player : MonoBehaviour
             }
             if (Input.GetButtonUp("Fire3"))
             {
-                count_ = 0;
-                type_ = State.Idle; //idleに移行
-
-                //押した時間が1秒未満の場合
-                if (fire3_button_count_ < 1.0f)
+                if (fire1_cancel_ == false)
                 {
-                    type_ = State.Action04;//落とすステート
-                    Debug.Log("アクション実行04-1");
-                }
-                else
-                {
-                    if (fire3_button_count_ >= 5.0f)
-                    {
-                        count_ = 4;
-                        type_ = State.Action03;//投げるステート
-                        Debug.Log("アクション実行03-5");
-                    }
-                    else if (fire3_button_count_ >= 4.0f)
-                    {
-                        count_ = 3;
-                        type_ = State.Action03;//投げるステート
-                        Debug.Log("アクション実行03-4");
-                    }
-                    else if (fire3_button_count_ >= 3.0f)
-                    {
-                        count_ = 2;
-                        type_ = State.Action03;//投げるステート
-                        Debug.Log("アクション実行03-3");
-                    }
-                    else if (fire3_button_count_ >= 2.0f)
-                    {
-                        count_ = 1;
-                        type_ = State.Action03;//投げるステート
-                        Debug.Log("アクション実行03-2");
-                    }
-                    else if (fire3_button_count_ >= 1.0f)
-                    {
-                        count_ = 0;
-                        type_ = State.Action03;//投げるステート
-                        Debug.Log("アクション実行03-1");
+                    count_ = 0;
+                    type_ = State.Idle; //idleに移行
 
-                     
+                    //押した時間が1秒未満の場合
+                    if (fire3_button_count_ < 1.0f)
+                    {
+                        type_ = State.Action04;//落とすステート
+                        Debug.Log("アクション実行04-1");
                     }
-                   
+                    else
+                    {
+                        if (fire3_button_count_ >= 5.0f)
+                        {
+                            count_ = 5;
+                            type_ = State.Action03;//投げるステート
+                            Debug.Log("アクション実行03-5");
+                        }
+                        else if (fire3_button_count_ >= 4.0f)
+                        {
+                            count_ = 4;
+                            type_ = State.Action03;//投げるステート
+                            Debug.Log("アクション実行03-4");
+                        }
+                        else if (fire3_button_count_ >= 3.0f)
+                        {
+                            count_ = 3;
+                            type_ = State.Action03;//投げるステート
+                            Debug.Log("アクション実行03-3");
+                        }
+                        else if (fire3_button_count_ >= 2.0f)
+                        {
+                            count_ = 2;
+                            type_ = State.Action03;//投げるステート
+                            Debug.Log("アクション実行03-2");
+                        }
+                        else if (fire3_button_count_ >= 1.0f)
+                        {
+                            count_ = 1;
+                            type_ = State.Action03;//投げるステート
+                            Debug.Log("アクション実行03-1");
+
+
+                        }
+                    }
                 }
+                fire1_cancel_ = false;
                 cancel_ui_.enabled = false;
                 fire3_button_count_ = 0;
 
@@ -561,8 +565,6 @@ public class Player : MonoBehaviour
         Rigidbody _rid = _obj.GetComponent<Rigidbody>();
         _rid.AddForce(shootVelocity_ * _rid.mass, ForceMode.Impulse);
 
-        // 10秒後に消える
-        //Destroy(_obj, 10.0F);
         Debug.Log("アクション実行03-2");
 
         //UIを非表示にする
@@ -591,8 +593,7 @@ public class Player : MonoBehaviour
        
         // 弾を生成して飛ばす
         GameObject _obj = Instantiate(fire3_tank_prefab_[0], fire3_drop_pos_, Quaternion.identity);
-        // 10秒後に消える
-        //Destroy(_obj, 3.0F);
+       
         Debug.Log("アクション実行04");
 
         //UIを非表示にする

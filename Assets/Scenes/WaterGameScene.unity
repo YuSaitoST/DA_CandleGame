@@ -6989,15 +6989,18 @@ MonoBehaviour:
   - {fileID: 2739894992631661163}
   - {fileID: 2739894992884130080}
   fire1_range_flg_: 0
+  fire1_cancel_: 0
   fire3_flg_: 0
   fire3_button_count_: 0
   fire3_button_cost_:
   - 5
-  - 10
-  - 15
+  - 8
+  - 11
+  - 14
+  - 17
   - 20
-  - 25
   fire3_tank_prefab_:
+  - {fileID: 4163348364430197555, guid: e148e597363f35c4090d4dd362cdb18a, type: 3}
   - {fileID: 4163348364430197555, guid: 62bdaf0fe7006774ab817ba04688c4b5, type: 3}
   - {fileID: 8031391682000203468, guid: 1871398e0db17ae4eab6b1ca8a153c25, type: 3}
   - {fileID: 564819121376855454, guid: fecda6a3bd722c349815ba9ff638515d, type: 3}
