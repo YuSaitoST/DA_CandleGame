@@ -47,9 +47,10 @@ public class Player : MonoBehaviour
         Idle,     //通常
         Dash,     //移動(加速)
         Action00, //アイテムを拾う
-        Action01, //ポンプ落とす
-        Action02, //ポンプ投げ
-        Action03, //パーツを拾う
+        Action01, //押し始め
+        Action02, //ポンプ投げ待機
+        Action03, //ポンプ投げ
+        Action04, //ポンプ落とす
         Damage,   //ダメージくらう
         Death     //死
     }
@@ -99,19 +100,33 @@ public class Player : MonoBehaviour
     [SerializeField]
     private bool fire3_flg_ = false;
 
-  
+    private int count_ = 0;
+    public int Count
+    {
+        get { return count_; }
+    }
 
     //長押し秒数の取得
     [SerializeField]
-    private float fire3_button_count_ = 0.0f;
+    private float fire3_button_count_ = 0;
+
+    //酸素消費量
+    [SerializeField]
+    private float[] fire3_button_cost_ = new float[] { 5, 10, 15, 20, 25};
 
     [SerializeField, Tooltip("弾のPrefab")]
-    private GameObject fire3_tank_prefab_;
+    private GameObject[] fire3_tank_prefab_ = new GameObject[] {null};
    
     private DrawArc fire3_draw_;
 
-    [SerializeField, Tooltip("砲身のオブジェクト")]
+    [SerializeField, Tooltip("爆弾投げの開始点")]
     private GameObject fire3_point_;
+
+    [SerializeField, Tooltip("爆弾を落とす位置")]
+    private GameObject fire3_drop_;
+
+    //プレハブの射出位置
+    private Vector3 fire3_drop_pos_;
 
     private Vector3 instantiatePosition_;
     public Vector3 InstantiatePosition_
@@ -119,9 +134,13 @@ public class Player : MonoBehaviour
         get { return instantiatePosition_; }
     }
 
-    [SerializeField, Range(1.0F, 20.0F), Tooltip("弾の射出する速さ")]
-    private float fire3_speed_ = 1.0F;
-   
+    [SerializeField, Range(1.0f, 20.0f), Tooltip("弾の射出する速さ")]
+    private float fire3_speed_ = 1.0f;
+
+
+    [SerializeField, Range(0.42f, 1.0f), Tooltip("弾の射出する高さ")]
+    private float fire3_speed2_ = 0.42f;
+
     // 弾の初速度
     private Vector3 shootVelocity_;
  
@@ -238,8 +257,11 @@ public class Player : MonoBehaviour
         // 弾の初速度を更新
         shootVelocity_ = fire3_point_.transform.up * fire3_speed_;
 
+        shootVelocity_.y = fire3_speed2_;
+
         // 弾の生成座標を更新
         instantiatePosition_ = fire3_point_.transform.position;
+        fire3_drop_pos_ = fire3_drop_.transform.position;
 
         //0になったらゲームオーバー
         if (debug_death_==false) 
@@ -284,7 +306,7 @@ public class Player : MonoBehaviour
 
         //Xボタン
         //ボンベアクション
-        if (oxy_count_ != 2 && type_ != State.Damage && type_ != State.Action00)
+        if (/*oxy_count_ != 2 &&*/ type_ != State.Damage && type_ != State.Action00)
         {
 
             if (Input.GetButton("Fire3"))
@@ -302,6 +324,7 @@ public class Player : MonoBehaviour
                 //アクションをキャンセル(Aボタン)
                 if(Input.GetButtonDown("Fire1"))               
                 {
+
                     cancel_ui_.enabled = false;
                     fire3_button_count_ = 0;
                     //別クラス呼び出し
@@ -312,14 +335,52 @@ public class Player : MonoBehaviour
             }
             if (Input.GetButtonUp("Fire3"))
             {
-              
-                if (fire3_button_count_ >= 1.0f)
+                count_ = 0;
+                type_ = State.Idle; //idleに移行
+
+                //押した時間が1秒未満の場合
+                if (fire3_button_count_ < 1.0f)
                 {
-                    type_ = State.Action03;//投げるステート
-                    Debug.Log("アクション実行03-1");
+                    type_ = State.Action04;//落とすステート
+                    Debug.Log("アクション実行04-1");
+                }
+                else
+                {
+                    if (fire3_button_count_ >= 5.0f)
+                    {
+                        count_ = 4;
+                        type_ = State.Action03;//投げるステート
+                        Debug.Log("アクション実行03-5");
+                    }
+                    else if (fire3_button_count_ >= 4.0f)
+                    {
+                        count_ = 3;
+                        type_ = State.Action03;//投げるステート
+                        Debug.Log("アクション実行03-4");
+                    }
+                    else if (fire3_button_count_ >= 3.0f)
+                    {
+                        count_ = 2;
+                        type_ = State.Action03;//投げるステート
+                        Debug.Log("アクション実行03-3");
+                    }
+                    else if (fire3_button_count_ >= 2.0f)
+                    {
+                        count_ = 1;
+                        type_ = State.Action03;//投げるステート
+                        Debug.Log("アクション実行03-2");
+                    }
+                    else if (fire3_button_count_ >= 1.0f)
+                    {
+                        count_ = 0;
+                        type_ = State.Action03;//投げるステート
+                        Debug.Log("アクション実行03-1");
+
+                     
+                    }
+                   
                 }
                 cancel_ui_.enabled = false;
-                type_ = State.Idle; //idleに移行
                 fire3_button_count_ = 0;
 
             }
@@ -389,6 +450,16 @@ public class Player : MonoBehaviour
                     Action03();
                     type_ =State.Idle;
                     
+                }
+                break;
+            case State.Action04://落とす
+                {
+
+                    oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
+                    //処理
+                    Action04();
+                    type_ = State.Idle;
+
                 }
                 break;
             case State.Damage://ダメージくらう
@@ -464,21 +535,65 @@ public class Player : MonoBehaviour
 
     private void Action03()
     {
+       
+
         //別クラス呼び出し
         fire3_draw_.Off();
 
-       
-        oxy_max_[oxy_count_] = 0;
-        oxy_count_++;
-
+        float _tmp = 0.0f;
+        _tmp = oxy_max_[oxy_count_] -fire3_button_cost_[count_];
+        if (_tmp < 0.0f)
+        {
+            oxy_max_[oxy_count_] = 0;
+            if (debug_death_ == false)
+            {
+                oxy_count_++;
+            }
+            
+            oxy_max_[oxy_count_] += _tmp;
+        }
+        else
+        {
+            oxy_max_[oxy_count_] -= fire3_button_cost_[count_];
+        }
         // 弾を生成して飛ばす
-        GameObject _obj = Instantiate(fire3_tank_prefab_, instantiatePosition_, Quaternion.identity);
+        GameObject _obj = Instantiate(fire3_tank_prefab_[count_], instantiatePosition_, Quaternion.identity);
         Rigidbody _rid = _obj.GetComponent<Rigidbody>();
         _rid.AddForce(shootVelocity_ * _rid.mass, ForceMode.Impulse);
 
         // 10秒後に消える
-        Destroy(_obj, 10.0F);
-        Debug.Log("アクション実行02-2");
+        //Destroy(_obj, 10.0F);
+        Debug.Log("アクション実行03-2");
+
+        //UIを非表示にする
+        cancel_ui_.enabled = false;
+    }
+    private void Action04()
+    { 
+        //別クラス呼び出し
+        fire3_draw_.Off();
+
+        float _tmp = 0.0f;
+        _tmp = oxy_max_[oxy_count_] - fire3_button_cost_[count_];
+        if (_tmp < 0.0f)
+        {
+            oxy_max_[oxy_count_] = 0;
+            if (debug_death_ == false)
+            {
+                oxy_count_++;
+            }
+            oxy_max_[oxy_count_] += _tmp;
+        }
+        else
+        {
+            oxy_max_[oxy_count_] -= fire3_button_cost_[count_];
+        }
+       
+        // 弾を生成して飛ばす
+        GameObject _obj = Instantiate(fire3_tank_prefab_[0], fire3_drop_pos_, Quaternion.identity);
+        // 10秒後に消える
+        //Destroy(_obj, 3.0F);
+        Debug.Log("アクション実行04");
 
         //UIを非表示にする
         cancel_ui_.enabled = false;

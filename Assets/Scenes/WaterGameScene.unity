@@ -1060,10 +1060,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1186003974}
     m_Modifications:
+    - target: {fileID: 8368347980061233851, guid: e3bc85dfa161b404fbafee5396161031,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 8368347981291613854, guid: e3bc85dfa161b404fbafee5396161031,
         type: 3}
       propertyPath: m_Name
       value: Field
+      objectReference: {fileID: 0}
+    - target: {fileID: 8368347981291613854, guid: e3bc85dfa161b404fbafee5396161031,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 8368347981291613855, guid: e3bc85dfa161b404fbafee5396161031,
         type: 3}
@@ -1124,6 +1134,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8368347981848014827, guid: e3bc85dfa161b404fbafee5396161031,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e3bc85dfa161b404fbafee5396161031, type: 3}
@@ -1626,6 +1641,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 931471215}
   m_CullTransparentMesh: 1
+--- !u!1 &989217215
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 989217216}
+  m_Layer: 0
+  m_Name: DropPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &989217216
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989217215}
+  m_LocalRotation: {x: 0.309017, y: 0, z: 0, w: 0.95105654}
+  m_LocalPosition: {x: 0, y: 0.6, z: -0.9}
+  m_LocalScale: {x: 3.333333, y: 3.333333, z: 3.333333}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9033653969166903175}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 36, y: 0, z: 0}
 --- !u!4 &1005209325 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7402022602856702616, guid: ec5c1dc02b2cca54cbb41652bc0c7afb,
@@ -4624,7 +4670,7 @@ RectTransform:
   m_Children:
   - {fileID: 2739894992799207263}
   m_Father: {fileID: 9033653969166903175}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5085,7 +5131,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2739894993878586062}
   m_LocalRotation: {x: 0.309017, y: 0, z: 0, w: 0.95105654}
-  m_LocalPosition: {x: 0, y: 0.35, z: 0.74}
+  m_LocalPosition: {x: 0, y: 0.85, z: 0.74}
   m_LocalScale: {x: 3.333333, y: 3.333333, z: 3.333333}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5666,7 +5712,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3222573466396085807}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 1
@@ -6840,6 +6886,7 @@ Transform:
   - {fileID: 9033653969623882275}
   - {fileID: 5158731657504729353}
   - {fileID: 2739894993878586063}
+  - {fileID: 989217216}
   - {fileID: 2739894993487749594}
   m_Father: {fileID: 3516100052328197952}
   m_RootOrder: 1
@@ -6944,10 +6991,22 @@ MonoBehaviour:
   fire1_range_flg_: 0
   fire3_flg_: 0
   fire3_button_count_: 0
-  fire3_tank_prefab_: {fileID: 3927696051160442095, guid: f882bc093523c764091c5116c8e8ebfa,
-    type: 3}
+  fire3_button_cost_:
+  - 5
+  - 10
+  - 15
+  - 20
+  - 25
+  fire3_tank_prefab_:
+  - {fileID: 4163348364430197555, guid: 62bdaf0fe7006774ab817ba04688c4b5, type: 3}
+  - {fileID: 8031391682000203468, guid: 1871398e0db17ae4eab6b1ca8a153c25, type: 3}
+  - {fileID: 564819121376855454, guid: fecda6a3bd722c349815ba9ff638515d, type: 3}
+  - {fileID: 2948162005979556814, guid: 6948483fb78d9a448bcc3f3f91f94fa3, type: 3}
+  - {fileID: 6387687655478769309, guid: 02731813188eb444bac7985b6f5e971e, type: 3}
   fire3_point_: {fileID: 2739894993878586062}
+  fire3_drop_: {fileID: 989217215}
   fire3_speed_: 1
+  fire3_speed2_: 1
   x_clip_: {x: -28, y: 28}
   y_clip_: {x: -200, y: 200}
   z_clip_: {x: -25, y: 70}
