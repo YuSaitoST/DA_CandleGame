@@ -8,21 +8,21 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class uni : MonoBehaviour
 {
-    new Rigidbody rigidbody;
-    const float trackingRange = 3f;
+    Rigidbody rigidbody;
+    const float trackingRange = 2.5f;
     const float angle = 360f;
     bool tracking = false;
     float time = 5.0f;
-    public Transform player;
+    private GameObject playerC;
+    //public Transform player;
 
     //public Vector3 scale;
-
-
     // Start is called before the first frame update
     void Start()
     {
         rigidbody = this.GetComponent<Rigidbody>();
         time = 5.0f;
+        playerC = GameProgress.instance_.Get_PlayerC();
     }
 
     // Update is called once per frame
@@ -30,14 +30,13 @@ public class uni : MonoBehaviour
     {
         if (tracking)
         {
-            float dist = Vector3.Distance(player.position, transform.position);
-            //’ÇÕ‚ÌŽžAtrackingRange‚æ‚è‹——£‚ª—£‚ê‚½‚ç’†Ž~
+            float dist = Vector3.Distance(playerC.transform.position, transform.position);
             if (dist > trackingRange)
             {
+                Debug.Log("ŠO‚ê‚½");
                 tracking = false;
                 time = 5.0f;
             }
-                
         }
         else
         {
