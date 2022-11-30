@@ -11,6 +11,11 @@ TagManager:
   - PartsManager
   - Tank
   - Submarine
+  - OxyBomb01
+  - OxyBomb02
+  - OxyBomb03
+  - OxyBomb04
+  - OxyBomb05
   layers:
   - Default
   - TransparentFX
@@ -19,7 +24,7 @@ TagManager:
   - Water
   - UI
   - Ground
-  - 
+  - Bomb
   - 
   - 
   - 
