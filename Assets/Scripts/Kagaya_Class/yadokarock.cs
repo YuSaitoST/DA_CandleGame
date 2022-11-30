@@ -19,27 +19,29 @@ enum ENE_STATE {
 public class yadokarock : MonoBehaviour
 {
     Rigidbody rigidbody;
-    [SerializeField]
-    [Tooltip("追いかける対象")]
-    private GameObject PlayerC;
-
+    //[SerializeField]
+    //[Tooltip("追いかける対象")]
+    private GameObject playerC;
+    Quaternion moveRotation;
     private NavMeshAgent Agent;
     int number = 1;
     float time = 0;
     Mesh mesh;
     Vector3[] vertices;
-    private GameObject player;
+    //private GameObject player;
     [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected)]
 
     private static readonly int TRIANGLE_COUNT = 12;
     private static readonly Color MESH_COLOR = new Color(1.0f, 1.0f, 0.0f, 0.7f);
 
+    Quaternion targetRot;
+    Vector3 axis = Vector3.up;
     const float angle = 90f;
     Vector3 playerPos;
     //GameObject enemy;
-    
-    const float trackingRange = 3.5f;
-    
+
+    const float trackingRange = 3.0f;
+
     //bool tracking = false;
     ENE_STATE state = ENE_STATE.STAY;
 
@@ -54,15 +56,17 @@ public class yadokarock : MonoBehaviour
     public float HeightAngle { get { return heightAngle; } }
     public float Length { get { return length; } }
 
+    
 
     // Start is called before the first frame update
     void Start()
     {
         Agent = GetComponent<NavMeshAgent>();
         rigidbody = this.GetComponent<Rigidbody>();
-        player = GameProgress.instance_.Get_PlayerC();
+        playerC = GameProgress.instance_.Get_PlayerC();
         number = 1;
         //time = 0.0f;
+        targetRot = Quaternion.AngleAxis(angle, axis) * transform.rotation;
 
         state = ENE_STATE.STAY;
     }
@@ -86,8 +90,9 @@ public class yadokarock : MonoBehaviour
                         //tracking = true;
                         state = ENE_STATE.TRACKING;
                         Debug.Log("range of view");
-                        Agent.destination = PlayerC.transform.position;
-                        
+                        Agent.destination = playerC.transform.position;
+                        time = 0.0f;
+
                     }
                 }
             }
@@ -97,14 +102,13 @@ public class yadokarock : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (state==ENE_STATE.TRACKING)
+        if (state == ENE_STATE.TRACKING)
         {
             //time = 0.0f;
-            
-            
+
             DoMove(Agent.destination);
             //追跡の時、trackingRangeより距離が離れたら中止
-            float dist = Vector3.Distance(GameProgress.instance_.GetPlayerPos(), transform.position);
+            float dist = Vector3.Distance(playerC.transform.position, transform.position);
             if (dist > trackingRange)
             {
                 //tracking = false;
@@ -113,7 +117,7 @@ public class yadokarock : MonoBehaviour
                 //rigidbody.velocity = Vector3.zero;
                 rigidbody.velocity = new Vector3(0.0f, rigidbody.velocity.y, 0.0f);
                 Debug.Log("外れた");
-                Agent.destination = PlayerC.transform.position;
+                Agent.destination = playerC.transform.position;
                 DoMove(Agent.destination);
 
             }
@@ -125,19 +129,26 @@ public class yadokarock : MonoBehaviour
             //float number = 1;
             if (time >= 5.0f)
             {
-                Debug.Log("処理３");
+                Debug.Log("止まった");
                 rigidbody.velocity = Vector3.zero;
                 time = 0.0f;
                 state = ENE_STATE.STAY;
             }
+
+
         }
         else
         {
-            
-            
+            //float dist = Vector3.Distance(GameProgress.instance_.GetPlayerPos(), transform.position);
+            //if (dist < trackingRange)
+            //{
+            //    time = 0.0f;
+            //    Debug.Log("入った");
+            //}
+
         }
 
-        
+
     }
 #if UNITY_EDITOR
     void OnDrawGizmos()
@@ -173,10 +184,10 @@ public class yadokarock : MonoBehaviour
         Quaternion moveRotation = Quaternion.LookRotation(targetPosition - transform.position, Vector3.up);
         moveRotation.z = 0;
         moveRotation.x = 0;
-        transform.rotation = Quaternion.Lerp(transform.rotation, moveRotation, 0.1f);
+        transform.rotation = moveRotation; Quaternion.Lerp(transform.rotation, targetRot, 0.2f);
 
-        float forward_x = transform.forward.x * 1.0f;  //*ここでenemyの速さ調節
-        float forward_z = transform.forward.z * 1.0f;  //*ここでenemyの速さ調節
+        float forward_x = transform.forward.x * 0.6f;  //*ここでenemyの速さ調節
+        float forward_z = transform.forward.z * 0.6f;  //*ここでenemyの速さ調節
 
         rigidbody.velocity = new Vector3(forward_x, rigidbody.velocity.y, forward_z);
     }
@@ -253,7 +264,7 @@ public class yadokarock : MonoBehaviour
         Gizmos.color = MESH_COLOR;
 
         Transform transform = i_object.transform;
-        Vector3 pos = transform.position + transform.forward * 0.5f + Vector3.up * 0.03f; // 0.01fは地面と高さだと見づらいので調整用。
+        Vector3 pos = transform.position + transform.forward * 0.1f + Vector3.up * 0.03f; // 0.01fは地面と高さだと見づらいので調整用。
         Quaternion rot = transform.rotation;
         Vector3 scale = Vector3.one * i_object.Length;
 
