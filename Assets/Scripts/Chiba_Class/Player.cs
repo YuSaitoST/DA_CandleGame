@@ -95,9 +95,7 @@ public class Player : MonoBehaviour
     private bool fire1_cancel_ = false;
 
     [Header("Bボタン関連")]
-    //[SerializeField]
-    //private bool fire2_flg_ = false;
-
+   
 
     [Header("Xボタン関連")]
     [SerializeField]
