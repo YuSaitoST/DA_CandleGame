@@ -215,6 +215,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 70449790}
   m_CullTransparentMesh: 1
+--- !u!1001 &130228223
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7567002355734905163, guid: aa7a2fbc36b7a674f859b1407833b17b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567002355734905163, guid: aa7a2fbc36b7a674f859b1407833b17b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567002355734905163, guid: aa7a2fbc36b7a674f859b1407833b17b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567002355734905163, guid: aa7a2fbc36b7a674f859b1407833b17b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567002355734905163, guid: aa7a2fbc36b7a674f859b1407833b17b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567002355734905163, guid: aa7a2fbc36b7a674f859b1407833b17b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567002355734905163, guid: aa7a2fbc36b7a674f859b1407833b17b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567002355734905163, guid: aa7a2fbc36b7a674f859b1407833b17b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567002355734905163, guid: aa7a2fbc36b7a674f859b1407833b17b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567002355734905163, guid: aa7a2fbc36b7a674f859b1407833b17b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567002355734905163, guid: aa7a2fbc36b7a674f859b1407833b17b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567002355734905172, guid: aa7a2fbc36b7a674f859b1407833b17b,
+        type: 3}
+      propertyPath: m_Name
+      value: Yadkarock
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: aa7a2fbc36b7a674f859b1407833b17b, type: 3}
 --- !u!1 &177595271
 GameObject:
   m_ObjectHideFlags: 0
@@ -672,7 +741,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pref_enemys_:
-  - {fileID: 7005308551696332399, guid: c259c945ac0f65640ad441cafed4788c, type: 3}
+  - {fileID: 7567002355734905172, guid: aa7a2fbc36b7a674f859b1407833b17b, type: 3}
   - {fileID: 7977253578579725104, guid: eaeaa611927cc504c88f3f06dda35861, type: 3}
   pref_items_:
   - {fileID: 5693410516630551489, guid: 4a78c3d468ef2a446b372333c05f2ff0, type: 3}
