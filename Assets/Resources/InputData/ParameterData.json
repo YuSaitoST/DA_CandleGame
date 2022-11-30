@@ -1,8 +1,8 @@
 {
-  "player_pos_x": 2.0,
+  "player_pos_x": -1.0,
   "player_pos_y": 0.0,
-  "player_pos_z": -8.0,
-  "sbmarine_pos_x": -1.2,
+  "player_pos_z": -0.7,
+  "sbmarine_pos_x": -1.0,
   "sbmarine_pos_y": 0.0,
-  "sbmarine_pos_z": 5.0
+  "sbmarine_pos_z": 1.0
 }

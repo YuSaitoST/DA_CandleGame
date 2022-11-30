@@ -11,16 +11,17 @@ public class WavesCreate : MonoBehaviour
     void Start()
     {
         const float DLT = 3.0f;
-        GameObject obj;
-        float x = -9;
-        float y = 0.7f;
-        float z = -9;
-        for(int i = 0; i < 7; ++i)
+        GameObject _obj;
+        int _count = 9;
+        float _x = -13.0f;
+        float _y = 2.7f;
+        float _z = -9.0f;
+        for(int i = 0; i < _count; ++i)
         {
-            for(int j = 0; j < 7; ++j)
+            for(int j = 0; j < _count; ++j)
             {
-                obj = Instantiate(prefab_, new Vector3(x + DLT * i, y, z + DLT * j), Quaternion.identity);
-                obj.transform.parent = transform;
+                _obj = Instantiate(prefab_, new Vector3(_x + DLT * i, _y, _z + DLT * j), Quaternion.identity);
+                _obj.transform.parent = transform;
             }
         }
     }
