@@ -50,7 +50,7 @@ public class yadokarock : MonoBehaviour
     //[SerializeField, Range(0.0f, 360.0f)]
     const float heightAngle = 0.0f;
     //[SerializeField, Range(0.0f, 15.0f)]
-    const float length = 3.0f;
+    const float length = 2.9f;
 
     public float WidthAngle { get { return widthAngle; } }
     public float HeightAngle { get { return heightAngle; } }
