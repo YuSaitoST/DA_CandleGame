@@ -68,10 +68,14 @@ public class BloodDirection : MonoBehaviour
         if (!pushFrag_)
         {
             pushFrag_= true;
-
+            StopCoroutine(DamageDoneDirection());
         }
     }
 
+    /// <summary>
+    /// 画像を薄くし始めるまで待機する
+    /// </summary>
+    /// <returns>コルーチン</returns>
     IEnumerator Wait_BeginsToRecover()
     {
         yield return new WaitForSeconds(time_recovery_);
@@ -87,6 +91,10 @@ public class BloodDirection : MonoBehaviour
         yield break;
     }
 
+    /// <summary>
+    /// ダメージ演出処理
+    /// </summary>
+    /// <returns>コルーチン</returns>
     IEnumerator DamageDoneDirection()
     {
         alpha_ += ratio_damage_;

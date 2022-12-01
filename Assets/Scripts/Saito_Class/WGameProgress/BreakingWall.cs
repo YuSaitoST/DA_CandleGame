@@ -16,7 +16,7 @@ public class BreakingWall : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        string tags = other.tag.Substring(0, other.tag.Length - 3);
+        string tags = other.tag.Substring(0, other.tag.Length - 2);
         if(tags == "OxyBomb")
         {
             Destroy(gameObject);
