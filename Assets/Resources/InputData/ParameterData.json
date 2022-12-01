@@ -5,9 +5,9 @@
     "z_clip": 5
   },
   "player": {
-    "pos_x": 2.0,
+    "pos_x": -0.8,
     "pos_y": 0.0,
-    "pos_z": -8.0,
+    "pos_z": -0.9,
     "move_speed": 0.5,
     "move_boost": 2.0,
     "oxy_max": 100.0,

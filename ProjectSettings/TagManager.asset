@@ -16,6 +16,7 @@ TagManager:
   - OxyBomb03
   - OxyBomb04
   - OxyBomb05
+  - Enemy
   layers:
   - Default
   - TransparentFX
