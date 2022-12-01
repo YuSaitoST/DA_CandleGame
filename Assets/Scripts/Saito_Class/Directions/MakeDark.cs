@@ -11,10 +11,8 @@ public class MakeDark : MonoBehaviour
     {
         if (dark_on_)
         {
-            //light_.SetActive(false);
-            //RenderSettings.reflectionIntensity = 0;
-            //RenderSettings.ambientSkyColor = Color.black;
-            light_.color = new Color(0.25f, 0.6f, 0.7f, 1.0f);
+            light_.color = new Color(0.13f, 0.3f, 0.3f, 1.0f);
+            RenderSettings.fog = true;
         }
     }
 }

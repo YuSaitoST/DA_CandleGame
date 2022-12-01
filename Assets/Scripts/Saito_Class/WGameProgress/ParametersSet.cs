@@ -1,29 +1,27 @@
 using System;
 using UnityEngine;
 
-[Serializable]
-public class PARAM
+[Serializable] public class PARAM
 {
     public Parameter param;
 }
 
-[Serializable]
-public class Paramater
+[Serializable] public class Paramater
 {
+    public FIELD field;
     public PLAYER player;
     public SUBMARINE submaline;
+    public YADOKAROCK yadokarock;
 }
 
-[Serializable]
-public class FIELD
+[Serializable] public class FIELD
 {
     public float x_clip;
     public float y_clip;
     public float z_clip;
 }
 
-[Serializable]
-public class PLAYER
+[Serializable] public class PLAYER
 {
     public float pos_x;
     public float pos_y;
@@ -35,13 +33,18 @@ public class PLAYER
     public float oxy_cost;
 }
 
-[Serializable]
-public class SUBMARINE
+[Serializable] public class SUBMARINE
 {
     public float pos_x;
     public float pos_y;
     public float pos_z;
 }
+
+[Serializable] public class YADOKAROCK
+{
+    public float speed;
+}
+
 
 public class ParametersSet
 {

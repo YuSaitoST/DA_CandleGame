@@ -18,5 +18,8 @@
     "pos_x": -1.0,
     "pos_y": 0.0,
     "pos_z": 1.0
+  },
+  "yadokarock": {
+    "speed": 0.6
   }
 }
