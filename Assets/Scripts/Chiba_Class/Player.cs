@@ -227,12 +227,13 @@ public class Player : MonoBehaviour
         //アクションキャンセルボタン
         cancel_ui_.enabled = false;
 
-        tr_.transform.position = new Vector3(
-        GameProgress.instance_.GetParameters().player_pos_x,
-        GameProgress.instance_.GetParameters().player_pos_y,
-        GameProgress.instance_.GetParameters().player_pos_x);
+        
+        Paramater _param = GameProgress.instance_.GetParameters();
+        float _pos_x = _param.player.pos_x;
+        float _pos_y = _param.player.pos_y; 
+        float _pos_z = _param.player.pos_z;
 
-
+        this.transform.position = new Vector3(_pos_x, _pos_y, _pos_z);
     }
 
     // Update is called once per frame
