@@ -1061,7 +1061,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df7c02f644221e64aac28aaff2ebafe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dark_on_: 0
+  dark_on_: 1
   light_: {fileID: 1199495216}
 --- !u!4 &610900661 stripped
 Transform:
@@ -5924,7 +5924,7 @@ GameObject:
   - component: {fileID: 4493236843383699495}
   m_Layer: 5
   m_Name: Oxygen
-  m_TagString: Untagged
+  m_TagString: EditorOnly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

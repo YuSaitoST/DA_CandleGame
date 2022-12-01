@@ -307,7 +307,7 @@ public class Player : MonoBehaviour
 
         //Xボタン
         //ボンベアクション
-        if (/*oxy_count_ != 2 &&*/ oxy_max_[oxy_count_] >= fire3_button_cost_[0] && type_ != State.Damage && type_ != State.Action00 && type_ != State.Blood)
+        if (/*oxy_count_ != 2 &&*/ oxy_max_[2] >= fire3_button_cost_[0] && type_ != State.Damage && type_ != State.Action00 && type_ != State.Blood)
         {
 
             if (Input.GetButton("Fire3")&&fire1_cancel_ == false )
@@ -477,7 +477,7 @@ public class Player : MonoBehaviour
                 break;
             case State.Blood://ダメージくらう
                 {
-
+                    fire3_draw_.Off();
                     //処理
                     Move();
                 }
@@ -700,7 +700,7 @@ public class Player : MonoBehaviour
     private void OnCollisionStay(Collision collision)
     {
         //tagは変える
-        if (collision.gameObject.tag == "BombArea"&& player_life_inv_tmp_ <= 0)
+        if (collision.gameObject.tag == "Enemy"&& player_life_inv_tmp_ <= 0)
         {
             
             type_ = State.Damage;
