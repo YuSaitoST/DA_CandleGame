@@ -127,7 +127,7 @@ public class GameProgress : MonoBehaviour
     /// パラメータを取得する
     /// </summary>
     /// <returns>パラメータセット</returns>
-    public Parameters GetParameters()
+    public Paramater GetParameters()
     {
         return parameters_.GetParameter();
     }

@@ -12,6 +12,14 @@ public class Paramater
 {
     public PLAYER player;
     public SUBMARINE submaline;
+
+    // 調整後削除する、エラー回避用変数
+    public float player_pos_x;
+    public float player_pos_y;
+    public float player_pos_z;
+    public float sbmarine_pos_x;
+    public float sbmarine_pos_y;
+    public float sbmarine_pos_z;
 }
 
 [Serializable]
