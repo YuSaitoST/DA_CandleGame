@@ -16,7 +16,8 @@ public class BombParent : MonoBehaviour
     [SerializeField]
     private float exp_count_ = 3.0f;
 
-
+    [SerializeField]
+    private MeshRenderer bomb_obj_ = null;
 
     private void Start()
     {
@@ -36,7 +37,9 @@ public class BombParent : MonoBehaviour
     {
         yield return new WaitForSeconds(exp_count_);
         exp_.SetActive(true);
+        bomb_obj_.enabled = false;
         Debug.Log("”š”­");
+        yield return new WaitForSeconds(2.5f);
         exp_.SetActive(false);
         Destroy(parent_.gameObject);
 

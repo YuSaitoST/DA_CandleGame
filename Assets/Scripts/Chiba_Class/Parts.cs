@@ -3,15 +3,15 @@ using UnityEngine;
 
 public class Parts : MonoBehaviour
 {
-    [SerializeField]
-    private Canvas parts_ui_ = null;
+    //[SerializeField]
+    //private Canvas parts_ui_ = null;
 
     
 
     // Start is called before the first frame update
     void Start()
     {
-        parts_ui_.enabled = false;
+     //   parts_ui_.enabled = false;
     }
 
     public void Pickup()
@@ -21,7 +21,7 @@ public class Parts : MonoBehaviour
 
     IEnumerator OnPickup()
     {
-        parts_ui_.enabled = false;
+       // parts_ui_.enabled = false;
         this.transform.position = new Vector3(0, -100, 0);
         PartsManager.Instance.CountPlus();
 
@@ -39,7 +39,7 @@ public class Parts : MonoBehaviour
         //”ÍˆÍ“à
         if (other.gameObject.CompareTag("Player"))
         {
-            parts_ui_.enabled = true;
+           // parts_ui_.enabled = true;
         }
 
     }
@@ -49,7 +49,7 @@ public class Parts : MonoBehaviour
         //”ÍˆÍŠO
         if (other.gameObject.CompareTag("Player"))
         {
-          parts_ui_.enabled = false;
+         // parts_ui_.enabled = false;
         }
 
     }
