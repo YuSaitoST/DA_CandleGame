@@ -60,6 +60,18 @@ public class BloodDirection : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// ダメージ回復演出
+    /// </summary>
+    public void DamageRecovery()
+    {
+        if (!pushFrag_)
+        {
+            pushFrag_= true;
+
+        }
+    }
+
     IEnumerator Wait_BeginsToRecover()
     {
         yield return new WaitForSeconds(time_recovery_);
