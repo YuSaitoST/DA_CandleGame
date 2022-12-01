@@ -215,6 +215,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 70449790}
   m_CullTransparentMesh: 1
+--- !u!4 &165758522 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5537258919236831709, guid: d4f26a33ff4dc074e891805eb78a56bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 1904446482}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &177595271
 GameObject:
   m_ObjectHideFlags: 0
@@ -2140,6 +2146,85 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 573083140}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1904446482
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 5613914731511167645}
+    m_Modifications:
+    - target: {fileID: 5537258919236831709, guid: d4f26a33ff4dc074e891805eb78a56bc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5537258919236831709, guid: d4f26a33ff4dc074e891805eb78a56bc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 5537258919236831709, guid: d4f26a33ff4dc074e891805eb78a56bc,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.169
+      objectReference: {fileID: 0}
+    - target: {fileID: 5537258919236831709, guid: d4f26a33ff4dc074e891805eb78a56bc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5537258919236831709, guid: d4f26a33ff4dc074e891805eb78a56bc,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5537258919236831709, guid: d4f26a33ff4dc074e891805eb78a56bc,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5537258919236831709, guid: d4f26a33ff4dc074e891805eb78a56bc,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5537258919236831709, guid: d4f26a33ff4dc074e891805eb78a56bc,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5537258919236831709, guid: d4f26a33ff4dc074e891805eb78a56bc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5537258919236831709, guid: d4f26a33ff4dc074e891805eb78a56bc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5537258919236831709, guid: d4f26a33ff4dc074e891805eb78a56bc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5537258919236831711, guid: d4f26a33ff4dc074e891805eb78a56bc,
+        type: 3}
+      propertyPath: m_Name
+      value: Tank (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5537258919964529544, guid: d4f26a33ff4dc074e891805eb78a56bc,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5537258919964529544, guid: d4f26a33ff4dc074e891805eb78a56bc,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d4f26a33ff4dc074e891805eb78a56bc, type: 3}
 --- !u!1 &1948659186
 GameObject:
   m_ObjectHideFlags: 0
@@ -6272,6 +6357,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 610900661}
+  - {fileID: 165758522}
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6710,7 +6796,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4866dd836c1050345877cfe4309541f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debug_death_: 1
+  debug_death_: 0
   player_move_speed_: 0.5
   player_move_boost_: 1
   player_move_: 1
@@ -6749,7 +6835,7 @@ MonoBehaviour:
   - {fileID: 6387687655478769309, guid: 02731813188eb444bac7985b6f5e971e, type: 3}
   fire3_point_: {fileID: 2739894993878586062}
   fire3_drop_: {fileID: 1230702310}
-  fire3_speed_: 6
+  fire3_speed_: 1
   fire3_speed2_: 1
   x_clip_: {x: -28, y: 28}
   y_clip_: {x: -200, y: 200}

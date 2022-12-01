@@ -52,6 +52,7 @@ public class Player : MonoBehaviour
         Action03, //ポンプ投げ
         Action04, //ポンプ落とす
         Damage,   //ダメージくらう
+        Blood,    //酸素がないとき
         Death     //死
     }
     //2型の作成
@@ -261,12 +262,13 @@ public class Player : MonoBehaviour
         instantiatePosition_ = fire3_point_.transform.position;
         fire3_drop_pos_ = fire3_drop_.transform.position;
 
-        //0になったらゲームオーバー
+        //0になったらBloodステートに移動
         if (debug_death_==false) 
         {
             if (oxy_total_ <= 0.01f)
             {
-                type_ = State.Death;
+
+                type_ = State.Blood;
             }
         }
 
@@ -290,13 +292,13 @@ public class Player : MonoBehaviour
 
         //Bボタン
         //移動速度上昇
-        if (Input.GetButton("Fire2")&&type_!=State.Damage && type_ != State.Action00)
+        if (Input.GetButton("Fire2")&&type_!=State.Damage && type_ != State.Action00 && type_ != State.Blood)
         {
             type_ = State.Dash;
             Debug.Log("Bボタンが押された");
            
         }
-        else if(Input.GetButtonUp("Fire2") && type_ != State.Damage && type_ != State.Action00)
+        else if(Input.GetButtonUp("Fire2") && type_ != State.Damage && type_ != State.Action00 && type_ != State.Blood)
         {
             type_ = State.Idle;
             Debug.Log("Bボタンが離された");
@@ -305,7 +307,7 @@ public class Player : MonoBehaviour
 
         //Xボタン
         //ボンベアクション
-        if (/*oxy_count_ != 2 &&*/ type_ != State.Damage && type_ != State.Action00 )
+        if (/*oxy_count_ != 2 &&*/ oxy_max_[oxy_count_] >= fire3_button_cost_[0] && type_ != State.Damage && type_ != State.Action00 && type_ != State.Blood)
         {
 
             if (Input.GetButton("Fire3")&&fire1_cancel_ == false )
@@ -471,6 +473,13 @@ public class Player : MonoBehaviour
                     oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
                     //処理
                     Damage();                
+                }
+                break;
+            case State.Blood://ダメージくらう
+                {
+
+                    //処理
+                    Move();
                 }
                 break;
 
@@ -716,7 +725,7 @@ public class Player : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
       
-        if (type_ == State.Idle || type_ == State.Dash|| type_ == State.Action00)
+        if (type_ == State.Idle || type_ == State.Dash|| type_ == State.Action00 || type_ == State.Blood)
         {  
             //潜水艦
             if (other.gameObject.CompareTag("Submarine") && PartsManager.Instance.count_ > 0)
@@ -768,17 +777,31 @@ public class Player : MonoBehaviour
                 if (Input.GetButton("Fire1"))
                 {
                     Debug.Log("押された");
+                    //もしstateの状態がbloodだったら
+                   
                     //1本以上消費している場合
                     if (oxy_count_ >= 1)
                     {
-                        oxy_max_[oxy_count_] += oxy_recovery_;
+                        if (type_ == State.Blood)
+                        {
+                            oxy_count_--;
+                            oxy_max_[2] = 33.3f;
+                            type_ = State.Idle;
 
-                        //1案
-                        float _tmp = 0.0f;
-                        _tmp = oxy_max_[oxy_count_] - 33.3f;
-                        oxy_max_[oxy_count_] = 33.3f;
-                        oxy_count_--;
-                        oxy_max_[oxy_count_] = _tmp;
+                        }
+
+                        else
+                        {
+                            oxy_max_[oxy_count_] += oxy_recovery_;
+
+                            //1案
+                            float _tmp = 0.0f;
+                            _tmp = oxy_max_[oxy_count_] - 33.3f;
+                            oxy_max_[oxy_count_] = 33.3f;
+                            oxy_count_--;
+                            oxy_max_[oxy_count_] = _tmp;
+
+                        }
 
                         //2案
                         //oxy_count_--;
