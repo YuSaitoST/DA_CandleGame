@@ -15,11 +15,20 @@ public class ObjectCreator : MonoBehaviour
         try
         {
             PrefabCreater.CreateMultiplePrefabs("InputData/EnemyData", pref_enemys_, parent_enemy_);
-            PrefabCreater.CreateMultiplePrefabs("InputData/ItemData", pref_items_, parent_items_);
 
         }catch(Exception e)
         {
-            Debug.Log(e.ToString());
+            Debug.Log("EnemysData : " + e.ToString());
+        }
+
+        try
+        {
+            PrefabCreater.CreateMultiplePrefabs("InputData/ItemData", pref_items_, parent_items_);
+
+        }
+        catch (Exception e)
+        {
+            Debug.Log("ItemsData : " + e.ToString());
         }
     }
 }

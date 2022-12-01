@@ -24,7 +24,7 @@ public class yadokarock : MonoBehaviour
     private GameObject playerC;
     Quaternion moveRotation;
     private NavMeshAgent Agent;
-    int number = 1;
+    //int number = 1;
     float time = 0;
     Mesh mesh;
     Vector3[] vertices;
@@ -64,7 +64,7 @@ public class yadokarock : MonoBehaviour
         Agent = GetComponent<NavMeshAgent>();
         rigidbody = this.GetComponent<Rigidbody>();
         playerC = GameProgress.instance_.Get_PlayerC();
-        number = 1;
+        //number = 1;
         //time = 0.0f;
         targetRot = Quaternion.AngleAxis(angle, axis) * transform.rotation;
 
@@ -102,6 +102,8 @@ public class yadokarock : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        rigidbody.velocity = Vector3.zero;
+
         if (state == ENE_STATE.TRACKING)
         {
             //time = 0.0f;
@@ -125,7 +127,8 @@ public class yadokarock : MonoBehaviour
         else if (state == ENE_STATE.TRACKING_NEXT)
         {
             time += Time.deltaTime;
-
+            Agent.destination = playerC.transform.position;
+            DoMove(Agent.destination);
             //float number = 1;
             if (time >= 5.0f)
             {
@@ -139,6 +142,7 @@ public class yadokarock : MonoBehaviour
         }
         else
         {
+            
             //float dist = Vector3.Distance(GameProgress.instance_.GetPlayerPos(), transform.position);
             //if (dist < trackingRange)
             //{
@@ -147,8 +151,6 @@ public class yadokarock : MonoBehaviour
             //}
 
         }
-
-
     }
 #if UNITY_EDITOR
     void OnDrawGizmos()

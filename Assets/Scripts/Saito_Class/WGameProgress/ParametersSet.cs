@@ -12,14 +12,6 @@ public class Paramater
 {
     public PLAYER player;
     public SUBMARINE submaline;
-
-    // 調整後削除する、エラー回避用変数
-    public float player_pos_x;
-    public float player_pos_y;
-    public float player_pos_z;
-    public float sbmarine_pos_x;
-    public float sbmarine_pos_y;
-    public float sbmarine_pos_z;
 }
 
 [Serializable]
@@ -57,7 +49,7 @@ public class ParametersSet
 
     public void SetParameter()
     {
-        string inputString = Resources.Load<TextAsset>("InputData/TestParameterData").ToString();
+        string inputString = Resources.Load<TextAsset>("InputData/ParameterData").ToString();
         param = JsonUtility.FromJson<Paramater>(inputString);
     }
 
