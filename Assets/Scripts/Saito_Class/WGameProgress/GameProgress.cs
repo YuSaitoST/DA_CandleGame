@@ -1,4 +1,4 @@
-#define _DEBUG_ON
+#define _DEBUG_OFF
 
 using UnityEngine;
 
