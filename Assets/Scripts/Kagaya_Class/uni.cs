@@ -1,10 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Services.Analytics.Internal;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.AI;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class uni : MonoBehaviour
 {
@@ -14,10 +8,7 @@ public class uni : MonoBehaviour
     bool tracking = false;
     float time = 5.0f;
     private GameObject playerC;
-    //public Transform player;
 
-    //public Vector3 scale;
-    // Start is called before the first frame update
     void Start()
     {
         rigidbody = this.GetComponent<Rigidbody>();
@@ -25,7 +16,6 @@ public class uni : MonoBehaviour
         playerC = GameProgress.instance_.Get_PlayerC();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (tracking)
@@ -41,7 +31,6 @@ public class uni : MonoBehaviour
         else
         {
             time -= Time.deltaTime;
-
             if (time <= 0.0f)
             {
                 this.GetComponent<Renderer>().material.color = Color.gray;
@@ -55,11 +44,9 @@ public class uni : MonoBehaviour
     {
         if (other.gameObject.tag == "Player") //Ž‹ŠE‚Ì”ÍˆÍ“à‚Ì“–‚½‚è”»’è
         {
-            //Ž‹ŠE‚ÌŠp“x“à‚ÉŽû‚Ü‚Á‚Ä‚¢‚é‚©
             Vector3 posDelta = other.transform.position - this.transform.position;
             if (posDelta.magnitude > trackingRange)
                 return;
-
             float target_angle = Vector3.Angle(this.transform.forward, posDelta);
             if (target_angle < angle) //target_angle‚ªangle‚ÉŽû‚Ü‚Á‚Ä‚¢‚é‚©‚Ç‚¤‚©
             {
@@ -76,7 +63,6 @@ public class uni : MonoBehaviour
             }
         }
     }
-
     void OnDrawGizmos()
     {
         //trackingRange‚Ì”ÍˆÍ‚ðÔ‚¢ƒƒCƒ„[ƒtƒŒ[ƒ€‚ÅŽ¦‚·
