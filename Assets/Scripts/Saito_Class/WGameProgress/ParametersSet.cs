@@ -31,6 +31,10 @@ using UnityEngine;
     public float oxy_max;
     public float oxy_cost_boost;
     public float oxy_cost;
+    public float damage;
+    public float knockback_power;
+    public float knockback_power_up;
+    public float knockback_stan_;
 }
 
 [Serializable] public class SUBMARINE

@@ -20,7 +20,11 @@ public class yadokarock : MonoBehaviour
     float time = 0;
     Mesh mesh;
     Vector3[] vertices;
+
+#if UNITY_EDITOR
     [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected)]
+#endif
+
     public Vector3 lastCoordinate;
     private static readonly int TRIANGLE_COUNT = 12;
     private static readonly Color MESH_COLOR = new Color(1.0f, 1.0f, 0.0f, 0.7f);
@@ -79,7 +83,7 @@ public class yadokarock : MonoBehaviour
         {
             DoMove(Agent.destination);
             float dist = Vector3.Distance(playerC.transform.position, transform.position);
-            if(dist <= 0.3f)
+            if (dist <= 0.3f)
             {
                 this.rigidbody.velocity = Vector3.zero;
                 Debug.Log("ƒAƒ“ƒWƒ…‚»‚±I");
@@ -115,6 +119,7 @@ public class yadokarock : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, trackingRange);
     }
+#endif
 
     private void DoMove(Vector3 targetPosition)
     {
@@ -143,7 +148,7 @@ public class yadokarock : MonoBehaviour
         float forward_z = transform.forward.z * 0.6f;  //*‚±‚±‚Åenemy‚Ì‘¬‚³’²ß
         rigidbody.velocity = new Vector3(forward_x, rigidbody.velocity.y, forward_z);
     }
-#endif
+
     private static Mesh CreateFanMesh(float i_angle, int i_triangleCount)
     {
         var mesh = new Mesh();
@@ -178,6 +183,7 @@ public class yadokarock : MonoBehaviour
         return vertices.ToArray();
     }
 
+#if UNITY_EDITOR
     [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected)]
     private static void DrawPointGizmos(yadokarock i_object, GizmoType i_gizmoType)
     {
@@ -187,10 +193,11 @@ public class yadokarock : MonoBehaviour
         }
         Gizmos.color = MESH_COLOR;
         Transform transform = i_object.transform;
-        Vector3 pos = transform.position + transform.forward * 0.1f + Vector3.up * 0.03f; 
+        Vector3 pos = transform.position + transform.forward * 0.1f + Vector3.up * 0.03f;
         Quaternion rot = transform.rotation;
         Vector3 scale = Vector3.one * i_object.Length;
         Mesh fanMesh = CreateFanMesh(i_object.WidthAngle, TRIANGLE_COUNT);
         Gizmos.DrawMesh(fanMesh, pos, rot, scale);
     }
+#endif
 }

@@ -12,7 +12,11 @@
     "move_boost": 2.0,
     "oxy_max": 100.0,
     "oxy_cost_boost": 2.0,
-    "oxy_cost": 0.3
+    "damage": 10.0,
+    "oxy_cost": 0.3,
+    "knockback_power": 0.8,
+    "knockback_power_up": 0.7,
+    "knockback_stan_": 1.0
   },
   "submaline": {
     "pos_x": -1.0,

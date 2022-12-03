@@ -14,13 +14,13 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
+  m_Fog: 1
   m_FogColor: {r: 0.093271606, g: 0.15134582, b: 0.18867922, a: 1}
   m_FogMode: 1
   m_FogDensity: 0.35
   m_LinearFogStart: 1.5
   m_LinearFogEnd: 3
-  m_AmbientSkyColor: {r: 0.05490196, g: 0.30980393, b: 0.4509804, a: 1}
+  m_AmbientSkyColor: {r: 0.007843138, g: 0.043137256, b: 0.06666667, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -3345,11 +3345,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointlight_object_: {fileID: 2739894992414067846}
-  pointlight_strength_: 0.3
-  pointlight_range_: 1.2
+  pointlight_strength_: 0.1
+  pointlight_range_: 1.5
   spotlight_object_: {fileID: 2739894992907472764}
-  spotlight_strength_: 1
-  spotlight_range_: 2.5
+  spotlight_strength_: 0.8
+  spotlight_range_: 2
 --- !u!1 &2739894992119051543
 GameObject:
   m_ObjectHideFlags: 0
@@ -3436,8 +3436,8 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.3
-  m_Range: 1.2
+  m_Intensity: 0.1
+  m_Range: 1.5
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -4028,8 +4028,8 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
-  m_Range: 2.5
+  m_Intensity: 0.8
+  m_Range: 2
   m_SpotAngle: 120
   m_InnerSpotAngle: 90
   m_CookieSize: 10

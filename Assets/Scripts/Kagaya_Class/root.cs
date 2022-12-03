@@ -13,7 +13,9 @@ public class root : MonoBehaviour
     Mesh mesh;
     Vector3[] vertices;
 
+#if UNITY_EDITOR
     [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected)]
+#endif
 
     private static readonly int TRIANGLE_COUNT = 12;
     private static readonly Color MESH_COLOR = new Color(1.0f, 1.0f, 0.0f, 0.7f);
@@ -144,6 +146,7 @@ public class root : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, quitRange);
     }
+#endif
 
     private void DoMove(Vector3 targetPosition)
     {
@@ -178,7 +181,6 @@ public class root : MonoBehaviour
 
         rigidbody.velocity = new Vector3(forward_x, rigidbody.velocity.y, forward_z);
     }
-#endif
 
     private static Mesh CreateFanMesh(float i_angle, int i_triangleCount)
     {
@@ -238,6 +240,7 @@ public class root : MonoBehaviour
         return vertices.ToArray();
     }
 
+#if UNITY_EDITOR
     [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected)]
     private static void DrawPointGizmos(root i_object, GizmoType i_gizmoType)
     {
@@ -256,4 +259,5 @@ public class root : MonoBehaviour
         Mesh fanMesh = CreateFanMesh(i_object.WidthAngle, TRIANGLE_COUNT);
         Gizmos.DrawMesh(fanMesh, pos, rot, scale);
     }
+#endif
 }
