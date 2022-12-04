@@ -12,6 +12,7 @@ public class BloodDirection : MonoBehaviour
     [SerializeField] float speed_recovery_      = 0.1f;
     [SerializeField] float speed_damageFade_    = 1.0f;
     [SerializeField] float ratio_damage_        = 0.5f;
+    [SerializeField] float ratio_oxyNoneDamage_ = 0.3f;
 
     [SerializeField] Text txt_debug_ = null;
     bool pushFrag_ = false;
@@ -60,16 +61,22 @@ public class BloodDirection : MonoBehaviour
         }
     }
 
+    public void OxyEmpty()
+    {
+        if (!pushFrag_)
+        {
+            pushFrag_ = true;
+            StartCoroutine(OxygenEmpty());
+        }
+    }
+
     /// <summary>
     /// ダメージ回復演出
     /// </summary>
     public void DamageRecovery()
     {
-        if (!pushFrag_)
-        {
-            pushFrag_= true;
-            StopCoroutine(DamageDoneDirection());
-        }
+        StopCoroutine(OxygenEmpty());
+        pushFrag_ = false;
     }
 
     /// <summary>
@@ -103,6 +110,25 @@ public class BloodDirection : MonoBehaviour
         yield return StartCoroutine(Wait_BeginsToRecover());
 
         pushFrag_ = false;
+
+        yield break;
+    }
+
+    /// <summary>
+    /// 酸素残量がなくなった時演出
+    /// </summary>
+    /// <returns>コルーチン</returns>
+    IEnumerator OxygenEmpty()
+    {
+        while (alpha_ < 1.0f)
+        {
+            alpha_ += ratio_oxyNoneDamage_;
+            SetAlpha();
+
+            yield return new WaitForSeconds(1.0f);
+        }
+
+        pushFrag_= false;
 
         yield break;
     }

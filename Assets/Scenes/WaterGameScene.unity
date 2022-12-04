@@ -434,6 +434,7 @@ MonoBehaviour:
   speed_recovery_: 0.1
   speed_damageFade_: 1
   ratio_damage_: 0.5
+  ratio_oxyNoneDamage_: 0.3
   txt_debug_: {fileID: 927765436}
 --- !u!1001 &448337153
 PrefabInstance:

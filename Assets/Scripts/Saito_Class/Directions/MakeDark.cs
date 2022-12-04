@@ -12,7 +12,8 @@ public class MakeDark : MonoBehaviour
         if (dark_on_)
         {
             light_.color = new Color(0.13f, 0.3f, 0.3f, 1.0f);
-            RenderSettings.fog = true;
         }
+        
+        RenderSettings.fog = dark_on_;
     }
 }
