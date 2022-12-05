@@ -10,9 +10,10 @@ public class BloodDirection : MonoBehaviour
 
     [SerializeField] float time_recovery_       = 5.0f;
     [SerializeField] float speed_recovery_      = 0.1f;
-    [SerializeField] float speed_damageFade_    = 1.0f;
     [SerializeField] float ratio_damage_        = 0.5f;
     [SerializeField] float ratio_oxyNoneDamage_ = 0.3f;
+
+    [SerializeField] ParticleEffectPlayer effect_ = null;
 
     [SerializeField] Text txt_debug_ = null;
     bool pushFrag_ = false;
@@ -57,6 +58,7 @@ public class BloodDirection : MonoBehaviour
         if (!pushFrag_)
         {
             pushFrag_ = true;
+            effect_.PlayOneShot();
             StartCoroutine(DamageDoneDirection());
         }
     }
@@ -77,6 +79,15 @@ public class BloodDirection : MonoBehaviour
     {
         StopCoroutine(OxygenEmpty());
         pushFrag_ = false;
+    }
+
+    /// <summary>
+    /// ダメージが最大かを返す
+    /// </summary>
+    /// <returns>ダメージが最大か</returns>
+    public bool DamageMax()
+    {
+        return alpha_ == 1.0f;
     }
 
     /// <summary>

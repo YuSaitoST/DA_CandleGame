@@ -1,5 +1,6 @@
 #define _DEBUG_OFF
 
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -19,7 +20,6 @@ public class GameProgress : MonoBehaviour
     static public GameProgress instance_;   // インスタンス
 
     [SerializeField] GameObject player_         = null; // プレイヤー
-    [SerializeField] GoalCreate goalCreater_    = null; // ゴールクリエイター
     [SerializeField] DebugPanel debugPanel_     = null; // デバッグパネル
 
     [SerializeField] Player             sc_player_      = null;
@@ -54,21 +54,9 @@ public class GameProgress : MonoBehaviour
         // 重力の強さを調整
         Physics.gravity = new Vector3(0.0f, -1.0f, 0.0f);
 
-        // ゴール設置
-        goalCreater_.CreateGoalArea(new Vector3(7.0f, -1.0f, 0.0f));
-
         // ゲームの進行状態をセット
         progress_ = GAME_PROGRESS.START;
 
-        // 各種オブジェクトの初期化
-        //if (sc_player_ != null)
-        //{
-        //    sc_player_.Initialize();
-        //}
-        //if(sc_submarine_ != null)
-        //{
-        //    sc_submarine_.Initialize();
-        //}
 
         // デバッグパネルの表示状態の変更
 #if _DEBUG_ON
@@ -88,12 +76,25 @@ public class GameProgress : MonoBehaviour
     }
 
     /// <summary>
+    /// ゲームクリア処理
+    /// </summary>
+    public void GameClear()
+    {
+        progress_ = GAME_PROGRESS.CLEAR;
+        debugPanel_.SetMessageText("GameClear!", "no Clear");
+
+        StartCoroutine(StayToGoResult());
+    }
+
+    /// <summary>
     /// ゲームオーバー処理
     /// </summary>
     public void GameOver()
     {
         progress_ = GAME_PROGRESS.OVER;
         debugPanel_.SetMessageText("GameOver...", "no Clear");
+
+        StartCoroutine(StayToGoResult());
     }
 
     /// <summary>
@@ -120,6 +121,8 @@ public class GameProgress : MonoBehaviour
     {
 #if _DEBUG_ON
         debugPanel_.SetMessageText("GameClear", "no Clear");
+#else
+        FadeManager.Instance.LoadScene("ResultScene", 2.0f);
 #endif
     }
 
@@ -136,5 +139,14 @@ public class GameProgress : MonoBehaviour
         }
 
         return null;
+    }
+
+    IEnumerator StayToGoResult()
+    {
+        yield return new WaitForSeconds(3.5f);
+
+        GameFine();
+
+        yield return null;
     }
 }

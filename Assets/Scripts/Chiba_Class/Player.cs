@@ -227,7 +227,6 @@ public class Player : MonoBehaviour
         item_ui_.enabled = false;
         //アクションキャンセルボタン
         cancel_ui_.enabled = false;
-
         
         Paramater _param = GameProgress.instance_.GetParameters();
         float _pos_x = _param.player.pos_x;
@@ -269,6 +268,9 @@ public class Player : MonoBehaviour
             {
 
                 type_ = State.Blood;
+
+                // 齋藤の追加ソース
+                bloodDirection_.OxyEmpty();
             }
         }
 
@@ -819,6 +821,8 @@ public class Player : MonoBehaviour
                         _tank.GetComponent<Tank>().Pickup();
                         _tank = null;
                     }
+
+                    bloodDirection_.DamageRecovery();
 
                 }
 
