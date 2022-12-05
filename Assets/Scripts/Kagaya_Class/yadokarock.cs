@@ -21,7 +21,6 @@ public class yadokarock : MonoBehaviour
     Mesh mesh;
     Vector3[] vertices;
     [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected)]
-    public Vector3 lastCoordinate;
     private static readonly int TRIANGLE_COUNT = 12;
     private static readonly Color MESH_COLOR = new Color(1.0f, 1.0f, 0.0f, 0.7f);
     Quaternion targetRot;
