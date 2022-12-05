@@ -129,6 +129,12 @@ public class GameProgress : MonoBehaviour
     /// <returns>パラメータセット</returns>
     public Paramater GetParameters()
     {
-        return parameters_.GetParameter();
+        Paramater _param = parameters_.GetParameter();
+        if(_param != null)
+        {
+            return _param;
+        }
+
+        return null;
     }
 }
