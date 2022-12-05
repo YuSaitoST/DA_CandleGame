@@ -11,7 +11,7 @@ public class BloodDirection : MonoBehaviour
     [SerializeField] float time_recovery_       = 5.0f;
     [SerializeField] float speed_recovery_      = 0.1f;
     [SerializeField] float ratio_damage_        = 0.5f;
-    [SerializeField] float ratio_oxyNoneDamage_ = 0.3f;
+    [SerializeField] float ratio_oxyNoneDamage_ = 0.03f;
 
     [SerializeField] ParticleEffectPlayer effect_ = null;
 
@@ -20,13 +20,18 @@ public class BloodDirection : MonoBehaviour
 
     float alpha_ = 0.0f;
 
+    IEnumerator coro_oxyEmpty_;
+
 
     // Start is called before the first frame update
     void Start()
     {
         alpha_ = 0.0f;
         ratio_damage_ = 0.5f;
+        ratio_oxyNoneDamage_ = 0.03f;
         SetAlpha();
+
+        coro_oxyEmpty_ = OxygenEmpty();
 
 #if debug_on_
         txt_debug_.text = "b-a : " + alpha_;
@@ -68,7 +73,7 @@ public class BloodDirection : MonoBehaviour
         if (!pushFrag_)
         {
             pushFrag_ = true;
-            StartCoroutine(OxygenEmpty());
+            StartCoroutine(coro_oxyEmpty_);
         }
     }
 
@@ -77,7 +82,12 @@ public class BloodDirection : MonoBehaviour
     /// </summary>
     public void DamageRecovery()
     {
-        StopCoroutine(OxygenEmpty());
+        StopCoroutine(coro_oxyEmpty_);
+        coro_oxyEmpty_ = null;
+        coro_oxyEmpty_ = OxygenEmpty();
+
+        StartCoroutine(Wait_BeginsToRecover());
+
         pushFrag_ = false;
     }
 
@@ -91,7 +101,7 @@ public class BloodDirection : MonoBehaviour
     }
 
     /// <summary>
-    /// 画像を薄くし始めるまで待機する
+    /// 回復し始めるまで待機する
     /// </summary>
     /// <returns>コルーチン</returns>
     IEnumerator Wait_BeginsToRecover()
@@ -110,7 +120,7 @@ public class BloodDirection : MonoBehaviour
     }
 
     /// <summary>
-    /// ダメージ演出処理
+    /// 瞬間のダメージ処理・回復処理
     /// </summary>
     /// <returns>コルーチン</returns>
     IEnumerator DamageDoneDirection()
@@ -133,13 +143,13 @@ public class BloodDirection : MonoBehaviour
     {
         while (alpha_ < 1.0f)
         {
+            yield return new WaitForSeconds(1.0f);
+
             alpha_ += ratio_oxyNoneDamage_;
             SetAlpha();
-
-            yield return new WaitForSeconds(1.0f);
         }
 
-        pushFrag_= false;
+        pushFrag_ = false;
 
         yield break;
     }
