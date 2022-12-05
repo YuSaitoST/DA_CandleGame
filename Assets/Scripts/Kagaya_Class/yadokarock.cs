@@ -23,9 +23,12 @@ public class yadokarock : MonoBehaviour
 
 #if UNITY_EDITOR
     [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected)]
+<<<<<<< HEAD
 #endif
 
     public Vector3 lastCoordinate;
+=======
+>>>>>>> DA_CandleGame/Work_Kaga_2
     private static readonly int TRIANGLE_COUNT = 12;
     private static readonly Color MESH_COLOR = new Color(1.0f, 1.0f, 0.0f, 0.7f);
     Quaternion targetRot;
