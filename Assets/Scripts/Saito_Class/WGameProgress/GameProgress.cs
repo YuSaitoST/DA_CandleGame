@@ -81,7 +81,9 @@ public class GameProgress : MonoBehaviour
     public void GameClear()
     {
         progress_ = GAME_PROGRESS.CLEAR;
+#if _DEBUG_ON
         debugPanel_.SetMessageText("GameClear!", "no Clear");
+#endif
 
         StartCoroutine(StayToGoResult());
     }
@@ -92,7 +94,9 @@ public class GameProgress : MonoBehaviour
     public void GameOver()
     {
         progress_ = GAME_PROGRESS.OVER;
+#if _DEBUG_ON
         debugPanel_.SetMessageText("GameOver...", "no Clear");
+#endif
 
         StartCoroutine(StayToGoResult());
     }

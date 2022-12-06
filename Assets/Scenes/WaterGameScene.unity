@@ -650,8 +650,8 @@ MonoBehaviour:
   - {fileID: 7356461007486027532, guid: f2bec4c0af25a5f40aa58b524dcf8a7a, type: 3}
   - {fileID: 7977253578579725104, guid: eaeaa611927cc504c88f3f06dda35861, type: 3}
   pref_items_:
-  - {fileID: 5693410516630551489, guid: 4a78c3d468ef2a446b372333c05f2ff0, type: 3}
   - {fileID: 5537258919236831711, guid: d4f26a33ff4dc074e891805eb78a56bc, type: 3}
+  - {fileID: 5693410516630551489, guid: 4a78c3d468ef2a446b372333c05f2ff0, type: 3}
   pref_bRocks_:
   - {fileID: 5104135839725905215, guid: a6be9d002724dc9499261de4dce9eafc, type: 3}
   parent_enemy_: {fileID: 1157748337}
@@ -718,7 +718,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df7c02f644221e64aac28aaff2ebafe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dark_on_: 1
+  dark_on_: 0
   light_: {fileID: 1199495216}
 --- !u!4 &610900661 stripped
 Transform:
