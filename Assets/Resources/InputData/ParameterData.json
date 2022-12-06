@@ -1,0 +1,29 @@
+{
+  "field": {
+    "x_clip": 9.0,
+    "y_clip": 200.0,
+    "z_clip": 5
+  },
+  "player": {
+    "pos_x": -0.8,
+    "pos_y": 0.0,
+    "pos_z": -0.9,
+    "move_speed": 0.5,
+    "move_boost": 2.0,
+    "oxy_max": 100.0,
+    "oxy_cost_boost": 2.0,
+    "damage": 10.0,
+    "oxy_cost": 0.3,
+    "knockback_power": 0.8,
+    "knockback_power_up": 0.7,
+    "knockback_stan_": 1.0
+  },
+  "submaline": {
+    "pos_x": -1.0,
+    "pos_y": 0.0,
+    "pos_z": 1.0
+  },
+  "yadokarock": {
+    "speed": 0.6
+  }
+}
