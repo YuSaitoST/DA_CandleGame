@@ -32,6 +32,9 @@ public class yadokarock : MonoBehaviour
     const float widthAngle = 90.0f;
     const float heightAngle = 0.0f;
     const float length = 2.9f;
+
+    float SPEED;
+
     public float WidthAngle { get { return widthAngle; } }
     public float HeightAngle { get { return heightAngle; } }
     public float Length { get { return length; } }
@@ -44,6 +47,8 @@ public class yadokarock : MonoBehaviour
         targetRot = Quaternion.AngleAxis(angle, axis) * transform.rotation;
         enabled = true;
         state = ENE_STATE.STAY;
+
+        //SPEED=GameProgress.instance_
     }
 
     private void OnTriggerStay(Collider other)
