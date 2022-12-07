@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class BloodDirection : MonoBehaviour
 {
     [SerializeField] Image img_blood_ = null;
+    [SerializeField] AudioSource audioSource_ = null;
+    [SerializeField] AudioClip se_heart_rate_ = null;
 
     [SerializeField] float time_recovery_       = 5.0f;
     [SerializeField] float speed_recovery_      = 0.1f;
@@ -15,7 +17,10 @@ public class BloodDirection : MonoBehaviour
 
     [SerializeField] ParticleEffectPlayer effect_ = null;
 
+#if debug_on_
     [SerializeField] Text txt_debug_ = null;
+#endif
+
     bool pushFrag_ = false;
 
     float alpha_ = 0.0f;
@@ -30,6 +35,9 @@ public class BloodDirection : MonoBehaviour
         ratio_damage_ = 0.5f;
         ratio_oxyNoneDamage_ = 0.03f;
         SetAlpha();
+
+        audioSource_.volume = 0.5f;
+        audioSource_.loop = true;
 
         coro_oxyEmpty_ = OxygenEmpty();
 
@@ -51,6 +59,9 @@ public class BloodDirection : MonoBehaviour
 
         if (img_blood_.color.a == 1.0f)
         {
+            audioSource_.Stop();
+            audioSource_.volume = 0.0f;
+            audioSource_.loop = false;
             GameProgress.instance_.GameOver();
         }
     }
@@ -64,15 +75,20 @@ public class BloodDirection : MonoBehaviour
         {
             pushFrag_ = true;
             effect_.PlayOneShot();
+            audioSource_.PlayOneShot(se_heart_rate_);
             StartCoroutine(DamageDoneDirection());
         }
     }
 
+    /// <summary>
+    /// é_ëfÇ™ãÛÇ…Ç»Ç¡ÇΩéûââèo
+    /// </summary>
     public void OxyEmpty()
     {
         if (!pushFrag_)
         {
             pushFrag_ = true;
+            audioSource_.PlayOneShot(se_heart_rate_);
             StartCoroutine(coro_oxyEmpty_);
         }
     }
@@ -114,7 +130,11 @@ public class BloodDirection : MonoBehaviour
 
             alpha_ = Mathf.Max(0.0f, alpha_ - speed_recovery_ * Time.deltaTime);
             SetAlpha();
+
+            audioSource_.volume = alpha_;
         }
+
+        audioSource_.Stop();
 
         yield break;
     }
@@ -128,9 +148,16 @@ public class BloodDirection : MonoBehaviour
         alpha_ += ratio_damage_;
         SetAlpha();
 
+        audioSource_.volume = alpha_;
+
         yield return StartCoroutine(Wait_BeginsToRecover());
 
         pushFrag_ = false;
+
+        if (alpha_ == 1.0f)
+        {
+            audioSource_.Stop();
+        }
 
         yield break;
     }
@@ -147,9 +174,16 @@ public class BloodDirection : MonoBehaviour
 
             alpha_ += ratio_oxyNoneDamage_;
             SetAlpha();
+
+            audioSource_.volume = alpha_;
         }
 
         pushFrag_ = false;
+
+        if (alpha_ == 1.0f)
+        {
+            audioSource_.Stop();
+        }
 
         yield break;
     }

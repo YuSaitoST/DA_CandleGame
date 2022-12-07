@@ -19,8 +19,10 @@ public class GameProgress : MonoBehaviour
 {
     static public GameProgress instance_;   // インスタンス
 
-    [SerializeField] GameObject player_         = null; // プレイヤー
-    [SerializeField] DebugPanel debugPanel_     = null; // デバッグパネル
+    [SerializeField] GameObject     player_         = null; // プレイヤー
+    [SerializeField] DebugPanel     debugPanel_     = null; // デバッグパネル
+    [SerializeField] AudioSource    audiosource_    = null;
+    [SerializeField] AudioClip      se_death_       = null;
 
     [SerializeField] Player             sc_player_      = null;
     [SerializeField] SubmarineManager   sc_submarine_   = null;
@@ -98,6 +100,7 @@ public class GameProgress : MonoBehaviour
         debugPanel_.SetMessageText("GameOver...", "no Clear");
 #endif
 
+        audiosource_.PlayOneShot(se_death_);
         StartCoroutine(StayToGoResult());
     }
 

@@ -12,6 +12,7 @@ using UnityEngine;
     public PLAYER player;
     public SUBMARINE submaline;
     public YADOKAROCK yadokarock;
+    public YADEKAROCK yadekarock;
 }
 
 [Serializable] public class FIELD
@@ -45,6 +46,12 @@ using UnityEngine;
 }
 
 [Serializable] public class YADOKAROCK
+{
+    public float speed;
+}
+
+[Serializable]
+public class YADEKAROCK
 {
     public float speed;
 }

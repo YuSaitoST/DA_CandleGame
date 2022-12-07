@@ -199,6 +199,10 @@ public class Player : MonoBehaviour
     [SerializeField,Tooltip("BloodDirectionをアタッチ")]
     BloodDirection bloodDirection_ = null;
 
+    [Header("SE")]
+    [SerializeField, Tooltip("SEプレイヤー")]
+    PlayersSEPlayer sePlayer_ = null;
+
     void Start()
     {
         
@@ -228,10 +232,20 @@ public class Player : MonoBehaviour
         //アクションキャンセルボタン
         cancel_ui_.enabled = false;
         
-        Paramater _param = GameProgress.instance_.GetParameters();
-        float _pos_x = _param.player.pos_x;
-        float _pos_y = _param.player.pos_y; 
-        float _pos_z = _param.player.pos_z;
+        PLAYER _param = GameProgress.instance_.GetParameters().player;
+
+        player_move_speed_  = _param.move_speed;
+        player_move_boost_  = _param.move_boost;
+        oxy_cost_boost_     = _param.oxy_cost_boost;
+        oxy_cost_           = _param.oxy_cost;
+        damage_             = _param.damage;
+        knockback_power_    = _param.knockback_power;
+        knockback_power_up_ = _param.knockback_power_up;
+        knockback_stan_     = _param.knockback_stan_;
+
+        float _pos_x = _param.pos_x;
+        float _pos_y = _param.pos_y; 
+        float _pos_z = _param.pos_z;
 
         this.transform.position = new Vector3(_pos_x, _pos_y, _pos_z);
     }
@@ -719,7 +733,7 @@ public class Player : MonoBehaviour
             rb_.AddForce(_distination * knockback_power_, ForceMode.VelocityChange);
             rb_.AddForce(transform.up * knockback_power_up_, ForceMode.VelocityChange);
 
-          
+            sePlayer_.TakeDamage();
         }
     }
    
@@ -764,7 +778,7 @@ public class Player : MonoBehaviour
                     var _parts = other;
                     _parts.GetComponent<Parts>().Pickup();
                     _parts = null;
-
+                    sePlayer_.PartGet();
                 }
 
             }
@@ -823,7 +837,7 @@ public class Player : MonoBehaviour
                     }
 
                     bloodDirection_.DamageRecovery();
-
+                    sePlayer_.TankGet();
                 }
 
             }

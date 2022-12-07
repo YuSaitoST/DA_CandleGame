@@ -36,18 +36,18 @@ public class BombManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // ファイル読み込み
-        List<string>    _data   = ResourceReader.GetCSVReadData("BombLocationPos");
-        string[]        _strPos;
+        //// ファイル読み込み
+        //List<string>    _data   = ResourceReader.GetCSVReadData("BombLocationPos");
+        //string[]        _strPos;
 
-        // プレハブ生成
-        GameObject _obj;
-        for(int i = 0; i < 4; ++i)
-        {
-            _strPos = _data[i].Split(',');
-            _obj    = Instantiate(prefab_location_, new Vector3(short.Parse(_strPos[0]), 0, short.Parse(_strPos[1])), Quaternion.identity);
-            _obj.transform.parent = transform;
-        }
+        //// プレハブ生成
+        //GameObject _obj;
+        //for(int i = 0; i < 4; ++i)
+        //{
+        //    _strPos = _data[i].Split(',');
+        //    _obj    = Instantiate(prefab_location_, new Vector3(short.Parse(_strPos[0]), 0, short.Parse(_strPos[1])), Quaternion.identity);
+        //    _obj.transform.parent = transform;
+        //}
     }
 
     /// <summary>
