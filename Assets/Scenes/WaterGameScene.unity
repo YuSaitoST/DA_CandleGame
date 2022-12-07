@@ -5,11 +5,12 @@ OcclusionCullingSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_OcclusionBakeSettings:
-    smallestOccluder: 5
+    smallestOccluder: 3
     smallestHole: 0.25
-    backfaceThreshold: 100
-  m_SceneGUID: 00000000000000000000000000000000
-  m_OcclusionCullingData: {fileID: 0}
+    backfaceThreshold: 10
+  m_SceneGUID: c080110ab9a4d9041a4559a86f036c66
+  m_OcclusionCullingData: {fileID: 36300000, guid: 59b8405d286f77549a96d10744587420,
+    type: 2}
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
@@ -718,7 +719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df7c02f644221e64aac28aaff2ebafe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dark_on_: 0
+  dark_on_: 1
   light_: {fileID: 1199495216}
 --- !u!4 &610900661 stripped
 Transform:
@@ -47797,6 +47798,7 @@ GameObject:
   - component: {fileID: 9033653969166903197}
   - component: {fileID: 9033653969166903206}
   - component: {fileID: 9033653969166903204}
+  - component: {fileID: 9033653969166903207}
   m_Layer: 3
   m_Name: PlayerC
   m_TagString: Player
@@ -47887,6 +47889,19 @@ MonoBehaviour:
   item_ui_: {fileID: 2739894992505805684}
   cancel_ui_: {fileID: 1347123824}
   bloodDirection_: {fileID: 440265408}
+--- !u!114 &9033653969166903207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9033653969166903198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39b4cb2a06813ca4e999826b492a246d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab_: {fileID: 594919428763378069, guid: cb586842229de09409c3072748c60a87, type: 3}
 --- !u!33 &9033653969623882272
 MeshFilter:
   m_ObjectHideFlags: 0
