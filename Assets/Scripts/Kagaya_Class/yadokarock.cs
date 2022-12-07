@@ -27,14 +27,13 @@ public class yadokarock : MonoBehaviour
     Vector3 axis = Vector3.up;
     const float angle = 90f;
     Vector3 playerPos;
-    const float trackingRange = 3.0f;
+    const float trackingRange = 4.0f;
     ENE_STATE state = ENE_STATE.STAY;
     const float widthAngle = 90.0f;
     const float heightAngle = 0.0f;
-    const float length = 2.9f;
+    const float length = 3.9f;
 
-    float SPEED;
-
+    float speed_;
     public float WidthAngle { get { return widthAngle; } }
     public float HeightAngle { get { return heightAngle; } }
     public float Length { get { return length; } }
@@ -47,10 +46,16 @@ public class yadokarock : MonoBehaviour
         targetRot = Quaternion.AngleAxis(angle, axis) * transform.rotation;
         enabled = true;
         state = ENE_STATE.STAY;
-
+        
         //SPEED=GameProgress.instance_
     }
 
+    public void SetParameters(float speed)
+    {
+        speed_ = speed; // ÉÅÉìÉoÅ[ïœêîÇ…ë„ì¸Ç∑ÇÈ
+    }
+        
+    
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "Player") //éãäEÇÃîÕàÕì‡ÇÃìñÇΩÇËîªíË
@@ -65,11 +70,14 @@ public class yadokarock : MonoBehaviour
                 {
                     if (hit.collider == other)
                     {
-                        //tracking = true;
-                        state = ENE_STATE.TRACKING;
-                        Debug.Log("range of view");
+                        time += Time.deltaTime;
                         Agent.destination = playerC.transform.position;
-                        time = 0.0f;
+                        if (time >= 1.0f)
+                        {
+                            state = ENE_STATE.TRACKING;
+
+                        }
+                        Debug.Log("range of view");
                     }
                 }
             }
@@ -143,8 +151,8 @@ public class yadokarock : MonoBehaviour
         moveRotation.z = 0;
         moveRotation.x = 0;
         transform.rotation = moveRotation; Quaternion.Lerp(transform.rotation, targetRot, 0.2f);
-        float forward_x = transform.forward.x * 0.6f;  //*Ç±Ç±Ç≈enemyÇÃë¨Ç≥í≤êﬂ
-        float forward_z = transform.forward.z * 0.6f;  //*Ç±Ç±Ç≈enemyÇÃë¨Ç≥í≤êﬂ
+        float forward_x = transform.forward.x * speed_;  //*Ç±Ç±Ç≈enemyÇÃë¨Ç≥í≤êﬂ
+        float forward_z = transform.forward.z * speed_;  //*Ç±Ç±Ç≈enemyÇÃë¨Ç≥í≤êﬂ
         rigidbody.velocity = new Vector3(forward_x, rigidbody.velocity.y, forward_z);
     }
 #endif
