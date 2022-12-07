@@ -1255,7 +1255,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1064363623}
   m_Layer: 0
-  m_Name: Paremt_BRock
+  m_Name: Parent_BRock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
