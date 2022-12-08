@@ -24,16 +24,16 @@ public class ParticleEffectPlayer : MonoBehaviour
         }
     }
 
-    public bool IsFined()
-    {
-        return ps_.isStopped;
-    }
-
     IEnumerator IsFine()
     {
-        while (!ps_.isStopped)
+        while (true)
         {
             yield return null;
+
+            if (ps_.isStopped)
+            {
+                yield break;
+            }
         }
     }
 }

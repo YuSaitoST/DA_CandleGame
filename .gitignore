@@ -75,14 +75,53 @@ Assets/Fonts/Main/smart_font SDF.asset.meta
 Assets/Scenes/MainScene.unity
 Assets/Scenes/SampleScene.unity
 
-Assets/Alstra Infinite/Fish - PolyPack/
-Assets/Alstra Infinite/Fish - PolyPack.meta
-Assets/FreeToolsKit/
-Assets/FreeToolsKit.meta
+Assets/Alstra Infinite/Fish - PolyPack/Scene/
+Assets/Alstra Infinite/Fish - PolyPack/Scene.meta
+Assets/Alstra Infinite/Fish - PolyPack/Models/
+Assets/Alstra Infinite/Fish - PolyPack/Models.meta
+Assets/FreeToolsKit/Demo/
+Assets/FreeToolsKit/Demo.meta
 Assets/FreeToolsKit/Assets/Models/
 Assets/FreeToolsKit/Assets/Models.meta
-Assets/DiverAndSubmarine/
-Assets/DiverAndSubmarine.meta
+Assets/DiverAndSubmarine/DiverAndSubmarine_Demo.unity
+Assets/DiverAndSubmarine/DiverAndSubmarine_Demo.unity.meta
+Assets/Whale3D/
+Assets/Whale3D.meta
+Assets/Poly Ninja/
+Assets/Poly Ninja.meta
+Assets/LowPoly Rocks/
+Assets/LowPoly Rocks.meta
+Assets/Low_poly_styled_rocks/
+Assets/Low_poly_styled_rocks.meta
+Assets/HQ Rocks/
+Assets/HQ Rocks.meta
+Assets/_TerrainAutoUpgrade/
+Assets/_TerrainAutoUpgrade.meta
+
+UserSettings/
+GameData/
+ProjectSettings/
+Assets/Effekseer
+Assets/Scenes/1024MainScene.unity
+Assets/Scenes/1024MainScene.unity.meta
+Assets/Fonts/Main/smart_font.otf
+Assets/Fonts/Main/smart_font.otf.meta
+Assets/Scenes/SampleScene.unity.meta
+Assets/Fonts/Main/smart_font SDF.asset
+Assets/Fonts/Main/smart_font SDF.asset.meta
+Assets/Scenes/MainScene.unity
+Assets/Scenes/SampleScene.unity
+
+Assets/Alstra Infinite/Fish - PolyPack/Scene/
+Assets/Alstra Infinite/Fish - PolyPack/Scene.meta
+Assets/Alstra Infinite/Fish - PolyPack/Models/
+Assets/Alstra Infinite/Fish - PolyPack/Models.meta
+Assets/FreeToolsKit/Demo/
+Assets/FreeToolsKit/Demo.meta
+Assets/FreeToolsKit/Assets/Models/
+Assets/FreeToolsKit/Assets/Models.meta
+Assets/DiverAndSubmarine/DiverAndSubmarine_Demo.unity
+Assets/DiverAndSubmarine/DiverAndSubmarine_Demo.unity.meta
 Assets/HQ Rocks/
 Assets/HQ Rocks.meta
 Assets/Low_poly_styled_rocks/
@@ -95,10 +134,9 @@ Assets/Poly Ninja/
 Assets/Poly Ninja.meta
 Assets/Game Buffs/
 Assets/Game Buffs.meta
-Assets/hallo/
-Assets/hallo.meta
-Assets/Gas Cylinders/
-Assets/Gas Cylinders.meta
-Assets/VFX/
-Assets/VFX.meta
+Assets.hallo/
+Assets.hallo.meta
 *.bak
+*.bak
+Assets/
+.gitignore.orig

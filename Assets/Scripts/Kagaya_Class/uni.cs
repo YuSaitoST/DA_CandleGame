@@ -3,41 +3,44 @@ using UnityEngine;
 public class uni : MonoBehaviour
 {
     Rigidbody rigidbody;
-    const float trackingRange = 2.5f;
+    private GameObject playerC;
+    float trackingRange = 1.3f;
     const float angle = 360f;
     bool tracking = false;
-    float time = 5.0f;
-    private GameObject playerC;
+    float time = 0.0f;
+    UniState state;
+
+    //[SerializeField]
+    //UniState unistate;
 
     void Start()
     {
         rigidbody = this.GetComponent<Rigidbody>();
-        time = 5.0f;
+        time = 0.0f;
         playerC = GameProgress.instance_.Get_PlayerC();
+        state = GetComponentInChildren<UniState>();
     }
 
     void Update()
     {
-        if (tracking)
+        
+        if (tracking == true)
         {
             float dist = Vector3.Distance(playerC.transform.position, transform.position);
             if (dist > trackingRange)
             {
                 Debug.Log("外れた");
-                tracking = false;
-                time = 5.0f;
+
+                time += Time.deltaTime;
+                if (time >= 5.0f)
+                {
+                    Debug.Log("すいちゃん");
+                    tracking = false;
+                    time = 0.0f;
+                    state.SmallMode();
+                }
             }
         }
-        else
-        {
-            time -= Time.deltaTime;
-            if (time <= 0.0f)
-            {
-                this.GetComponent<Renderer>().material.color = Color.gray;
-                this.transform.localScale = new Vector3(1, 1, 1);
-            }
-        }
-        
     }
 
     private void OnTriggerStay(Collider other)
@@ -50,16 +53,15 @@ public class uni : MonoBehaviour
             float target_angle = Vector3.Angle(this.transform.forward, posDelta);
             if (target_angle < angle) //target_angleがangleに収まっているかどうか
             {
-                if (Physics.Raycast(this.transform.position, posDelta, out RaycastHit hit)) //Rayを使用してtargetに当たっているか判別
-                {
-                    if (hit.collider == other)
-                    {
+                //if (Physics.Raycast(this.transform.position, posDelta, out RaycastHit hit)) //Rayを使用してtargetに当たっているか判別
+                //{
+                //    if (hit.collider == other)
+                //    {
                         tracking = true;
                         Debug.Log("range of view");
-                        this.GetComponent<Renderer>().material.color = Color.red;
-                        this.transform.localScale = new Vector3(2, 2, 2);
-                    }
-                }
+                        state.BigMode();
+                    
+                
             }
         }
     }

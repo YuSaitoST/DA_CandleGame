@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//NavMeshAgent使うときに必要
 using UnityEngine.AI;
 using UnityEditor;
 
@@ -10,41 +9,42 @@ using UnityEditor;
 
 public class root : MonoBehaviour
 {
+    //private Vector3 target = new Vector3(0.0f, 0.0f, 0.0f);
+    //const float circle_angle = 50;
+
     Mesh mesh;
     Vector3[] vertices;
 
-#if UNITY_EDITOR
     [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected)]
-#endif
 
     private static readonly int TRIANGLE_COUNT = 12;
     private static readonly Color MESH_COLOR = new Color(1.0f, 1.0f, 0.0f, 0.7f);
 
     Rigidbody rigidbody;
-    public Transform[] points;
-    [SerializeField] int destPoint = 0;
     private NavMeshAgent agent;
 
-    public float angle = 120f;
+    //[SerializeField]
+    //[Tooltip("追いかける対象")]
+    private GameObject playerC;
+    const float angle = 90f;
     Vector3 playerPos;
-    GameObject enemy;
-    float distance;
-    [SerializeField] float trackingRange = 5f;
-    [SerializeField] float quitRange = 7f;
-    [SerializeField] bool tracking = false;
-    [SerializeField] private CapsuleCollider searchArea;
-    [SerializeField] private float searchAngle = 90f;
 
-    [SerializeField, Range(0.0f, 360.0f)]
-    private float m_widthAngle = 0.0f;
-    [SerializeField, Range(0.0f, 360.0f)]
-    private float m_heightAngle = 0.0f;
-    [SerializeField, Range(0.0f, 15.0f)]
-    private float m_length = 0.0f;
+    const float trackingRange = 5.5f;
+    //const float quitRange = 5f;
+    bool tracking = false;
+    //[SerializeField] private CapsuleCollider searchArea;
+    //const float searchAngle = 90f;
 
-    public float WidthAngle { get { return m_widthAngle; } }
-    public float HeightAngle { get { return m_heightAngle; } }
-    public float Length { get { return m_length; } }
+    //[SerializeField, Range(0.0f, 360.0f)]
+    const float widthAngle = 90.0f;
+    //[SerializeField, Range(0.0f, 360.0f)]
+    const float heightAngle = 0.0f;
+    //[SerializeField, Range(0.0f, 15.0f)]
+    const float length = 5.0f;
+
+    public float WidthAngle { get { return widthAngle; } }
+    public float HeightAngle { get { return heightAngle; } }
+    public float Length { get { return length; } }
 
     void Start()
 
@@ -57,26 +57,26 @@ public class root : MonoBehaviour
         // 速度をおとしません)
         agent.autoBraking = false;
 
-        GotoNextPoint();
+        //GotoNextPoint();
 
         //追跡したいオブジェクトの名前を入れる
-        enemy = GameObject.Find("Player");
-        //ghost2 = GameObject.Find("Cube1");
+        //enemy = GameObject.Find("Player");
+
     }
 
-    void GotoNextPoint()
-    {
-        // 地点がなにも設定されていないときに返します
-        if (points.Length == 0)
-            return;
+    //void GotoNextPoint()
+    //{
+    //    // 地点がなにも設定されていないときに返します
+    //    if (points.Length == 0)
+    //        return;
 
-        // エージェントが現在設定された目標地点に行くように設定します
-        agent.destination = points[destPoint].position;
+    //    // エージェントが現在設定された目標地点に行くように設定します
+    //    agent.destination = points[destPoint].position;
 
-        // 配列内の次の位置を目標地点に設定し、
-        // 必要ならば出発地点にもどります
-        destPoint = (destPoint + 1) % points.Length;
-    }
+    //    // 配列内の次の位置を目標地点に設定し、
+    //    // 必要ならば出発地点にもどります
+    //    destPoint = (destPoint + 1) % points.Length;
+    //}
 
     private void OnTriggerStay(Collider other)
     {
@@ -92,7 +92,7 @@ public class root : MonoBehaviour
             {
                 if (Physics.Raycast(this.transform.position, posDelta, out RaycastHit hit)) //Rayを使用してtargetに当たっているか判別
                 {
-                    if (hit.collider == other )
+                    if (hit.collider == other)
                     {
                         tracking = true;
                         Debug.Log("range of view");
@@ -106,18 +106,21 @@ public class root : MonoBehaviour
     void Update()
     {
         //Playerとこのオブジェクトの距離を測る
-        playerPos = enemy.transform.position;
-        
-        distance = Vector3.Distance(this.transform.position, playerPos);
+        //playerPos = enemy.transform.position;
+
+        //distance = Vector3.Distance(this.transform.position, playerPos);
 
         if (tracking)
         {
-            //追跡の時、quitRangeより距離が離れたら中止
-            if (distance > quitRange)
+            DoMove(agent.destination);
+            //追跡の時、trackingRangeより距離が離れたら中止
+            float dist = Vector3.Distance(playerPos, transform.position);
+            if (dist > trackingRange)
                 tracking = false;
 
+
             //Playerを目標とする
-            agent.destination = playerPos;
+            //agent.destination = playerPos;
         }
         else
         {
@@ -127,11 +130,14 @@ public class root : MonoBehaviour
 
             // エージェントが現目標地点に近づいてきたら、
             // 次の目標地点を選択します
-            if (!agent.pathPending && agent.remainingDistance < 0.5f)
-                GotoNextPoint();
+            //if (!agent.pathPending && agent.remainingDistance < 0.5f)
+            //GotoNextPoint();
         }
 
-        DoMove(agent.destination);
+        //RotateAround(中心の場所,軸,回転角度)
+        //transform.RotateAround(target,Vector3.up,circle_angle/* * Time.deltaTime*/);
+
+
 
     }
 
@@ -143,10 +149,9 @@ public class root : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, trackingRange);
 
         //quitRangeの範囲を青いワイヤーフレームで示す
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, quitRange);
+        //Gizmos.color = Color.blue;
+        //Gizmos.DrawWireSphere(transform.position, quitRange);
     }
-#endif
 
     private void DoMove(Vector3 targetPosition)
     {
@@ -175,12 +180,13 @@ public class root : MonoBehaviour
         moveRotation.z = 0;
         moveRotation.x = 0;
         transform.rotation = Quaternion.Lerp(transform.rotation, moveRotation, 0.1f);
-        //*ここでenemyの速さ調節
-        float forward_x = transform.forward.x * 4;
-        float forward_z = transform.forward.z * 4;
+
+        float forward_x = transform.forward.x * 0.5f;  //*ここでenemyの速さ調節
+        float forward_z = transform.forward.z * 0.5f;  //*ここでenemyの速さ調節
 
         rigidbody.velocity = new Vector3(forward_x, rigidbody.velocity.y, forward_z);
     }
+#endif
 
     private static Mesh CreateFanMesh(float i_angle, int i_triangleCount)
     {
@@ -207,15 +213,15 @@ public class root : MonoBehaviour
 
     private static Vector3[] CreateFanVertices(float i_angle, int i_triangleCount)
     {
-        if (i_angle <= 0.0f)
-        {
-            throw new System.ArgumentException(string.Format("角度がおかしい！ i_angle={0}", i_angle));
-        }
+        //if (i_angle <= 0.0f)
+        //{
+        //    throw new System.ArgumentException(string.Format("角度がおかしい！ i_angle={0}", i_angle));
+        //}
 
-        if (i_triangleCount <= 0)
-        {
-            throw new System.ArgumentException(string.Format("数がおかしい！ i_triangleCount={0}", i_triangleCount));
-        }
+        //if (i_triangleCount <= 0)
+        //{
+        //    throw new System.ArgumentException(string.Format("数がおかしい！ i_triangleCount={0}", i_triangleCount));
+        //}
 
         i_angle = Mathf.Min(i_angle, 360.0f);
 
@@ -240,7 +246,6 @@ public class root : MonoBehaviour
         return vertices.ToArray();
     }
 
-#if UNITY_EDITOR
     [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected)]
     private static void DrawPointGizmos(root i_object, GizmoType i_gizmoType)
     {
@@ -252,12 +257,11 @@ public class root : MonoBehaviour
         Gizmos.color = MESH_COLOR;
 
         Transform transform = i_object.transform;
-        Vector3 pos = transform.position + Vector3.up * 0.03f; // 0.01fは地面と高さだと見づらいので調整用。
+        Vector3 pos = transform.position + transform.forward * 0.5f + Vector3.up * 0.03f; // 0.01fは地面と高さだと見づらいので調整用。
         Quaternion rot = transform.rotation;
         Vector3 scale = Vector3.one * i_object.Length;
 
         Mesh fanMesh = CreateFanMesh(i_object.WidthAngle, TRIANGLE_COUNT);
         Gizmos.DrawMesh(fanMesh, pos, rot, scale);
     }
-#endif
 }
