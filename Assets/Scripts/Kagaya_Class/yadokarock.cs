@@ -20,26 +20,20 @@ public class yadokarock : MonoBehaviour
     float time = 0;
     Mesh mesh;
     Vector3[] vertices;
-
-#if UNITY_EDITOR
     [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected)]
-<<<<<<< HEAD
-#endif
-
-    public Vector3 lastCoordinate;
-=======
->>>>>>> DA_CandleGame/Work_Kaga_2
     private static readonly int TRIANGLE_COUNT = 12;
     private static readonly Color MESH_COLOR = new Color(1.0f, 1.0f, 0.0f, 0.7f);
     Quaternion targetRot;
     Vector3 axis = Vector3.up;
     const float angle = 90f;
     Vector3 playerPos;
-    const float trackingRange = 3.0f;
+    const float trackingRange = 4.0f;
     ENE_STATE state = ENE_STATE.STAY;
     const float widthAngle = 90.0f;
     const float heightAngle = 0.0f;
-    const float length = 2.9f;
+    const float length = 3.9f;
+
+    float speed_;
     public float WidthAngle { get { return widthAngle; } }
     public float HeightAngle { get { return heightAngle; } }
     public float Length { get { return length; } }
@@ -52,8 +46,16 @@ public class yadokarock : MonoBehaviour
         targetRot = Quaternion.AngleAxis(angle, axis) * transform.rotation;
         enabled = true;
         state = ENE_STATE.STAY;
+        
+        //SPEED=GameProgress.instance_
     }
 
+    public void SetParameters(float speed)
+    {
+        speed_ = speed; // メンバー変数に代入する
+    }
+        
+    
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "Player") //視界の範囲内の当たり判定
@@ -68,11 +70,14 @@ public class yadokarock : MonoBehaviour
                 {
                     if (hit.collider == other)
                     {
-                        //tracking = true;
-                        state = ENE_STATE.TRACKING;
-                        Debug.Log("range of view");
+                        time += Time.deltaTime;
                         Agent.destination = playerC.transform.position;
-                        time = 0.0f;
+                        if (time >= 1.0f)
+                        {
+                            state = ENE_STATE.TRACKING;
+
+                        }
+                        Debug.Log("range of view");
                     }
                 }
             }
@@ -86,7 +91,7 @@ public class yadokarock : MonoBehaviour
         {
             DoMove(Agent.destination);
             float dist = Vector3.Distance(playerC.transform.position, transform.position);
-            if (dist <= 0.3f)
+            if(dist <= 0.3f)
             {
                 this.rigidbody.velocity = Vector3.zero;
                 Debug.Log("アンジュそこ！");
@@ -122,7 +127,6 @@ public class yadokarock : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, trackingRange);
     }
-#endif
 
     private void DoMove(Vector3 targetPosition)
     {
@@ -147,11 +151,11 @@ public class yadokarock : MonoBehaviour
         moveRotation.z = 0;
         moveRotation.x = 0;
         transform.rotation = moveRotation; Quaternion.Lerp(transform.rotation, targetRot, 0.2f);
-        float forward_x = transform.forward.x * 0.6f;  //*ここでenemyの速さ調節
-        float forward_z = transform.forward.z * 0.6f;  //*ここでenemyの速さ調節
+        float forward_x = transform.forward.x * speed_;  //*ここでenemyの速さ調節
+        float forward_z = transform.forward.z * speed_;  //*ここでenemyの速さ調節
         rigidbody.velocity = new Vector3(forward_x, rigidbody.velocity.y, forward_z);
     }
-
+#endif
     private static Mesh CreateFanMesh(float i_angle, int i_triangleCount)
     {
         var mesh = new Mesh();
@@ -186,7 +190,6 @@ public class yadokarock : MonoBehaviour
         return vertices.ToArray();
     }
 
-#if UNITY_EDITOR
     [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected)]
     private static void DrawPointGizmos(yadokarock i_object, GizmoType i_gizmoType)
     {
@@ -196,11 +199,10 @@ public class yadokarock : MonoBehaviour
         }
         Gizmos.color = MESH_COLOR;
         Transform transform = i_object.transform;
-        Vector3 pos = transform.position + transform.forward * 0.1f + Vector3.up * 0.03f;
+        Vector3 pos = transform.position + transform.forward * 0.1f + Vector3.up * 0.03f; 
         Quaternion rot = transform.rotation;
         Vector3 scale = Vector3.one * i_object.Length;
         Mesh fanMesh = CreateFanMesh(i_object.WidthAngle, TRIANGLE_COUNT);
         Gizmos.DrawMesh(fanMesh, pos, rot, scale);
     }
-#endif
 }
