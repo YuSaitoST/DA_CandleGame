@@ -6,6 +6,9 @@ public class SelfRemovalEffect : MonoBehaviour
 {
     ParticleSystem ps_;
 
+    [SerializeField] AudioSource audioSource = null;
+    [SerializeField] AudioClip clip = null;
+
 
     // Start is called before the first frame update
     void Start()

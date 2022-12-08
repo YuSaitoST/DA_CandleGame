@@ -7768,6 +7768,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pref_breakEffect_: {fileID: 7795994591210275591, guid: 5f3f21498c9aa904fb91630996f38bf5,
     type: 3}
+  pref_sePlayer_: {fileID: 9116921851342906320, guid: e9d0a6b80701dbb4d9818baa838b298f,
+    type: 3}
+  se_break_: {fileID: 8300000, guid: 055f8117f0f20ca45bdd3a4bc2a675f6, type: 3}
 --- !u!64 &3369385438146744592
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -9230,6 +9233,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pref_breakEffect_: {fileID: 7795994591210275591, guid: 5f3f21498c9aa904fb91630996f38bf5,
     type: 3}
+  pref_sePlayer_: {fileID: 9116921851342906320, guid: e9d0a6b80701dbb4d9818baa838b298f,
+    type: 3}
+  se_break_: {fileID: 8300000, guid: 055f8117f0f20ca45bdd3a4bc2a675f6, type: 3}
 --- !u!64 &4717293675660757889
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -47496,6 +47502,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pref_breakEffect_: {fileID: 7795994591210275591, guid: 5f3f21498c9aa904fb91630996f38bf5,
     type: 3}
+  pref_sePlayer_: {fileID: 9116921851342906320, guid: e9d0a6b80701dbb4d9818baa838b298f,
+    type: 3}
+  se_break_: {fileID: 8300000, guid: 055f8117f0f20ca45bdd3a4bc2a675f6, type: 3}
 --- !u!64 &7916169204445166019
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -47678,6 +47687,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pref_breakEffect_: {fileID: 7795994591210275591, guid: 5f3f21498c9aa904fb91630996f38bf5,
     type: 3}
+  pref_sePlayer_: {fileID: 9116921851342906320, guid: e9d0a6b80701dbb4d9818baa838b298f,
+    type: 3}
+  se_break_: {fileID: 8300000, guid: 055f8117f0f20ca45bdd3a4bc2a675f6, type: 3}
 --- !u!64 &8215945379490616294
 MeshCollider:
   m_ObjectHideFlags: 0
