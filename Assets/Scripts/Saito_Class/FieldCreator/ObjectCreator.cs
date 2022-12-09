@@ -21,8 +21,9 @@ public class ObjectCreator : MonoBehaviour
             string _inputString = Resources.Load<TextAsset>("InputData/EnemyData").ToString();
             DataList _dataList = JsonUtility.FromJson<DataList>(_inputString);
             Paramater _param = GameProgress.instance_.GetParameters();
-            float[] _speed = new float[2]{
+            float[] _speed = new float[3]{
                 _param.yadokarock.speed,
+                0.0f,
                 _param.yadekarock.speed
             };
 
@@ -32,8 +33,11 @@ public class ObjectCreator : MonoBehaviour
                 {
                     GameObject _obj = Instantiate(pref_enemys_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up));
                     _obj.transform.parent = parent_enemy_.transform;
-                    _obj.GetComponent<yadokarock>()
-                        .SetParameters(_speed[data.kind]);
+                    if (data.kind == 0 || data.kind == 2)
+                    {
+                        _obj.GetComponent<yadokarock>()
+                            .SetParameters(_speed[data.kind]);
+                    }
                 }
             }
             else
@@ -75,10 +79,9 @@ public class ObjectCreator : MonoBehaviour
         string _inputString = Resources.Load<TextAsset>("InputData/EnemyData").ToString();
         DataList _dataList = JsonUtility.FromJson<DataList>(_inputString);
         Paramater _param = GameProgress.instance_.GetParameters();
-        GameObject _obj;
-        yadokarock _yadok;
-        float[] _speed = new float[2]{
+        float[] _speed = new float[3]{
             _param.yadokarock.speed,
+            0.0f,
             _param.yadekarock.speed
         };
 
@@ -86,19 +89,22 @@ public class ObjectCreator : MonoBehaviour
         {
             foreach (CreateData data in _dataList.lists)
             {
-                _obj = Instantiate(pref_enemys_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up));
+                GameObject _obj = Instantiate(pref_enemys_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up));
                 _obj.transform.parent = parent_enemy_.transform;
-                _yadok = _obj.GetComponent<yadokarock>();
-                _yadok.SetParameters(_speed[data.kind]);
+                if (data.kind == 0 || data.kind == 2)
+                {
+                    _obj.GetComponent<yadokarock>()
+                        .SetParameters(_speed[data.kind]);
+                }
             }
         }
         else
         {
             foreach (CreateData data in _dataList.lists)
             {
-                _obj = Instantiate(pref_enemys_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up));
-                _yadok = _obj.GetComponent<yadokarock>();
-                _yadok.SetParameters(_speed[data.kind]);
+                Instantiate(pref_enemys_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up))
+                    .GetComponent<yadokarock>()
+                    .SetParameters(_speed[data.kind]);
             }
         }
         PrefabCreater.CreateMultiplePrefabs("InputData/ItemData", pref_items_, parent_items_);

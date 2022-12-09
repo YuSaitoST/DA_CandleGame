@@ -21,7 +21,7 @@ public class BombParent : MonoBehaviour
 
     private void Start()
     {
-        exp_.SetActive(false);
+        //exp_.SetActive(false);
     }
 
     // Update is called once per frame
@@ -38,11 +38,11 @@ public class BombParent : MonoBehaviour
         yield return new WaitForSeconds(exp_count_);
         exp_.SetActive(true);
         bomb_obj_.enabled = false;
+        GameProgress.instance_.CameraShake();
         Debug.Log("”š”­");
         yield return new WaitForSeconds(2.5f);
         exp_.SetActive(false);
         Destroy(parent_.gameObject);
-
     }
 
 
@@ -60,7 +60,7 @@ public class BombParent : MonoBehaviour
         if (collision.gameObject.tag == "Ground")
         {
             flg_ = true;
-
+            
             Debug.Log("”š”­");
         }
     }
