@@ -20,6 +20,7 @@ public class GameProgress : MonoBehaviour
     static public GameProgress instance_;   // インスタンス
 
     [SerializeField] GameObject     player_         = null; // プレイヤー
+    [SerializeField] CameraMover    mainCamera_     = null;
     [SerializeField] DebugPanel     debugPanel_     = null; // デバッグパネル
     [SerializeField] AudioSource    audiosource_    = null;
     [SerializeField] AudioClip      se_death_       = null;
@@ -50,21 +51,21 @@ public class GameProgress : MonoBehaviour
     void Start()
     {
         // パラメータをセットする
-        parameters_ = new ParametersSet();
-        parameters_.SetParameter();
+        instance_.parameters_ = new ParametersSet();
+        instance_.parameters_.SetParameter();
 
         // 重力の強さを調整
         Physics.gravity = new Vector3(0.0f, -1.0f, 0.0f);
 
         // ゲームの進行状態をセット
-        progress_ = GAME_PROGRESS.START;
+        instance_.progress_ = GAME_PROGRESS.START;
 
 
         // デバッグパネルの表示状態の変更
 #if _DEBUG_ON
-        debugPanel_.SetActive(true);
+        instance_.debugPanel_.SetActive(true);
 #else
-        debugPanel_.SetActive(false);
+        instance_.debugPanel_.SetActive(false);
 #endif
     }
 
@@ -102,6 +103,14 @@ public class GameProgress : MonoBehaviour
 
         audiosource_.PlayOneShot(se_death_);
         StartCoroutine(StayToGoResult());
+    }
+
+    /// <summary>
+    /// カメラを揺らす
+    /// </summary>
+    public void CameraShake()
+    {
+        mainCamera_.Shake(0.003f, 0.05f, 0.5f);
     }
 
     /// <summary>

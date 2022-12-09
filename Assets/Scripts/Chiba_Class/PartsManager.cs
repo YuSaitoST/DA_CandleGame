@@ -52,6 +52,7 @@ public class PartsManager : MonoBehaviour
         if (clear_count_>= clear_)
         {
             //clearˆ—‚ğ‘‚­
+            GameProgress.instance_.GameClear();
         }
 
     }
