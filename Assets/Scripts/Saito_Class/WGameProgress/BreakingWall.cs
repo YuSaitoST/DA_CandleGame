@@ -13,8 +13,11 @@ public class BreakingWall : MonoBehaviour
         string tags = other.tag.Substring(0, other.tag.Length - 2);
         if(tags == "OxyBomb")
         {
+            Vector3 _pos = transform.position;
+            _pos.y = 0.5f;
+
             // エフェクト生成
-            Instantiate(pref_breakEffect_, transform.position, Quaternion.identity)
+            Instantiate(pref_breakEffect_, _pos, Quaternion.identity)
                 .GetComponent<ParticleSystem>()
                 .Play();
 
