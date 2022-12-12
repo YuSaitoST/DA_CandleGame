@@ -40,7 +40,7 @@ public class BombParent : MonoBehaviour
         bomb_obj_.enabled = false;
         GameProgress.instance_.CameraShake();
         Debug.Log("”š”­");
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(0.7f);
         exp_.SetActive(false);
         Destroy(parent_.gameObject);
     }

@@ -39,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.11790086, g: 0.27062157, b: 0.39631626, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8567,7 +8567,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 2
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -8687,7 +8687,7 @@ GameObject:
   - component: {fileID: 3269662863702253429}
   m_Layer: 0
   m_Name: PartsObjects(debug)
-  m_TagString: Untagged
+  m_TagString: EditorOnly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50717,7 +50717,7 @@ MonoBehaviour:
   fire3_point_: {fileID: 2739894993878586062}
   fire3_drop_: {fileID: 1230702310}
   fire3_speed_: 1
-  fire3_speed2_: 1
+  fire3_speed2_: 0.6
   x_clip_: {x: -28, y: 28}
   y_clip_: {x: -200, y: 200}
   z_clip_: {x: -25, y: 70}
