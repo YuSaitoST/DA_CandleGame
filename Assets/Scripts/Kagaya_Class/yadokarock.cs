@@ -83,7 +83,87 @@ public class yadokarock : MonoBehaviour
             }
         }
     }
-    
+
+    private void OnTriggerEnter(Collider other)
+    {
+        int number = 0;
+        string tags = other.tag.Substring(0, other.tag.Length - 2);
+        if (tags == "OxyBomb00" || tags == "OxyBomb01" || tags == "OxyBomb02" || tags == "OxyBomb03" ||
+            tags == "OxyBomb04" || tags == "OxyBomb05")
+        {
+            time = Time.deltaTime;
+            if (tags == "OxyBomb00")  
+            {
+                number += 1;
+                if (time >= 1.0f)
+                {
+                    number = 0;
+                }
+            }
+            else if (tags == "OxyBomb01")
+            {
+                number += 1;
+                if (time >= 1.4f)
+                {
+                    number = 0;
+                }
+            }
+            else if (tags == "OxyBomb02")
+            {
+                number += 1;
+                if (time >= 1.8f)
+                {
+                    number = 0;
+                }
+            }
+            else if (tags == "OxyBomb03")
+            {
+                number += 1;
+                if (time >= 2.2f)
+                {
+                    number = 0;
+                }
+            }
+            else if (tags == "OxyBomb04")
+            {
+                number += 1;
+                if (time >= 2.6f)
+                {
+                    number = 0;
+                }
+            }
+            else if (tags == "OxyBomb05")
+            {
+                number += 1;
+                if (time >= 3.0f)
+                {
+                    number = 0;
+                }
+            }
+        }
+            
+
+        switch (number)
+        {
+            case 1:
+                this.rigidbody.velocity = Vector3.zero;
+                break;
+            //case 2:
+            //    this.rigidbody.velocity = Vector3.zero;
+            //    break;
+            //case 3:
+            //    this.rigidbody.velocity = Vector3.zero;
+            //    break;
+            //case 4:
+            //    this.rigidbody.velocity = Vector3.zero;
+            //    break;
+            //case 5:
+            //    this.rigidbody.velocity = Vector3.zero;
+            //    break;
+        }
+
+    }
+
     void Update()
     {
         rigidbody.velocity = Vector3.zero;

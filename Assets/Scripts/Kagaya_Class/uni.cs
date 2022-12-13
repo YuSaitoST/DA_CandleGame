@@ -65,10 +65,12 @@ public class uni : MonoBehaviour
             }
         }
     }
+#if UNITY_EDITOR
     void OnDrawGizmos()
     {
         //trackingRangeの範囲を赤いワイヤーフレームで示す
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, trackingRange);
     }
+#endif
 }
