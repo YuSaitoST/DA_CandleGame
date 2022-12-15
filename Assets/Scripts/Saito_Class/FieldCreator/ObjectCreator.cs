@@ -18,9 +18,40 @@ public class ObjectCreator : MonoBehaviour
 #if UNITY_EDITOR
         try
         {
-            PrefabCreater.CreateMultiplePrefabs("InputData/EnemyData", pref_enemys_, parent_enemy_);
+            string _inputString = Resources.Load<TextAsset>("InputData/EnemyData").ToString();
+            DataList _dataList = JsonUtility.FromJson<DataList>(_inputString);
+            Paramater _param = GameProgress.instance_.GetParameters();
+            float[] _speed = new float[3]{
+                _param.yadokarock.speed,
+                0.0f,
+                _param.yadekarock.speed
+            };
 
-        }catch(Exception e)
+            if (parent_enemy_ != null)
+            {
+                foreach (CreateData data in _dataList.lists)
+                {
+                    GameObject _obj = Instantiate(pref_enemys_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up));
+                    _obj.transform.parent = parent_enemy_.transform;
+                    if (data.kind == 0 || data.kind == 2)
+                    {
+                        _obj.GetComponent<yadokarock>()
+                            .SetParameters(_speed[data.kind]);
+                    }
+                }
+            }
+            else
+            {
+                foreach (CreateData data in _dataList.lists)
+                {
+                    Instantiate(pref_enemys_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up))
+                        .GetComponent<yadokarock>()
+                        .SetParameters(_speed[data.kind]);
+                }
+            }
+
+        }
+        catch(Exception e)
         {
             Debug.Log("EnemysData : " + e.ToString());
         }
@@ -45,7 +76,37 @@ public class ObjectCreator : MonoBehaviour
         //    Debug.Log("BreakableRocksData : " + e.ToString());
         //}
 #else
-        PrefabCreater.CreateMultiplePrefabs("InputData/EnemyData", pref_enemys_, parent_enemy_);
+        string _inputString = Resources.Load<TextAsset>("InputData/EnemyData").ToString();
+        DataList _dataList = JsonUtility.FromJson<DataList>(_inputString);
+        Paramater _param = GameProgress.instance_.GetParameters();
+        float[] _speed = new float[3]{
+            _param.yadokarock.speed,
+            0.0f,
+            _param.yadekarock.speed
+        };
+
+        if (parent_enemy_ != null)
+        {
+            foreach (CreateData data in _dataList.lists)
+            {
+                GameObject _obj = Instantiate(pref_enemys_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up));
+                _obj.transform.parent = parent_enemy_.transform;
+                if (data.kind == 0 || data.kind == 2)
+                {
+                    _obj.GetComponent<yadokarock>()
+                        .SetParameters(_speed[data.kind]);
+                }
+            }
+        }
+        else
+        {
+            foreach (CreateData data in _dataList.lists)
+            {
+                Instantiate(pref_enemys_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up))
+                    .GetComponent<yadokarock>()
+                    .SetParameters(_speed[data.kind]);
+            }
+        }
         PrefabCreater.CreateMultiplePrefabs("InputData/ItemData", pref_items_, parent_items_);
         //PrefabCreater.CreateMultiplePrefabs("InputData/BreakableRocksData", pref_bRocks_, parent_bRock_);
 #endif

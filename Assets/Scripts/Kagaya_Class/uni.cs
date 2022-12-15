@@ -4,7 +4,7 @@ public class uni : MonoBehaviour
 {
     Rigidbody rigidbody;
     private GameObject playerC;
-    float trackingRange = 1.3f;
+    float trackingRange = 1.0f;
     const float angle = 360f;
     bool tracking = false;
     float time = 0.0f;
@@ -65,12 +65,10 @@ public class uni : MonoBehaviour
             }
         }
     }
-#if UNITY_EDITOR
     void OnDrawGizmos()
     {
         //trackingRangeの範囲を赤いワイヤーフレームで示す
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, trackingRange);
     }
-#endif
 }

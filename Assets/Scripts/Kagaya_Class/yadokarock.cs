@@ -20,7 +20,11 @@ public class yadokarock : MonoBehaviour
     float time = 0;
     Mesh mesh;
     Vector3[] vertices;
+
+#if UNITY_EDITOR
     [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected)]
+#endif
+
     private static readonly int TRIANGLE_COUNT = 12;
     private static readonly Color MESH_COLOR = new Color(1.0f, 1.0f, 0.0f, 0.7f);
     Quaternion targetRot;
@@ -83,87 +87,7 @@ public class yadokarock : MonoBehaviour
             }
         }
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        int number = 0;
-        string tags = other.tag.Substring(0, other.tag.Length - 2);
-        if (tags == "OxyBomb00" || tags == "OxyBomb01" || tags == "OxyBomb02" || tags == "OxyBomb03" ||
-            tags == "OxyBomb04" || tags == "OxyBomb05")
-        {
-            time = Time.deltaTime;
-            if (tags == "OxyBomb00")  
-            {
-                number += 1;
-                if (time >= 1.0f)
-                {
-                    number = 0;
-                }
-            }
-            else if (tags == "OxyBomb01")
-            {
-                number += 1;
-                if (time >= 1.4f)
-                {
-                    number = 0;
-                }
-            }
-            else if (tags == "OxyBomb02")
-            {
-                number += 1;
-                if (time >= 1.8f)
-                {
-                    number = 0;
-                }
-            }
-            else if (tags == "OxyBomb03")
-            {
-                number += 1;
-                if (time >= 2.2f)
-                {
-                    number = 0;
-                }
-            }
-            else if (tags == "OxyBomb04")
-            {
-                number += 1;
-                if (time >= 2.6f)
-                {
-                    number = 0;
-                }
-            }
-            else if (tags == "OxyBomb05")
-            {
-                number += 1;
-                if (time >= 3.0f)
-                {
-                    number = 0;
-                }
-            }
-        }
-            
-
-        switch (number)
-        {
-            case 1:
-                this.rigidbody.velocity = Vector3.zero;
-                break;
-            //case 2:
-            //    this.rigidbody.velocity = Vector3.zero;
-            //    break;
-            //case 3:
-            //    this.rigidbody.velocity = Vector3.zero;
-            //    break;
-            //case 4:
-            //    this.rigidbody.velocity = Vector3.zero;
-            //    break;
-            //case 5:
-            //    this.rigidbody.velocity = Vector3.zero;
-            //    break;
-        }
-
-    }
-
+    
     void Update()
     {
         rigidbody.velocity = Vector3.zero;
@@ -207,6 +131,7 @@ public class yadokarock : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, trackingRange);
     }
+#endif
 
     private void DoMove(Vector3 targetPosition)
     {
@@ -235,7 +160,7 @@ public class yadokarock : MonoBehaviour
         float forward_z = transform.forward.z * speed_;  //*Ç±Ç±Ç≈enemyÇÃë¨Ç≥í≤êﬂ
         rigidbody.velocity = new Vector3(forward_x, rigidbody.velocity.y, forward_z);
     }
-#endif
+
     private static Mesh CreateFanMesh(float i_angle, int i_triangleCount)
     {
         var mesh = new Mesh();
@@ -270,6 +195,7 @@ public class yadokarock : MonoBehaviour
         return vertices.ToArray();
     }
 
+#if UNITY_EDITOR
     [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected)]
     private static void DrawPointGizmos(yadokarock i_object, GizmoType i_gizmoType)
     {
@@ -285,4 +211,5 @@ public class yadokarock : MonoBehaviour
         Mesh fanMesh = CreateFanMesh(i_object.WidthAngle, TRIANGLE_COUNT);
         Gizmos.DrawMesh(fanMesh, pos, rot, scale);
     }
+#endif
 }
