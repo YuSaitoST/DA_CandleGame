@@ -200,6 +200,9 @@ public class Player : MonoBehaviour
     private Canvas fellow_ui_ = null;
 
     [SerializeField]
+    private Canvas recovery_ui_ = null;
+
+    [SerializeField]
     private int fellow_count_ = 0;
 
    //読み取り用
@@ -555,11 +558,16 @@ public class Player : MonoBehaviour
         }
         else if (submarine_limit_ <= submarine_limit_tmp_)
         {
-            submarine_ui_.enabled = false;
+            recovery_ui_.enabled = false;
+            //submarine_ui_.enabled = false;
             submarine_limit_tmp_ = 0;
             type_ = State.Idle;
-            PartsManager.Instance.submarine();
+           // PartsManager.Instance.submarine();
             submarine_slider_canvas_.enabled = false;
+
+            //仲間を回収
+            Debug.Log("仲間を回収した");
+            fellow_count_ = 0;
         }
        
         
@@ -763,14 +771,15 @@ public class Player : MonoBehaviour
     {
       
         if (type_ == State.Idle || type_ == State.Dash|| type_ == State.Action00 || type_ == State.Blood)
-        {  
+        {
             //潜水艦
-            if (other.gameObject.CompareTag("Submarine") && PartsManager.Instance.count_ > 0)
+            //仲間回収
+            if (other.gameObject.CompareTag("Submarine") && fellow_count_ > 0)
             {
-               
-                submarine_ui_.enabled = true;
-              
-                
+
+                recovery_ui_.enabled = true;
+
+
                 if (Input.GetButton("Fire1"))
                 {
                     submarine_slider_canvas_.enabled = true;
@@ -786,6 +795,29 @@ public class Player : MonoBehaviour
                 }
 
             }
+
+            //パーツ
+            //if (other.gameObject.CompareTag("Submarine") && PartsManager.Instance.count_ > 0)
+            //{
+
+            //    submarine_ui_.enabled = true;
+
+
+            //    if (Input.GetButton("Fire1"))
+            //    {
+            //        submarine_slider_canvas_.enabled = true;
+            //        //ステート移行
+            //        type_ = State.Action00;
+            //    }
+            //    else
+            //    {
+
+            //        submarine_limit_tmp_ = 0;
+            //        submarine_slider_canvas_.enabled = false;
+            //        type_ = State.Idle;
+            //    }
+
+            //}
 
             //仲間の処理
             if (other.gameObject.CompareTag("RescueArea"))
@@ -906,6 +938,7 @@ public class Player : MonoBehaviour
             submarine_limit_tmp_ = 0;
             fire1_range_flg_ = false;
             submarine_ui_.enabled = false;
+            recovery_ui_.enabled = false;
             submarine_slider_canvas_.enabled = false;
             if (type_ == State.Action00)
             {

@@ -113,6 +113,14 @@ public class Fellow : MonoBehaviour
         {
             life_inv_tmp_ -= 1.0f * Time.deltaTime;
         }
+
+        if(player_script_.fellow_Count_ ==0&&follow_flg_)
+        {
+            row_ = 0;
+            transform.position = new(0,0,0);
+            this.gameObject.SetActive(false);
+            follow_flg_ = false;
+        }
     }
     private void OnAnimatorIK()
     {
@@ -167,12 +175,13 @@ public class Fellow : MonoBehaviour
 
 
     //ö…ŠÍ‚Éû”[‚³‚ê‚½‚Æ‚«‚Ìˆ—
-    public void Submarine()
-    {
-        follow_flg_ = false;
-        Destroy(gameObject);
-    }
+    //public void Submarine()
+    //{
+       
+    //    Destroy(gameObject);
+    //}
 
+   
 
 
     private void OnCollisionStay(Collision collision)
@@ -197,6 +206,7 @@ public class Fellow : MonoBehaviour
                
                 //–³“GŠÔŠJn
                 follow_flg_ = false;
+                row_ = 0;
                 player_script_.FellowHit();
 
 
