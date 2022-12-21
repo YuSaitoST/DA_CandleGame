@@ -21,7 +21,8 @@ public class BloodDirection : MonoBehaviour
     [SerializeField] Text txt_debug_ = null;
 #endif
 
-    bool pushFrag_ = false;
+    bool pushFrag_damageDone_ = false;
+    bool pushFrag_oxyEmpty_ = false;
 
     float alpha_ = 0.0f;
 
@@ -71,11 +72,14 @@ public class BloodDirection : MonoBehaviour
     /// </summary>
     public void DamageDone()
     {
-        if (!pushFrag_)
+        if (!pushFrag_damageDone_)
         {
-            pushFrag_ = true;
+            pushFrag_damageDone_ = true;
             effect_.PlayOneShot();
             audioSource_.PlayOneShot(se_heart_rate_);
+            alpha_ += ratio_damage_;
+            SetAlpha();
+            audioSource_.volume = alpha_;
             StartCoroutine(DamageDoneDirection());
         }
     }
@@ -85,9 +89,9 @@ public class BloodDirection : MonoBehaviour
     /// </summary>
     public void OxyEmpty()
     {
-        if (!pushFrag_)
+        if (!pushFrag_oxyEmpty_)
         {
-            pushFrag_ = true;
+            pushFrag_oxyEmpty_ = true;
             audioSource_.PlayOneShot(se_heart_rate_);
             StartCoroutine(coro_oxyEmpty_);
         }
@@ -103,8 +107,6 @@ public class BloodDirection : MonoBehaviour
         coro_oxyEmpty_ = OxygenEmpty();
 
         StartCoroutine(Wait_BeginsToRecover());
-
-        pushFrag_ = false;
     }
 
     /// <summary>
@@ -123,6 +125,16 @@ public class BloodDirection : MonoBehaviour
     IEnumerator Wait_BeginsToRecover()
     {
         yield return new WaitForSeconds(time_recovery_);
+
+        if (pushFrag_damageDone_)
+        {
+            pushFrag_damageDone_ = false;
+        }
+
+        if (pushFrag_oxyEmpty_)
+        {
+            pushFrag_oxyEmpty_ = false;
+        }
 
         while (0.0f < alpha_)
         {
@@ -145,14 +157,7 @@ public class BloodDirection : MonoBehaviour
     /// <returns>ÉRÉãÅ[É`Éì</returns>
     IEnumerator DamageDoneDirection()
     {
-        alpha_ += ratio_damage_;
-        SetAlpha();
-
-        audioSource_.volume = alpha_;
-
         yield return StartCoroutine(Wait_BeginsToRecover());
-
-        pushFrag_ = false;
 
         if (alpha_ == 1.0f)
         {
@@ -178,7 +183,7 @@ public class BloodDirection : MonoBehaviour
             audioSource_.volume = alpha_;
         }
 
-        pushFrag_ = false;
+        pushFrag_damageDone_ = false;
 
         if (alpha_ == 1.0f)
         {
