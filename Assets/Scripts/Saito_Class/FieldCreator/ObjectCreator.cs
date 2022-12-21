@@ -3,13 +3,15 @@ using UnityEngine;
 
 public class ObjectCreator : MonoBehaviour
 {
-    [SerializeField] GameObject[] pref_enemys_; // 敵リスト
-    [SerializeField] GameObject[] pref_items_;  // アイテムリスト
-    [SerializeField] GameObject[] pref_bRocks_; // 壊せる岩
+    [SerializeField] GameObject[] pref_enemys_;     // 敵リスト
+    [SerializeField] GameObject[] pref_fellows_;    // 仲間
+    [SerializeField] GameObject[] pref_items_;      // アイテムリスト
+    [SerializeField] GameObject[] pref_bRocks_;     // 壊せる岩
 
-    [SerializeField] GameObject parent_enemy_;  // 敵の親オブジェクト
-    [SerializeField] GameObject parent_items_;  // アイテムの親オブジェクト
-    [SerializeField] GameObject parent_bRock_;  // 壊せる岩
+    [SerializeField] GameObject parent_enemy_;      // 敵の親オブジェクト
+    [SerializeField] GameObject parent_fellow_;     // 仲間の親オブジェクト
+    [SerializeField] GameObject parent_items_;      // アイテムの親オブジェクト
+    [SerializeField] GameObject parent_bRock_;      // 壊せる岩
 
 
     // Start is called before the first frame update
@@ -54,6 +56,16 @@ public class ObjectCreator : MonoBehaviour
         catch(Exception e)
         {
             Debug.Log("EnemysData : " + e.ToString());
+        }
+
+        try
+        {
+            PrefabCreater.CreateMultiplePrefabs("InputData/FellowData", pref_fellows_, parent_fellow_);
+
+        }
+        catch (Exception e)
+        {
+            Debug.Log("FollowsData : " + e.ToString());
         }
 
         try
@@ -107,6 +119,7 @@ public class ObjectCreator : MonoBehaviour
                     .SetParameters(_speed[data.kind]);
             }
         }
+        PrefabCreater.CreateMultiplePrefabs("InputData/FellowData", pref_fellows_, parent_fellow_);
         PrefabCreater.CreateMultiplePrefabs("InputData/ItemData", pref_items_, parent_items_);
         //PrefabCreater.CreateMultiplePrefabs("InputData/BreakableRocksData", pref_bRocks_, parent_bRock_);
 #endif
