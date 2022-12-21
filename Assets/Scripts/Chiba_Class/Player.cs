@@ -196,8 +196,21 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Canvas cancel_ui_ = null;
 
+    [SerializeField]
+    private Canvas fellow_ui_ = null;
+
+    [SerializeField]
+    private int fellow_count_ = 0;
+
+   //読み取り用
+    public int fellow_Count_
+    {
+        get { return fellow_count_; }
+    }
+
     [SerializeField,Tooltip("BloodDirectionをアタッチ")]
     BloodDirection bloodDirection_ = null;
+
 
     [Header("SE")]
     [SerializeField, Tooltip("SEプレイヤー")]
@@ -207,7 +220,7 @@ public class Player : MonoBehaviour
     {
         
         // 弾の初速度や生成座標を持つコンポーネント
-        fire3_draw_ = gameObject.GetComponent<DrawArc>();
+        fire3_draw_ = GetComponent<DrawArc>();
 
         for (int i = 0; i < oxy_max_.Length; i++)
        {
@@ -715,7 +728,7 @@ public class Player : MonoBehaviour
     //ダメージ判定
     private void OnCollisionStay(Collision collision)
     {
-        //tagは変える
+       
         if (collision.gameObject.tag == "Enemy"&& player_life_inv_tmp_ <= 0)
         {
             
@@ -736,7 +749,15 @@ public class Player : MonoBehaviour
             sePlayer_.TakeDamage();
         }
     }
-   
+
+    //味方が敵に当たった時の処理
+    public void FellowHit()
+    {
+        //無敵時間開始
+        player_life_inv_tmp_ = player_life_inv_time_;
+        fellow_count_ -= 1;
+    }
+
 
     private void OnTriggerStay(Collider other)
     {
@@ -765,8 +786,28 @@ public class Player : MonoBehaviour
                 }
 
             }
-            //パーツの範囲
-            if (other.gameObject.CompareTag("PC"))
+
+            //仲間の処理
+            if (other.gameObject.CompareTag("RescueArea"))
+            {
+                fellow_ui_.enabled = true;
+
+                fire1_range_flg_ = true;
+                if (Input.GetButton("Fire1"))
+                {
+                    fellow_ui_.enabled = false;
+                    fellow_count_ += 1;
+                    var _fellow = other;
+                    _fellow.GetComponent<RescueArea>().Follow();
+                    _fellow = null;
+                    sePlayer_.PartGet();
+                }
+
+
+            }
+
+                //パーツの範囲
+                if (other.gameObject.CompareTag("PC"))
             {
 
                 item_ui_.enabled = true;
@@ -774,7 +815,7 @@ public class Player : MonoBehaviour
                 fire1_range_flg_ = true;
                 if (Input.GetButton("Fire1"))
                 {
-                    Debug.Log("押された");
+                  
                     var _parts = other;
                     _parts.GetComponent<Parts>().Pickup();
                     _parts = null;
@@ -792,7 +833,7 @@ public class Player : MonoBehaviour
                 fire1_range_flg_ = true;
                 if (Input.GetButton("Fire1"))
                 {
-                    Debug.Log("押された");
+                   
                     //もしstateの状態がbloodだったら
                    
                     //1本以上消費している場合
@@ -870,6 +911,13 @@ public class Player : MonoBehaviour
             {
                 type_= State.Idle;
             }
+        }
+
+        if (other.gameObject.CompareTag("RescueArea"))
+        {
+            fellow_ui_.enabled = false;
+            fire1_range_flg_ = false;
+
         }
 
     }
