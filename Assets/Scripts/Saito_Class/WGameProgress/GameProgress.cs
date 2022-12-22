@@ -22,6 +22,7 @@ public class GameProgress : MonoBehaviour
     [SerializeField] GameObject     player_         = null; // プレイヤー
     [SerializeField] CameraMover    mainCamera_     = null;
     [SerializeField] DebugPanel     debugPanel_     = null; // デバッグパネル
+    [SerializeField] BGMManager     bgmManager_     = null; // BGM切り替え担当
     [SerializeField] AudioSource    audiosource_    = null;
     [SerializeField] AudioClip      se_death_       = null;
 
@@ -31,6 +32,8 @@ public class GameProgress : MonoBehaviour
     ParametersSet parameters_;     // パラメータ
 
     GAME_PROGRESS progress_;    // ゲームの進行状態
+
+    int num_pursuers_;  // 追っている敵の数
 
 
     private void Awake()
@@ -47,6 +50,7 @@ public class GameProgress : MonoBehaviour
         }
     }
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -60,6 +64,9 @@ public class GameProgress : MonoBehaviour
         // ゲームの進行状態をセット
         instance_.progress_ = GAME_PROGRESS.START;
 
+        // 追っている敵の数をリセット
+        instance_.num_pursuers_ = 0;
+
 
         // デバッグパネルの表示状態の変更
 #if _DEBUG_ON
@@ -67,6 +74,17 @@ public class GameProgress : MonoBehaviour
 #else
         instance_.debugPanel_.SetActive(false);
 #endif
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.K))
+        {
+            bgmManager_.MainToEnemy();
+        }else if (Input.GetKeyUp(KeyCode.L))
+        {
+            bgmManager_.EnemyToMain();
+        }
     }
 
     /// <summary>
@@ -111,6 +129,30 @@ public class GameProgress : MonoBehaviour
     public void CameraShake()
     {
         mainCamera_.Shake(0.003f, 0.05f, 0.5f);
+    }
+
+    /// <summary>
+    /// 敵の追跡が開始した時にBGMを切り替える
+    /// </summary>
+    public void Enemy_StartTracking()
+    {
+        num_pursuers_ += 1;
+        if (num_pursuers_ == 1)
+        {
+            bgmManager_.MainToEnemy();
+        }
+    }
+
+    /// <summary>
+    /// 敵の追跡が終了したらBGMを切り替える
+    /// </summary>
+    public void Enemy_EndTracking()
+    {
+        num_pursuers_ = Mathf.Max(num_pursuers_ - 1, 0);
+        if (num_pursuers_ == 0)
+        {
+            bgmManager_.EnemyToMain();
+        }
     }
 
     /// <summary>
@@ -166,3 +208,8 @@ public class GameProgress : MonoBehaviour
         yield return null;
     }
 }
+
+/*
+ * [参考]
+ * https://indie-game-creation-with-unity.hatenablog.com/entry/area-music-cross-fade
+ */

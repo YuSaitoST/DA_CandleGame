@@ -196,8 +196,27 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Canvas cancel_ui_ = null;
 
+    [SerializeField]
+    private Canvas fellow_ui_ = null;
+
+    [SerializeField]
+    private Canvas recovery_ui_ = null;
+
+    [SerializeField]
+    private int fellow_count_ = 0;
+
+    [SerializeField]
+    private int fellow_rescue_ = 0;
+
+   //読み取り用
+    public int fellow_Count_
+    {
+        get { return fellow_count_; }
+    }
+
     [SerializeField,Tooltip("BloodDirectionをアタッチ")]
     BloodDirection bloodDirection_ = null;
+
 
     [Header("SE")]
     [SerializeField, Tooltip("SEプレイヤー")]
@@ -207,7 +226,7 @@ public class Player : MonoBehaviour
     {
         
         // 弾の初速度や生成座標を持つコンポーネント
-        fire3_draw_ = gameObject.GetComponent<DrawArc>();
+        fire3_draw_ = GetComponent<DrawArc>();
 
         for (int i = 0; i < oxy_max_.Length; i++)
        {
@@ -542,11 +561,17 @@ public class Player : MonoBehaviour
         }
         else if (submarine_limit_ <= submarine_limit_tmp_)
         {
-            submarine_ui_.enabled = false;
+            recovery_ui_.enabled = false;
+            //submarine_ui_.enabled = false;
             submarine_limit_tmp_ = 0;
             type_ = State.Idle;
-            PartsManager.Instance.submarine();
+           // PartsManager.Instance.submarine();
             submarine_slider_canvas_.enabled = false;
+
+            //仲間を回収
+            Debug.Log("仲間を回収した");
+            fellow_rescue_ += fellow_count_;
+            fellow_count_ = 0;
         }
        
         
@@ -586,8 +611,8 @@ public class Player : MonoBehaviour
         }
         // 弾を生成して飛ばす
         GameObject _obj = Instantiate(fire3_tank_prefab_[count_], instantiatePosition_, Quaternion.identity);
-        Rigidbody _rid = _obj.GetComponent<Rigidbody>();
-        _rid.AddForce(shootVelocity_ * _rid.mass, ForceMode.Impulse);
+        Rigidbody _ri = _obj.GetComponent<Rigidbody>();
+        _ri.AddForce(shootVelocity_ * _ri.mass, ForceMode.Impulse);
 
         Debug.Log("アクション実行03-2");
 
@@ -715,17 +740,9 @@ public class Player : MonoBehaviour
     //ダメージ判定
     private void OnCollisionStay(Collision collision)
     {
-        //tagは変える
+       
         if (collision.gameObject.tag == "Enemy"&& player_life_inv_tmp_ <= 0)
         {
-            
-            type_ = State.Damage;
-            //ダメージ食らう
-            oxy_max_[oxy_count_] -= damage_;
-
-            //無敵時間開始
-            player_life_inv_tmp_ = player_life_inv_time_;
-
             rb_.velocity = Vector3.zero;
             // 自分の位置と接触してきたオブジェクトの位置を計算
             Vector3 _distination = (transform.position - collision.transform.position).normalized;
@@ -733,23 +750,47 @@ public class Player : MonoBehaviour
             rb_.AddForce(_distination * knockback_power_, ForceMode.VelocityChange);
             rb_.AddForce(transform.up * knockback_power_up_, ForceMode.VelocityChange);
 
+            if (type_ != State.Blood)
+            {
+                type_ = State.Damage;
+                //ダメージ食らう
+                oxy_max_[oxy_count_] -= damage_;
+            }
+            else 
+            {
+
+            }
+            //無敵時間開始
+            player_life_inv_tmp_ = player_life_inv_time_;
+
+          
+
             sePlayer_.TakeDamage();
         }
     }
-   
+
+    //味方が敵に当たった時の処理
+    public void FellowHit()
+    {
+        //無敵時間開始
+        player_life_inv_tmp_ = player_life_inv_time_;
+        fellow_count_ -= 1;
+    }
+
 
     private void OnTriggerStay(Collider other)
     {
       
         if (type_ == State.Idle || type_ == State.Dash|| type_ == State.Action00 || type_ == State.Blood)
-        {  
+        {
             //潜水艦
-            if (other.gameObject.CompareTag("Submarine") && PartsManager.Instance.count_ > 0)
+            //仲間回収
+            if (other.gameObject.CompareTag("Submarine") && fellow_count_ > 0)
             {
-               
-                submarine_ui_.enabled = true;
-              
-                
+
+                recovery_ui_.enabled = true;
+
+
                 if (Input.GetButton("Fire1"))
                 {
                     submarine_slider_canvas_.enabled = true;
@@ -765,8 +806,51 @@ public class Player : MonoBehaviour
                 }
 
             }
-            //パーツの範囲
-            if (other.gameObject.CompareTag("PC"))
+
+            //パーツ
+            //if (other.gameObject.CompareTag("Submarine") && PartsManager.Instance.count_ > 0)
+            //{
+
+            //    submarine_ui_.enabled = true;
+
+
+            //    if (Input.GetButton("Fire1"))
+            //    {
+            //        submarine_slider_canvas_.enabled = true;
+            //        //ステート移行
+            //        type_ = State.Action00;
+            //    }
+            //    else
+            //    {
+
+            //        submarine_limit_tmp_ = 0;
+            //        submarine_slider_canvas_.enabled = false;
+            //        type_ = State.Idle;
+            //    }
+
+            //}
+
+            //仲間の処理
+            if (other.gameObject.CompareTag("RescueArea"))
+            {
+                fellow_ui_.enabled = true;
+
+                fire1_range_flg_ = true;
+                if (Input.GetButton("Fire1"))
+                {
+                    fellow_ui_.enabled = false;
+                    fellow_count_ += 1;
+                    var _fellow = other;
+                    _fellow.GetComponent<RescueArea>().Follow();
+                    _fellow = null;
+                    sePlayer_.PartGet();
+                }
+
+
+            }
+
+                //パーツの範囲
+                if (other.gameObject.CompareTag("PC"))
             {
 
                 item_ui_.enabled = true;
@@ -774,7 +858,7 @@ public class Player : MonoBehaviour
                 fire1_range_flg_ = true;
                 if (Input.GetButton("Fire1"))
                 {
-                    Debug.Log("押された");
+                  
                     var _parts = other;
                     _parts.GetComponent<Parts>().Pickup();
                     _parts = null;
@@ -792,7 +876,7 @@ public class Player : MonoBehaviour
                 fire1_range_flg_ = true;
                 if (Input.GetButton("Fire1"))
                 {
-                    Debug.Log("押された");
+                   
                     //もしstateの状態がbloodだったら
                    
                     //1本以上消費している場合
@@ -865,11 +949,19 @@ public class Player : MonoBehaviour
             submarine_limit_tmp_ = 0;
             fire1_range_flg_ = false;
             submarine_ui_.enabled = false;
+            recovery_ui_.enabled = false;
             submarine_slider_canvas_.enabled = false;
             if (type_ == State.Action00)
             {
                 type_= State.Idle;
             }
+        }
+
+        if (other.gameObject.CompareTag("RescueArea"))
+        {
+            fellow_ui_.enabled = false;
+            fire1_range_flg_ = false;
+
         }
 
     }
