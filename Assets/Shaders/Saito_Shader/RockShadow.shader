@@ -19,7 +19,6 @@ Shader "Unlit/RockShadow"
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-
             #pragma multi_compile_fog
 
             // Unityのライト情報による影を受け取るために必要な機能
@@ -49,6 +48,8 @@ Shader "Unlit/RockShadow"
             float4      _MainTex_ST;
             half4       _Color;
 
+            Light _SLight;
+
             v2f vert (appdata v)
             {
                 v2f o;
@@ -76,6 +77,7 @@ Shader "Unlit/RockShadow"
                 //ライトの向きを計算
                 float strength = dot(lt.direction, i.normalWS);
                 float4 lightColor = float4(lt.color, 1) * (lt.distanceAttenuation * lt.shadowAttenuation);
+
                 return col * lightColor * strength;
             }
             ENDHLSL
