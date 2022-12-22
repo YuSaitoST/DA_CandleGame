@@ -41,6 +41,11 @@ public class Player : MonoBehaviour
     //無敵時間
     private float player_life_inv_tmp_ = 0.0f;
 
+    public float Player_life_inv_tmp_
+    {
+        get { return player_life_inv_tmp_; }
+    }
+
     //state
     public enum State
     {
@@ -72,7 +77,19 @@ public class Player : MonoBehaviour
     private float    oxy_total_ = 0.0f;
 
     //[SerializeField, Tooltip("酸素ゲージ1本の最大値(初期値)"), Range(0, 33.3f)]
-    private float[]  oxy_max_       =  new float[3];
+    private float[]  oxy_max_       =  new float[10];
+
+    //最初のタンクの数
+    [SerializeField]
+    private int oxy_start_ = 3;
+
+    //追加タンクフラグ
+    [SerializeField]
+    private bool fellow_oxy_add_ = false;
+
+    //爆弾強化フラグ
+    [SerializeField]
+    private bool fellow_oxy_bomb_ = false;
 
     [SerializeField, Tooltip("ブースト時のゲージ消費倍率")]
     private float    oxy_cost_boost_ = 2.0f;
@@ -86,7 +103,8 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("ボンベの数")]
     private Slider[] oxy_slider_ = new Slider[3];
 
-  
+    [SerializeField]
+    private GameObject oxy_add_slider_ = null;
 
     [Header("Aボタン関連")]
     [SerializeField,Tooltip("debug用")]
@@ -132,11 +150,11 @@ public class Player : MonoBehaviour
         get { return instantiatePosition_; }
     }
 
-    [SerializeField, Range(1.0f, 20.0f), Tooltip("弾の射出する速さ")]
+    [SerializeField, Range(0.0f, 20.0f), Tooltip("弾の射出する速さ")]
     private float fire3_speed_ = 1.0f;
 
 
-    [SerializeField, Range(0.42f, 1.0f), Tooltip("弾の射出する高さ")]
+    [SerializeField, Range(0.0f, 1.0f), Tooltip("弾の射出する高さ")]
     private float fire3_speed2_ = 0.42f;
 
     // 弾の初速度
@@ -224,14 +242,17 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        
+        oxy_add_slider_.SetActive(false);
+
         // 弾の初速度や生成座標を持つコンポーネント
         fire3_draw_ = GetComponent<DrawArc>();
 
-        for (int i = 0; i < oxy_max_.Length; i++)
+        float _h = 100 / oxy_start_;
+        for (int i = 0; i < oxy_start_; i++)
        {
-            oxy_max_[i] = 33.3f;
-       }        
+            
+            oxy_max_[i] = _h;
+       }
 
         tr_ = GetComponent<Transform>();
         rb_ = GetComponent<Rigidbody>();
@@ -278,12 +299,26 @@ public class Player : MonoBehaviour
         PlayerInput();
 
         //同期
-        oxy_total_ = oxy_max_[0] + oxy_max_[1] + oxy_max_[2];
+        if (fellow_oxy_add_)
+        {
+            oxy_total_ = oxy_max_[0] + oxy_max_[1] + oxy_max_[2]+ oxy_max_[3];
+
+            oxy_slider_[0].value = oxy_max_[3];
+            oxy_slider_[1].value = oxy_max_[2];
+            oxy_slider_[2].value = oxy_max_[1];
+            oxy_slider_[3].value = oxy_max_[0];
+        }
+        else
+        {
+            oxy_total_ = oxy_max_[0] + oxy_max_[1] + oxy_max_[2];
+
+            oxy_slider_[0].value = oxy_max_[2];
+            oxy_slider_[1].value = oxy_max_[1];
+            oxy_slider_[2].value = oxy_max_[0];
+        }
         oxy_text_.SetText(oxy_total_.ToString("F1")/* + ("％")*/);
 
-        oxy_slider_[0].value    = oxy_max_[0];
-        oxy_slider_[1].value    = oxy_max_[1];
-        oxy_slider_[2].value    = oxy_max_[2];
+     
         submarine_slider_.value = submarine_limit_tmp_;
         // 弾の初速度を更新
         shootVelocity_ = fire3_point_.transform.up * fire3_speed_;
@@ -308,22 +343,53 @@ public class Player : MonoBehaviour
         }
 
         //ボンベのゲージが0になったら次のボンベに切り替える
-        if (oxy_max_[oxy_count_] <= 0.0f && oxy_count_ < 2)
+        if(fellow_oxy_add_)
         {
-            oxy_max_[oxy_count_] = 0.0f;
-            //別クラス呼び出し
-            fire3_draw_.Off();
+            if (oxy_max_[oxy_count_] <= 0.0f && oxy_count_ < 3)
+            {
+                oxy_max_[oxy_count_] = 0.0f;
+                //別クラス呼び出し
+                fire3_draw_.Off();
 
-            oxy_count_++;
-            Debug.Log(oxy_count_);
+                oxy_count_++;
+                Debug.Log(oxy_count_);
+            }
         }
+        else
+        {
+            if (oxy_max_[oxy_count_] <= 0.0f && oxy_count_ < 2)
+            {
+                oxy_max_[oxy_count_] = 0.0f;
+                //別クラス呼び出し
+                fire3_draw_.Off();
+
+                oxy_count_++;
+                Debug.Log(oxy_count_);
+            }
+        }
+       
         //EventSystem.current.SetSelectedGameObject(button_firstSelect_);
     }
     
     void PlayerInput()
     {
         //プレイヤーの入力
-       
+
+        //4本目のボンベを追加
+        if (Input.GetButton("Fire2"))
+        {
+            oxy_add_slider_.SetActive(true);
+            //一本も消費していなかった場合
+            //4本目のボンベUIを表示
+            //float _tmp = oxy_max_[oxy_count_];
+            //oxy_max_[oxy_count_] = 33;
+            fellow_oxy_add_ = true;
+            oxy_max_[3] = 33;
+           // oxy_max_[4] = 33;
+
+            
+
+        }
 
         //Bボタン
         //移動速度上昇
@@ -342,7 +408,8 @@ public class Player : MonoBehaviour
 
         //Xボタン
         //ボンベアクション
-        if (/*oxy_count_ != 2 &&*/ oxy_max_[2] >= fire3_button_cost_[0] && type_ != State.Damage && type_ != State.Action00 && type_ != State.Blood)
+        if (/*oxy_count_ != 2 &&*/ oxy_max_[2] >= fire3_button_cost_[0] && type_ != State.Damage && type_ != State.Action00 && type_ != State.Blood
+            || fellow_oxy_add_ && oxy_max_[3] >= fire3_button_cost_[0] && type_ != State.Damage && type_ != State.Action00 && type_ != State.Blood)
         {
 
             if (Input.GetButton("Fire3")&&fire1_cancel_ == false )
@@ -385,13 +452,13 @@ public class Player : MonoBehaviour
                     }
                     else
                     {
-                        if (fire3_button_count_ >= 5.0f)
+                        if (fire3_button_count_ >= 5.0f&&fellow_oxy_bomb_)
                         {
                             count_ = 5;
                             type_ = State.Action03;//投げるステート
                             Debug.Log("アクション実行03-5");
                         }
-                        else if (fire3_button_count_ >= 4.0f)
+                        else if (fire3_button_count_ >= 4.0f&& fellow_oxy_bomb_)
                         {
                             count_ = 4;
                             type_ = State.Action03;//投げるステート
@@ -425,6 +492,8 @@ public class Player : MonoBehaviour
 
             }
         }
+
+        
     }
 
     void FixedUpdate()
