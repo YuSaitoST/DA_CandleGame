@@ -13,6 +13,7 @@ enum ENE_STATE {
 
 public class yadokarock : MonoBehaviour
 {
+
     Rigidbody rigidbody;
     private GameObject playerC;
     private NavMeshAgent Agent;
@@ -36,8 +37,10 @@ public class yadokarock : MonoBehaviour
     const float widthAngle = 90.0f;
     const float heightAngle = 0.0f;
     const float length = 3.9f;
-
+    private Animator Animator;
     float speed_;
+    float timebent = 0.0f;
+
     public float WidthAngle { get { return widthAngle; } }
     public float HeightAngle { get { return heightAngle; } }
     public float Length { get { return length; } }
@@ -50,7 +53,7 @@ public class yadokarock : MonoBehaviour
         targetRot = Quaternion.AngleAxis(angle, axis) * transform.rotation;
         enabled = true;
         state = ENE_STATE.STAY;
-        
+        Animator = gameObject.transform.GetComponent<Animator>();
         //SPEED=GameProgress.instance_
     }
 
@@ -58,10 +61,43 @@ public class yadokarock : MonoBehaviour
     {
         speed_ = speed; // ƒƒ“ƒo[•Ï”‚É‘ã“ü‚·‚é
     }
-        
-    
+
+    void OnCollisionStay(Collision other)
+    {
+        timebent += Time.deltaTime;
+        Debug.Log("Ž~‚Ü‚ê");
+        string tags = other.transform.tag.Substring(0, other.transform.tag.Length - 2);
+        if (tags == "OxyBomb00" || tags == "OxyBomb01" || tags == "OxyBomb02" || tags == "OxyBomb03"
+            || tags == "OxyBomb04" || tags == "OxyBomb05") 
+        {
+            time = Time.deltaTime;
+            if(tags == "OxyBomb00")
+            {
+                state = ENE_STATE.STAY;
+                if (time >= 1.0f)
+                {
+                    Debug.Log("“–‚½‚è");
+                    time = 0.0f;
+                }
+            }
+            
+            
+        }
+        if (timebent >= 1.0f)
+        {
+            Debug.Log("“®‚­");
+            state = ENE_STATE.TRACKING;
+            //number = 1;
+            if (timebent >= 3.0f)
+            {
+                timebent = 0.0f;
+            }
+        }
+    }
+
     private void OnTriggerStay(Collider other)
     {
+
         if (other.gameObject.tag == "Player") //Ž‹ŠE‚Ì”ÍˆÍ“à‚Ì“–‚½‚è”»’è
         {
             Vector3 posDelta = other.transform.position - this.transform.position;
@@ -122,6 +158,11 @@ public class yadokarock : MonoBehaviour
                 time = 0.0f;
                 state = ENE_STATE.STAY;
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            Animator.SetFloat("Speed", -1);
         }
     }
 
