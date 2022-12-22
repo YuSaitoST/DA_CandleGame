@@ -61,22 +61,11 @@ public class Fellow : MonoBehaviour
     {
         animator_ = GetComponent<Animator>();
         agent_ = GetComponent<NavMeshAgent>();
-        fellows_obj_ = GameObject.FindGameObjectsWithTag("Fellow");//ここまではうまくいってる
-
-        // 配列でコンポーネントの一覧を取得
-
-        //fellow_[0] = fellows_obj_[0].GetComponent<Fellow>();
-
-
-        //fellow_[0]= fllows_obj_[0].GetComponent<Fellow>();
-        //for (int h = 0; h <= fllows_obj_.Length ; h++)
-        //{
-        //    //fellow_[h] = fllows_obj_[h].GetComponent<Fellow>();
-        //}
+        fellows_obj_ = GameObject.FindGameObjectsWithTag("Fellow");
         
-
+        //最初からメンバ変数に入れようとするとしっぱいするからローカル変数にいったん入れてからメンバ変数に入れた
         var _fellow = new Fellow[fellows_obj_.Length];
-        //fellow_[0] = fellows_obj_[0].GetComponent<Fellow>();
+      
         for (int h = 0; h < fellows_obj_.Length; h++)
         {
             _fellow[h] = fellows_obj_[h].GetComponent<Fellow>();
@@ -114,6 +103,7 @@ public class Fellow : MonoBehaviour
             life_inv_tmp_ -= 1.0f * Time.deltaTime;
         }
 
+        //潜水艦に回収される処理
         if(player_script_.fellow_Count_ ==0&&follow_flg_)
         {
             row_ = 0;
@@ -150,7 +140,7 @@ public class Fellow : MonoBehaviour
             }
 
 
-            //chase_target_ = player_;
+           
         }
         else
         {
@@ -177,33 +167,38 @@ public class Fellow : MonoBehaviour
     //潜水艦に収納されたときの処理
     //public void Submarine()
     //{
-       
+
     //    Destroy(gameObject);
     //}
 
-   
 
+    private void OnTriggerStay(Collider other)
+    {
+        
+    }
 
     private void OnCollisionStay(Collision collision)
     {
        
         if (collision.gameObject.tag == "Enemy" && life_inv_tmp_ <= 0 && follow_flg_ == true)
         {
-
-            if (last_&& row_ !=1)
+            Debug.Log("a");
+            if (last_/*&& row_ !=1*/)
             {
-
+                Debug.Log("b");
                 //死んだときの処理
                 //自分が最後尾の時
-                for (int i = 0; i < fellows_obj_.Length; i++)
+                if (row_ != 1)
                 {
-                    if (fellow_[i].Row_ == row_ - 1)
+                    for (int i = 0; i < fellows_obj_.Length; i++)
                     {
-                        fellow_[i].Last();
-                        break;
+                        if (fellow_[i].Row_ == row_ - 1)
+                        {
+                            fellow_[i].Last();
+                            break;
+                        }
                     }
                 }
-               
                 //無敵時間開始
                 follow_flg_ = false;
                 row_ = 0;

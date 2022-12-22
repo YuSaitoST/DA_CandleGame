@@ -205,6 +205,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int fellow_count_ = 0;
 
+    [SerializeField]
+    private int fellow_rescue_ = 0;
+
    //読み取り用
     public int fellow_Count_
     {
@@ -567,6 +570,7 @@ public class Player : MonoBehaviour
 
             //仲間を回収
             Debug.Log("仲間を回収した");
+            fellow_rescue_ += fellow_count_;
             fellow_count_ = 0;
         }
        
@@ -607,8 +611,8 @@ public class Player : MonoBehaviour
         }
         // 弾を生成して飛ばす
         GameObject _obj = Instantiate(fire3_tank_prefab_[count_], instantiatePosition_, Quaternion.identity);
-        Rigidbody _rid = _obj.GetComponent<Rigidbody>();
-        _rid.AddForce(shootVelocity_ * _rid.mass, ForceMode.Impulse);
+        Rigidbody _ri = _obj.GetComponent<Rigidbody>();
+        _ri.AddForce(shootVelocity_ * _ri.mass, ForceMode.Impulse);
 
         Debug.Log("アクション実行03-2");
 
@@ -739,20 +743,27 @@ public class Player : MonoBehaviour
        
         if (collision.gameObject.tag == "Enemy"&& player_life_inv_tmp_ <= 0)
         {
-            
-            type_ = State.Damage;
-            //ダメージ食らう
-            oxy_max_[oxy_count_] -= damage_;
-
-            //無敵時間開始
-            player_life_inv_tmp_ = player_life_inv_time_;
-
             rb_.velocity = Vector3.zero;
             // 自分の位置と接触してきたオブジェクトの位置を計算
             Vector3 _distination = (transform.position - collision.transform.position).normalized;
 
             rb_.AddForce(_distination * knockback_power_, ForceMode.VelocityChange);
             rb_.AddForce(transform.up * knockback_power_up_, ForceMode.VelocityChange);
+
+            if (type_ != State.Blood)
+            {
+                type_ = State.Damage;
+                //ダメージ食らう
+                oxy_max_[oxy_count_] -= damage_;
+            }
+            else 
+            {
+
+            }
+            //無敵時間開始
+            player_life_inv_tmp_ = player_life_inv_time_;
+
+          
 
             sePlayer_.TakeDamage();
         }
