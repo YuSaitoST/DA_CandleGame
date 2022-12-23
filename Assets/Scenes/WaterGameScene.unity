@@ -39,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.12009774, g: 0.27062485, b: 0.39583078, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2673,7 +2673,7 @@ PrefabInstance:
     - target: {fileID: 7146415041565342443, guid: d972f657330207948b30fffafbf68391,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7146415041565342443, guid: d972f657330207948b30fffafbf68391,
         type: 3}
@@ -3696,7 +3696,7 @@ PrefabInstance:
     - target: {fileID: 7146415041565342443, guid: d972f657330207948b30fffafbf68391,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7146415041565342443, guid: d972f657330207948b30fffafbf68391,
         type: 3}
@@ -10240,7 +10240,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!64 &2860268362170206742
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -51573,9 +51573,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeRect:
     serializedVersion: 2
-    x: 41
-    y: 94
-    width: 101.2
+    x: 36.744682
+    y: 104.76595
+    width: 99.361694
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 1
@@ -51588,6 +51588,8 @@ MonoBehaviour:
   - {fileID: 6059360420762867322}
   - {fileID: 6059360420762867323}
   - {fileID: 6059360420762867317}
+  - {fileID: 6059360420762867329}
+  - {fileID: 6059360420762867330}
   - {fileID: 6059360420762867326}
   suppressAllAutoSelections: 0
 --- !u!114 &6059360420762867317
@@ -51630,19 +51632,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  scrollPos: {x: 0, y: 0}
+  scrollPos: {x: 30.205273, y: 24.353996}
   variablesScrollPos: {x: 0, y: 0}
   variablesExpanded: 1
   blockViewHeight: 251.8
-  zoom: 1
+  zoom: 0.94000006
   scrollViewRect:
     serializedVersion: 2
     x: -343
     y: -340
     width: 1114
     height: 859
-  selectedBlocks: []
-  selectedCommands: []
+  selectedBlocks:
+  - {fileID: 6059360420762867316}
+  selectedCommands:
+  - {fileID: 6059360420762867330}
   variables: []
   description: 
   stepPause: 0
@@ -51671,6 +51675,8 @@ GameObject:
   - component: {fileID: 6059360420762867327}
   - component: {fileID: 6059360420762867326}
   - component: {fileID: 6059360420762867328}
+  - component: {fileID: 6059360420762867329}
+  - component: {fileID: 6059360420762867330}
   m_Layer: 0
   m_Name: Flowchart
   m_TagString: Untagged
@@ -51812,6 +51818,53 @@ MonoBehaviour:
   parentBlock: {fileID: 6059360420762867316}
   suppressBlockAutoSelect: 0
   waitForFrames: 1
+--- !u!114 &6059360420762867329
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6059360420762867319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec422cd568a9c4a31ad7c36d0572b9da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: 8
+  indentLevel: 0
+  storyText: "\u5F37\u5316\u3060\u3002\n\u53D7\u3051\u53D6\u308C\u3002"
+  description: 
+  character: {fileID: 6059360421003179118}
+  portrait: {fileID: 0}
+  voiceOverClip: {fileID: 0}
+  showAlways: 1
+  showCount: 1
+  extendPrevious: 0
+  fadeWhenDone: 1
+  waitForClick: 1
+  stopVoiceover: 1
+  waitForVO: 0
+  setSayDialog: {fileID: 0}
+--- !u!114 &6059360420762867330
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6059360420762867319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10cd462c89cb047158ccfb8a8df3f60a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: 9
+  indentLevel: 0
+  spriteRenderer: {fileID: 0}
+  _visible:
+    booleanRef: {fileID: 0}
+    booleanVal: 1
+  affectChildren: 1
+  visibleOLD: 0
 --- !u!222 &6059360420795834756
 CanvasRenderer:
   m_ObjectHideFlags: 0
