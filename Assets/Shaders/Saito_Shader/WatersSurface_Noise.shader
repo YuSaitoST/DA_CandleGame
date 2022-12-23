@@ -23,18 +23,15 @@ Shader "Unlit/WatersSurface_Noise"
 			"Queue"				= "AlphaTest"			// 描画の優先度（Background→Geometry→AlphaTest→Transparent→Overlay）
 			"RenderPipeline"	= "UniversalPipeline"
 			"RenderType"		= "TransparentCutout"
-			"IgnoreProjector"	= "True"	// 波に使うみたいです
+			"IgnoreProjector"	= "True"				// 波に使う
 		}
 		LOD 200
 
 		// 両面を描画したい場合の記述
 		Cull Off
 
-		// おそらく、デプス値を参照して描画する処理
-		// 上処理では、デプス値を取り出す。ここで描画
 		Pass
 		{
-			// 以下3行は、レンダリングステートの設定
 			Name "ShadowCaster"
 			Tags { 
 				"LightMode" = "ShadowCaster" 
@@ -89,12 +86,12 @@ Shader "Unlit/WatersSurface_Noise"
 				// 波処理
 				float2 nUv = i.uv;
 				nUv.y += _Time.x * _Speed;
-				float4 uvNoise = 2 * tex2D(_NoiseTex, nUv) - 1;//0 - 1座標を-1 - 1に変換
+				float4 uvNoise = 2 * tex2D(_NoiseTex, nUv) - 1;	//0 - 1座標を-1 - 1に変換
 				i.uv += uvNoise.xy * _NoiseAmount;
 
 				// メイン描画部分と同様に透明度を求め...
 				// 後ろの封印解いて_UnderColorを消すと、裏の影が消える
-				float alpha = tex2D(_MainTex, i.uv).a * _UnderColor;// lerp(_UnderColor.a, _UpperColor.a, step(_SeparationHeight, i.worldPos.y));
+				float alpha = tex2D(_MainTex, i.uv).a * _UnderColor;
 
 				// 透明度に応じて_DitherMaskLODから網掛け模様をサンプリングし...
 				/*

@@ -23,6 +23,7 @@ public class Fellow : MonoBehaviour
     [SerializeField]
     private GameObject chase_target_;
 
+    [SerializeField]
     private Animator animator_;
     //　到着したとする距離
     [SerializeField]
@@ -59,7 +60,7 @@ public class Fellow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        animator_ = GetComponent<Animator>();
+       // animator_ = GetComponent<Animator>();
         agent_ = GetComponent<NavMeshAgent>();
         fellows_obj_ = GameObject.FindGameObjectsWithTag("Fellow");
         
@@ -87,21 +88,20 @@ public class Fellow : MonoBehaviour
             {
 
                 agent_.isStopped = true;
-                animator_.SetFloat("Speed", 0f);
+                animator_.SetBool("isWalking", false);
+                //animator_.SetFloat("Speed", 0f);
                 //　到着していない時で追いかけ出す距離になったら
             }
             else if (agent_.remainingDistance > followDistance_)
             {
 
                 agent_.isStopped = false;
-                animator_.SetFloat("Speed", agent_.desiredVelocity.magnitude);
+                animator_.SetBool("isWalking", true);
+                //animator_.SetFloat("Speed", agent_.desiredVelocity.magnitude);
             }
         }
 
-        if (life_inv_tmp_ > 0)
-        {
-            life_inv_tmp_ -= 1.0f * Time.deltaTime;
-        }
+       
 
         //潜水艦に回収される処理
         if(player_script_.fellow_Count_ ==0&&follow_flg_)
@@ -110,6 +110,17 @@ public class Fellow : MonoBehaviour
             transform.position = new(0,0,0);
             this.gameObject.SetActive(false);
             follow_flg_ = false;
+        }
+
+        life_inv_tmp_ = player_script_.Player_life_inv_tmp_;
+
+        
+    }
+    private void FixedUpdate()
+    {
+        if (life_inv_tmp_ > 0)
+        {
+            life_inv_tmp_ -= 1.0f * Time.deltaTime;
         }
     }
     private void OnAnimatorIK()
@@ -144,6 +155,7 @@ public class Fellow : MonoBehaviour
         }
         else
         {
+            last_ = true;
             row_ = 1;
             //仲間を連れていないとき
             chase_target_ = player_;
@@ -164,12 +176,41 @@ public class Fellow : MonoBehaviour
     }
 
 
-    //潜水艦に収納されたときの処理
-    //public void Submarine()
-    //{
+   
+    public void Death()
+    {
+        if(last_)
+        {
+            Debug.Log("最後尾死亡");
+            for (int i = 0; i < fellows_obj_.Length; i++)
+            {
+                if (fellow_[i].Row_ == row_ - 1)
+                {
+                    fellow_[i].Last();
+                    break;
+                }
+            }
 
-    //    Destroy(gameObject);
-    //}
+            //無敵時間開始
+            follow_flg_ = false;
+            row_ = 0;
+            player_script_.FellowHit();
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            for (int i = 0; i < fellows_obj_.Length; i++)
+            {
+                if (fellow_[i].Row_ == row_ + 1)
+                {
+                    fellow_[i].Death();
+                    break;
+                }
+            }
+        }
+
+
+    }
 
 
     private void OnTriggerStay(Collider other)
@@ -180,14 +221,14 @@ public class Fellow : MonoBehaviour
     private void OnCollisionStay(Collision collision)
     {
        
-        if (collision.gameObject.tag == "Enemy" && life_inv_tmp_ <= 0 && follow_flg_ == true)
+        if (collision.gameObject.tag == "Enemy" && player_script_.Player_life_inv_tmp_ <= 0 && follow_flg_ == true)
         {
             Debug.Log("a");
-            if (last_/*&& row_ !=1*/)
+            if (last_) //自分が最後尾の時
             {
-                Debug.Log("b");
+                Debug.Log("最後尾死亡");
                 //死んだときの処理
-                //自分が最後尾の時
+               
                 if (row_ != 1)
                 {
                     for (int i = 0; i < fellows_obj_.Length; i++)
@@ -203,15 +244,24 @@ public class Fellow : MonoBehaviour
                 follow_flg_ = false;
                 row_ = 0;
                 player_script_.FellowHit();
-
+                gameObject.SetActive(false);
 
 
             }
-            else
+            else//自分が最後尾ではないとき
             {
+                Debug.Log("最後尾じゃない仲間が当たった");
+                for (int i = 0; i < fellows_obj_.Length; i++)
+                {
+                    if (fellow_[i].Row_ == row_ + 1)
+                    {
+                        fellow_[i].Death();
+                        break;
+                    }
+                }
                 //無敵時間開始
-                life_inv_tmp_ = life_inv_time_;
-                player_script_.FellowHit();
+                //life_inv_tmp_ = life_inv_time_;
+                //player_script_.FellowHit();
             }
         }
     }
