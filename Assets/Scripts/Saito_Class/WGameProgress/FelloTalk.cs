@@ -1,47 +1,51 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Fungus;
 
-[RequireComponent(typeof(Flowchart))]
 public class FelloTalk : MonoBehaviour
 {
-    [SerializeField] string message_ = "";
-    Flowchart flowChart_ = null;
-    bool isTalking_ = false;
+    [SerializeField, Tooltip("Flow Chat")] Flowchart flowchart_ = null;
+    [SerializeField, Tooltip("ダイアログ")] GameObject dialog_ = null;
+    [SerializeField, Tooltip("ダイアログ前の会話ブロック名")] string message_front_ = "";
+    [SerializeField, Tooltip("ダイアログ後の会話ブロック名")] string message_back_ = "";
 
 
-    // Start is called before the first frame update
     void Start()
     {
-        flowChart_ = GetComponent<Flowchart>();
+        dialog_.SetActive(false);
     }
 
-    public void Talk()
+    /// <summary>
+    /// 会話開始
+    /// </summary>
+    public void PlayTalk()
     {
-        StartCoroutine(TalkStart());
+        flowchart_.SendFungusMessage(message_front_);
     }
 
-    IEnumerator TalkStart()
+    /// <summary>
+    /// ダイアログ表示
+    /// </summary>
+    public void OpenDialog()
+    {
+        dialog_.SetActive(true);
+        StartCoroutine(StayNextInput());
+    }
+
+    IEnumerator StayNextInput()
     {
 
-        if (isTalking_)
+        while (!Input.GetKeyDown(KeyCode.Return))
         {
             yield return null;
         }
 
-        isTalking_ = true;
+        dialog_.SetActive(false);
 
-        PauserObject.Pause();
+        yield return null;
+        flowchart_.SendFungusMessage(message_back_);
 
-        flowChart_.SendFungusMessage(message_);
-
-        yield return new WaitUntil(() =>
-            flowChart_.GetExecutingBlocks().Count == 0);
-
-        isTalking_ = false;
-
-        PauserObject.Resume();
+        yield return null;
     }
 }
 
