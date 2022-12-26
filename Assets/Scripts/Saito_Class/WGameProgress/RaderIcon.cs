@@ -1,24 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RaderIcon : MonoBehaviour
 {
-    [SerializeField] GameObject pre_icon_ = null;
-
-
-    void Start()
-    {
-
-        gameObject.transform.parent = Instantiate(pre_icon_, gameObject.transform.position, Quaternion.identity).transform;
-    }
-
     /// <summary>
-    /// Iconの表示状態を変更する
+    /// 発見したら、アイコンを削除する
     /// </summary>
-    /// <param name="active">表示状態</param>
-    public void SetActive(bool active)
+    public void Detectioned()
     {
-        gameObject.transform.parent.gameObject.SetActive(active);
+        Destroy(gameObject);
     }
 }
