@@ -20,16 +20,22 @@ public class FelloTalk : MonoBehaviour
     /// </summary>
     public void PlayTalk()
     {
+        PauserObject.Pause();
         flowchart_.SendFungusMessage(message_front_);
     }
 
     /// <summary>
-    /// ダイアログ表示
+    /// ダイアログ表示(Flowchat側から呼ぶ)
     /// </summary>
     public void OpenDialog()
     {
         dialog_.SetActive(true);
         StartCoroutine(StayNextInput());
+    }
+
+    public void AnPauserObject()
+    {
+        PauserObject.Resume();
     }
 
     IEnumerator StayNextInput()
@@ -43,7 +49,15 @@ public class FelloTalk : MonoBehaviour
         dialog_.SetActive(false);
 
         yield return null;
-        flowchart_.SendFungusMessage(message_back_);
+
+        if (message_back_ != "")
+        {
+            flowchart_.SendFungusMessage(message_back_);
+        }
+        else
+        {
+            PauserObject.Resume();
+        }
 
         yield return null;
     }
