@@ -193,9 +193,9 @@ public class Player : MonoBehaviour
     private float knockback_stan_ = 1.0f;
 
     //潜水艦リミット
-    [SerializeField,Tooltip("潜水艦パーツのゲージ")]
+    [SerializeField,Tooltip("潜水艦仲間回収のゲージ")]
     private Slider submarine_slider_ = null;
-    [SerializeField, Tooltip("潜水艦パーツのゲージのキャンバス")]
+    [SerializeField, Tooltip("仲間回収のゲージのキャンバス")]
     private Canvas submarine_slider_canvas_ = null;
     [SerializeField]
     private float submarine_limit_ = 5.0f;
@@ -844,6 +844,8 @@ public class Player : MonoBehaviour
         //無敵時間開始
         player_life_inv_tmp_ = player_life_inv_time_;
         fellow_count_ -= 1;
+        bloodDirection_.DamageDone();
+        sePlayer_.TakeDamage();
     }
 
 
@@ -919,22 +921,22 @@ public class Player : MonoBehaviour
             }
 
                 //パーツの範囲
-                if (other.gameObject.CompareTag("PC"))
-            {
+            //    if (other.gameObject.CompareTag("PC"))
+            //{
 
-                item_ui_.enabled = true;
+            //    item_ui_.enabled = true;
 
-                fire1_range_flg_ = true;
-                if (Input.GetButton("Fire1"))
-                {
+            //    fire1_range_flg_ = true;
+            //    if (Input.GetButton("Fire1"))
+            //    {
                   
-                    var _parts = other;
-                    _parts.GetComponent<Parts>().Pickup();
-                    _parts = null;
-                    sePlayer_.PartGet();
-                }
+            //        var _parts = other;
+            //        _parts.GetComponent<Parts>().Pickup();
+            //        _parts = null;
+            //        sePlayer_.PartGet();
+            //    }
 
-            }
+            //}
 
             //ボンベ回復
             if (other.gameObject.CompareTag("Tank"))

@@ -56,14 +56,24 @@ public class Fellow : MonoBehaviour
         get { return row_; }
     }
 
+    [SerializeField]
+    private RaderIcon radericon_ = null;
+
+    [SerializeField]
+    private FelloTalk fellotalk_ = null;
 
     // Start is called before the first frame update
     void Start()
     {
+        radericon_ = GetComponent<RaderIcon>();
        // animator_ = GetComponent<Animator>();
         agent_ = GetComponent<NavMeshAgent>();
         fellows_obj_ = GameObject.FindGameObjectsWithTag("Fellow");
-        
+
+        player_ = GameObject.FindGameObjectWithTag("Player");
+
+        player_script_ = player_.GetComponent<Player>();
+       
         //最初からメンバ変数に入れようとするとしっぱいするからローカル変数にいったん入れてからメンバ変数に入れた
         var _fellow = new Fellow[fellows_obj_.Length];
       
@@ -79,9 +89,14 @@ public class Fellow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       
         if (follow_flg_)
         {
+            fellotalk_.PlayTalk();
             agent_.SetDestination(chase_target_.transform.position);
+
+            //レーダーアイコンを消す処理
+            radericon_.Detectioned();
 
             //　到着している時
             if (agent_.remainingDistance < arrivedDistance_)
