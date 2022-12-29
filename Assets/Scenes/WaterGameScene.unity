@@ -17,7 +17,7 @@ RenderSettings:
   serializedVersion: 9
   m_Fog: 0
   m_FogColor: {r: 0.093271606, g: 0.15134582, b: 0.18867922, a: 1}
-  m_FogMode: 1
+  m_FogMode: 3
   m_FogDensity: 0.35
   m_LinearFogStart: 1.5
   m_LinearFogEnd: 3
@@ -2058,7 +2058,7 @@ PrefabInstance:
     - target: {fileID: 3618584049644242534, guid: 02ac116e8790f0349ad078fa333f11bd,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.51
+      value: -4.36
       objectReference: {fileID: 0}
     - target: {fileID: 3618584049644242534, guid: 02ac116e8790f0349ad078fa333f11bd,
         type: 3}
@@ -2068,7 +2068,7 @@ PrefabInstance:
     - target: {fileID: 3618584049644242534, guid: 02ac116e8790f0349ad078fa333f11bd,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.47
       objectReference: {fileID: 0}
     - target: {fileID: 3618584049644242534, guid: 02ac116e8790f0349ad078fa333f11bd,
         type: 3}
@@ -2178,7 +2178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df7c02f644221e64aac28aaff2ebafe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dark_on_: 0
+  dark_on_: 1
   light_: {fileID: 1199495216}
 --- !u!1001 &607790777
 PrefabInstance:
@@ -2220,7 +2220,7 @@ PrefabInstance:
     - target: {fileID: 3618584049644242534, guid: 02ac116e8790f0349ad078fa333f11bd,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.51
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 3618584049644242534, guid: 02ac116e8790f0349ad078fa333f11bd,
         type: 3}
@@ -2230,7 +2230,7 @@ PrefabInstance:
     - target: {fileID: 3618584049644242534, guid: 02ac116e8790f0349ad078fa333f11bd,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 3.11
       objectReference: {fileID: 0}
     - target: {fileID: 3618584049644242534, guid: 02ac116e8790f0349ad078fa333f11bd,
         type: 3}
@@ -2856,7 +2856,7 @@ PrefabInstance:
     - target: {fileID: 3618584049644242534, guid: 02ac116e8790f0349ad078fa333f11bd,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.51
+      value: -5.57
       objectReference: {fileID: 0}
     - target: {fileID: 3618584049644242534, guid: 02ac116e8790f0349ad078fa333f11bd,
         type: 3}
@@ -2866,7 +2866,7 @@ PrefabInstance:
     - target: {fileID: 3618584049644242534, guid: 02ac116e8790f0349ad078fa333f11bd,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -3.06
       objectReference: {fileID: 0}
     - target: {fileID: 3618584049644242534, guid: 02ac116e8790f0349ad078fa333f11bd,
         type: 3}
@@ -3450,7 +3450,7 @@ PrefabInstance:
     - target: {fileID: 3618584049644242534, guid: 02ac116e8790f0349ad078fa333f11bd,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.51
+      value: -3.41
       objectReference: {fileID: 0}
     - target: {fileID: 3618584049644242534, guid: 02ac116e8790f0349ad078fa333f11bd,
         type: 3}
@@ -3460,7 +3460,7 @@ PrefabInstance:
     - target: {fileID: 3618584049644242534, guid: 02ac116e8790f0349ad078fa333f11bd,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2.24
       objectReference: {fileID: 0}
     - target: {fileID: 3618584049644242534, guid: 02ac116e8790f0349ad078fa333f11bd,
         type: 3}
@@ -5818,6 +5818,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e14d40d0f7c14704b864a9b1c0c6c3b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  correction_y: 3
+  correction_z: 0.5
 --- !u!1 &1771218365
 GameObject:
   m_ObjectHideFlags: 0
@@ -13515,6 +13517,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e14d40d0f7c14704b864a9b1c0c6c3b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  correction_y: 10
+  correction_z: 0
 --- !u!64 &4438364336785697688
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -52827,7 +52831,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  scrollPos: {x: 28.109085, y: -6.2063913}
+  scrollPos: {x: -96.63326, y: -14.453814}
   variablesScrollPos: {x: 0, y: 0}
   variablesExpanded: 1
   blockViewHeight: 327.8
@@ -52838,8 +52842,10 @@ MonoBehaviour:
     y: 0
     width: 0
     height: 0
-  selectedBlocks: []
-  selectedCommands: []
+  selectedBlocks:
+  - {fileID: 6059360420762867365}
+  selectedCommands:
+  - {fileID: 6059360420762867363}
   variables: []
   description: 
   stepPause: 0
@@ -52925,7 +52931,7 @@ MonoBehaviour:
   itemId: 45
   indentLevel: 0
   targetObject: {fileID: 702815505}
-  methodName: OpenDialog
+  methodName: AnPauserObject
   delay: 0.5
 --- !u!114 &6059360420762867364
 MonoBehaviour:
@@ -53199,7 +53205,7 @@ MonoBehaviour:
   nodeRect:
     serializedVersion: 2
     x: 283.8722
-    y: 190.58118
+    y: 194.7049
     width: 142.37112
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
@@ -53313,7 +53319,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeRect:
     serializedVersion: 2
-    x: 161.56496
+    x: 160.53403
     y: 186.45746
     width: 114.329895
     height: 40
@@ -55469,7 +55475,7 @@ MonoBehaviour:
   - {fileID: 6111853900053452241, guid: 36e367d3f71f7cd4997105ca9a29fcf4, type: 3}
   fire3_point_: {fileID: 2739894993878586062}
   fire3_drop_: {fileID: 1230702310}
-  fire3_speed_: 0
+  fire3_speed_: 1.5
   fire3_speed2_: 0
   x_clip_: {x: -28, y: 28}
   y_clip_: {x: -200, y: 200}

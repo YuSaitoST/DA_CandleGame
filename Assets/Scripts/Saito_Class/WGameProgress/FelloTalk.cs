@@ -46,7 +46,7 @@ public class FelloTalk : MonoBehaviour
     IEnumerator StayNextInput()
     {
 
-        while (!Input.GetKeyDown(KeyCode.Return))
+        while (!(Input.GetButton("Fire1") || Input.GetButton("Fire2") || Input.GetButton("Fire3")))
         {
             yield return null;
         }

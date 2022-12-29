@@ -7,7 +7,8 @@ public class RaderIcon : MonoBehaviour
 
     private void Start()
     {
-        icon_ = Instantiate(pref_icon_, new Vector3(0.0f, 10.0f, 0.0f), Quaternion.identity/*.Euler(90.0f, 0.0f, 0.0f)*/);
+        Vector3 _pos = transform.position;
+        icon_ = Instantiate(pref_icon_, new Vector3(_pos.x, 10.0f, _pos.z), Quaternion.Euler(90.0f, 0.0f, 0.0f));
         icon_.transform.parent = transform;
     }
 
