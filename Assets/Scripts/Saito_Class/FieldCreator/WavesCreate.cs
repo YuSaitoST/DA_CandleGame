@@ -15,7 +15,7 @@ public class WavesCreate : MonoBehaviour
         int _count = 9;
         float _x = -13.0f;
         float _y = 2.7f;
-        float _z = -9.0f;
+        float _z = -14.5f;
         for(int i = 0; i < _count; ++i)
         {
             for(int j = 0; j < _count; ++j)
