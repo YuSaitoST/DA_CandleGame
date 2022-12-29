@@ -7,28 +7,30 @@ public class ObjectCreator : MonoBehaviour
     [SerializeField] GameObject[] pref_fellows_;    // 仲間
     [SerializeField] GameObject[] pref_items_;      // アイテムリスト
     [SerializeField] GameObject[] pref_bRocks_;     // 壊せる岩
-
+    
     [SerializeField] GameObject parent_enemy_;      // 敵の親オブジェクト
     [SerializeField] GameObject parent_fellow_;     // 仲間の親オブジェクト
     [SerializeField] GameObject parent_items_;      // アイテムの親オブジェクト
     [SerializeField] GameObject parent_bRock_;      // 壊せる岩
 
+    [SerializeField] GameObject[] fellows_;         // 仲間
+
 
     // Start is called before the first frame update
     void Start()
     {
+        string _inputString = Resources.Load<TextAsset>("InputData/EnemyData").ToString();
+        DataList _dataList = JsonUtility.FromJson<DataList>(_inputString);
+        Paramater _param = GameProgress.instance_.GetParameters();
+        float[] _speed = new float[3]{
+            _param.yadokarock.speed,
+            0.0f,
+            _param.yadekarock.speed
+        };
+
 #if UNITY_EDITOR
         try
         {
-            string _inputString = Resources.Load<TextAsset>("InputData/EnemyData").ToString();
-            DataList _dataList = JsonUtility.FromJson<DataList>(_inputString);
-            Paramater _param = GameProgress.instance_.GetParameters();
-            float[] _speed = new float[3]{
-                _param.yadokarock.speed,
-                0.0f,
-                _param.yadekarock.speed
-            };
-
             if (parent_enemy_ != null)
             {
                 foreach (CreateData data in _dataList.lists)
@@ -87,16 +89,11 @@ public class ObjectCreator : MonoBehaviour
         //{
         //    Debug.Log("BreakableRocksData : " + e.ToString());
         //}
-#else
-        string _inputString = Resources.Load<TextAsset>("InputData/EnemyData").ToString();
-        DataList _dataList = JsonUtility.FromJson<DataList>(_inputString);
-        Paramater _param = GameProgress.instance_.GetParameters();
-        float[] _speed = new float[3]{
-            _param.yadokarock.speed,
-            0.0f,
-            _param.yadekarock.speed
-        };
 
+
+
+
+#else
         if (parent_enemy_ != null)
         {
             foreach (CreateData data in _dataList.lists)
@@ -122,6 +119,22 @@ public class ObjectCreator : MonoBehaviour
         PrefabCreater.CreateMultiplePrefabs("InputData/FellowData", pref_fellows_, parent_fellow_);
         PrefabCreater.CreateMultiplePrefabs("InputData/ItemData", pref_items_, parent_items_);
         //PrefabCreater.CreateMultiplePrefabs("InputData/BreakableRocksData", pref_bRocks_, parent_bRock_);
+
+
+        BOB _bob = _param.bob;
+        fellows_[0].transform.position = new Vector3(_bob.pos_x, _bob.pos_y, _bob.pos_z);
+
+        NIC _nic = _param.nic;
+        fellows_[1].transform.position = new Vector3(_nic.pos_x, _nic.pos_y, _nic.pos_z);
+
+        SPENCER _spe = _param.spencer;
+        fellows_[2].transform.position = new Vector3(_spe.pos_x, _spe.pos_y, _spe.pos_z);
+
+        ALAN _ala = _param.alan;
+        fellows_[3].transform.position = new Vector3(_ala.pos_x, _ala.pos_y, _ala.pos_z);
+
+        CATHERINE _cat = _param.catherine;
+        fellows_[4].transform.position = new Vector3(_cat.pos_x, _cat.pos_y, _cat.pos_z);
 #endif
     }
 }
