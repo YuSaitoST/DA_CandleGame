@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class Fellow : MonoBehaviour
 {
+    private CapsuleCollider collider_ = null;
  
     [SerializeField]
     private NavMeshAgent agent_;
@@ -32,6 +33,7 @@ public class Fellow : MonoBehaviour
     [SerializeField]
     private float followDistance_ = 1f;
 
+    [SerializeField]
     private bool follow_flg_ = false;
 
    [SerializeField,Tooltip("無敵時間")]
@@ -61,9 +63,7 @@ public class Fellow : MonoBehaviour
 
     [SerializeField]
     private FelloTalk fellotalk_ = null;
-
-
-   
+    
     public enum fellows_
         {
          dummy,
@@ -76,6 +76,11 @@ public class Fellow : MonoBehaviour
     [Header("仲間の種類")]
     [SerializeField]
     public fellows_ type_= fellows_.dummy;
+
+    [Header("デバック用")]
+    [SerializeField]
+    private bool debug_ = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -87,6 +92,8 @@ public class Fellow : MonoBehaviour
         player_ = GameObject.FindGameObjectWithTag("Player");
 
         player_script_ = player_.GetComponent<Player>();
+
+        collider_ = GetComponent<CapsuleCollider>();
        
         //最初からメンバ変数に入れようとするとしっぱいするからローカル変数にいったん入れてからメンバ変数に入れた
         var _fellow = new Fellow[fellows_obj_.Length];
@@ -103,16 +110,16 @@ public class Fellow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+
         if (follow_flg_)
         {
-            if(type_==fellows_.bob)
+            if (type_ == fellows_.bob)
             {
                 player_script_.fellow_oxy_bomb_ = true;
             }
             else if (type_ == fellows_.nic)
             {
-                
+
             }
             else if (type_ == fellows_.spencer)
             {
@@ -127,7 +134,13 @@ public class Fellow : MonoBehaviour
                 player_script_.fellow_oxy_add_ = true;
             }
 
-            fellotalk_.PlayTalk();
+            agent_.speed = player_script_.Player_Move_;
+
+            if (!debug_)
+            {
+                fellotalk_.PlayTalk();
+            }
+         
             agent_.SetDestination(chase_target_.transform.position);
 
             //レーダーアイコンを消す処理
@@ -226,7 +239,24 @@ public class Fellow : MonoBehaviour
     }
 
 
-   
+    private void DeathProcess()
+    {
+        agent_.enabled = false;
+        collider_.enabled = false;
+
+        follow_flg_ = false;
+        row_ = 0;
+        player_script_.FellowHit();
+
+        Vector3 position = transform.position;
+        position.y = 0.07f;
+        transform.position = position;
+
+        transform.eulerAngles = new Vector3(90, 100, 0);
+    }
+
+
+
     public void Death()
     {
         if(last_)
@@ -241,11 +271,9 @@ public class Fellow : MonoBehaviour
                 }
             }
 
-            //無敵時間開始
-            follow_flg_ = false;
-            row_ = 0;
-            player_script_.FellowHit();
-            gameObject.SetActive(false);
+            DeathProcess();
+
+           
         }
         else
         {
@@ -263,10 +291,6 @@ public class Fellow : MonoBehaviour
     }
 
 
-    private void OnTriggerStay(Collider other)
-    {
-        
-    }
 
     private void OnCollisionStay(Collision collision)
     {
@@ -290,11 +314,8 @@ public class Fellow : MonoBehaviour
                         }
                     }
                 }
-                //無敵時間開始
-                follow_flg_ = false;
-                row_ = 0;
-                player_script_.FellowHit();
-                gameObject.SetActive(false);
+                DeathProcess();
+                //gameObject.SetActive(false);
 
 
             }

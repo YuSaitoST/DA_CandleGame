@@ -154,12 +154,14 @@ MonoBehaviour:
   animator_: {fileID: 3703307582467460808}
   arrivedDistance_: 0.4
   followDistance_: 0.6
+  follow_flg_: 0
   life_inv_time_: 3
   player_script_: {fileID: 0}
   last_: 0
   radericon_: {fileID: 0}
   fellotalk_: {fileID: 0}
   type_: 0
+  debug_: 0
 --- !u!54 &3618584048260882578
 Rigidbody:
   m_ObjectHideFlags: 0

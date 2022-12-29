@@ -26,6 +26,11 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("現在のの移動速度(最大値)")]
     private float    player_move_ = 1.0f;
 
+    public float Player_Move_
+    {
+        get { return player_move_; }
+    }
+
     [SerializeField, Tooltip("プレイヤーのアニメーターを入れる")]
     private Animator player_animator_ =null;
 
