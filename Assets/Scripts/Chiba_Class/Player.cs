@@ -84,12 +84,10 @@ public class Player : MonoBehaviour
     private int oxy_start_ = 3;
 
     //追加タンクフラグ
-    [SerializeField]
-    private bool fellow_oxy_add_ = false;
+    public bool fellow_oxy_add_ = false;
 
     //爆弾強化フラグ
-    [SerializeField]
-    private bool fellow_oxy_bomb_ = false;
+    public bool fellow_oxy_bomb_ = false;
 
     [SerializeField, Tooltip("ブースト時のゲージ消費倍率")]
     private float    oxy_cost_boost_ = 2.0f;
@@ -367,7 +365,24 @@ public class Player : MonoBehaviour
                 Debug.Log(oxy_count_);
             }
         }
-       
+        //4本目のボンベを追加
+        if (fellow_oxy_add_)
+        {
+            if (!oxy_add_slider_.activeSelf)
+            {
+                oxy_max_[3] = 33;
+            }
+            oxy_add_slider_.SetActive(true);
+
+            //4本目のボンベUIを表示
+            //float _tmp = oxy_max_[oxy_count_];
+            //oxy_max_[oxy_count_] = 33;
+           
+            // oxy_max_[4] = 33;
+
+
+
+        }
         //EventSystem.current.SetSelectedGameObject(button_firstSelect_);
     }
     
@@ -375,21 +390,7 @@ public class Player : MonoBehaviour
     {
         //プレイヤーの入力
 
-        //4本目のボンベを追加
-        if (Input.GetButton("Fire2"))
-        {
-            oxy_add_slider_.SetActive(true);
-            //一本も消費していなかった場合
-            //4本目のボンベUIを表示
-            //float _tmp = oxy_max_[oxy_count_];
-            //oxy_max_[oxy_count_] = 33;
-            fellow_oxy_add_ = true;
-            oxy_max_[3] = 33;
-           // oxy_max_[4] = 33;
-
-            
-
-        }
+        
 
         //Bボタン
         //移動速度上昇

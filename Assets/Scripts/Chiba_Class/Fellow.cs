@@ -62,6 +62,20 @@ public class Fellow : MonoBehaviour
     [SerializeField]
     private FelloTalk fellotalk_ = null;
 
+
+   
+    public enum fellows_
+        {
+         dummy,
+         bob,
+         nic,
+         spencer,
+         alan,
+         catherine
+        };
+    [Header("’‡ŠÔ‚ÌŽí—Þ")]
+    [SerializeField]
+    public fellows_ type_= fellows_.dummy;
     // Start is called before the first frame update
     void Start()
     {
@@ -92,6 +106,27 @@ public class Fellow : MonoBehaviour
        
         if (follow_flg_)
         {
+            if(type_==fellows_.bob)
+            {
+                player_script_.fellow_oxy_bomb_ = true;
+            }
+            else if (type_ == fellows_.nic)
+            {
+                
+            }
+            else if (type_ == fellows_.spencer)
+            {
+
+            }
+            else if (type_ == fellows_.alan)
+            {
+
+            }
+            else if (type_ == fellows_.catherine)
+            {
+                player_script_.fellow_oxy_add_ = true;
+            }
+
             fellotalk_.PlayTalk();
             agent_.SetDestination(chase_target_.transform.position);
 

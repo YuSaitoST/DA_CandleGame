@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 8280517570288860306}
   - component: {fileID: 7434833416226161497}
   m_Layer: 7
-  m_Name: FollowModel
+  m_Name: FollowScript
   m_TagString: Fellow
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -159,6 +159,7 @@ MonoBehaviour:
   last_: 0
   radericon_: {fileID: 0}
   fellotalk_: {fileID: 0}
+  type_: 0
 --- !u!54 &3618584048260882578
 Rigidbody:
   m_ObjectHideFlags: 0
