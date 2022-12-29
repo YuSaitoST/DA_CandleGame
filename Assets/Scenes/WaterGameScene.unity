@@ -935,7 +935,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flowchart_: {fileID: 6059360420762867357}
   dialog_: {fileID: 1888065306}
-  message_front_: rescue_catherine
+  message_front_: rescure_catherine
   message_back_: 
 --- !u!1 &304337660
 GameObject:
@@ -2039,6 +2039,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fellow_catherine
       objectReference: {fileID: 0}
+    - target: {fileID: 3618584049644242533, guid: 02ac116e8790f0349ad078fa333f11bd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3618584049644242534, guid: 02ac116e8790f0349ad078fa333f11bd,
         type: 3}
       propertyPath: m_RootOrder
@@ -2331,7 +2336,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flowchart_: {fileID: 6059360420762867357}
   dialog_: {fileID: 1888065306}
-  message_front_: rescue_nic
+  message_front_: rescure_nic
   message_back_: 
 --- !u!1 &720185647
 GameObject:
@@ -2831,6 +2836,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Fellow_alan
+      objectReference: {fileID: 0}
+    - target: {fileID: 3618584049644242533, guid: 02ac116e8790f0349ad078fa333f11bd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3618584049644242534, guid: 02ac116e8790f0349ad078fa333f11bd,
         type: 3}
@@ -3420,6 +3430,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Fellow_spencer
+      objectReference: {fileID: 0}
+    - target: {fileID: 3618584049644242533, guid: 02ac116e8790f0349ad078fa333f11bd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3618584049644242534, guid: 02ac116e8790f0349ad078fa333f11bd,
         type: 3}
@@ -6256,7 +6271,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flowchart_: {fileID: 6059360420762867357}
   dialog_: {fileID: 1888065306}
-  message_front_: rescue_alan
+  message_front_: rescure_alan
   message_back_: 
 --- !u!1 &1940460836
 GameObject:
@@ -8056,7 +8071,6 @@ GameObject:
   m_Component:
   - component: {fileID: 699700093271256597}
   - component: {fileID: 3598620572220805713}
-  - component: {fileID: 7953290279340025569}
   - component: {fileID: 96616436006885860}
   m_Layer: 0
   m_Name: Camera_Mini
@@ -52696,8 +52710,6 @@ GameObject:
   - component: {fileID: 6059360420762867372}
   - component: {fileID: 6059360420762867371}
   - component: {fileID: 6059360420762867370}
-  - component: {fileID: 6059360420762867368}
-  - component: {fileID: 6059360420762867384}
   - component: {fileID: 6059360420762867389}
   - component: {fileID: 6059360420762867388}
   - component: {fileID: 6059360420762867387}
@@ -52754,7 +52766,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 159.07133
     y: 96.19917
-    width: 114.80003
+    width: 111.03092
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 1
@@ -52779,19 +52791,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  scrollPos: {x: -74.43393, y: -21.881119}
+  scrollPos: {x: 28.109085, y: -6.2063913}
   variablesScrollPos: {x: 0, y: 0}
   variablesExpanded: 1
   blockViewHeight: 327.8
-  zoom: 0.9999995
+  zoom: 0.97
   scrollViewRect:
     serializedVersion: 2
     x: 0
     y: 0
     width: 0
     height: 0
-  selectedBlocks:
-  - {fileID: 6059360420762867340}
+  selectedBlocks: []
   selectedCommands: []
   variables: []
   description: 
@@ -52853,7 +52864,7 @@ MonoBehaviour:
   storyText: "\u3042\u3044\u306B\u304F\u624B\u6301\u3061\u3092\u5168\u90E8\u843D\u3068\u3057\u3066\u3057\u307E\u3063\u305F\u3093\u3060\u3002\r\n\u304A\u8377\u7269\u306B\u306A\u3089\u306A\u3044\u3088\u3046\u306B\u9811\u5F35\u308B\u3088\uFF01"
   description: 
   character: {fileID: 702815507}
-  portrait: {fileID: 21300000, guid: 835b218481a824849979c80a61c5451e, type: 3}
+  portrait: {fileID: 21300000, guid: a0ddfcc539de1e644a1847e79f523841, type: 3}
   voiceOverClip: {fileID: 0}
   showAlways: 1
   showCount: 1
@@ -52879,7 +52890,7 @@ MonoBehaviour:
   indentLevel: 0
   targetObject: {fileID: 702815505}
   methodName: OpenDialog
-  delay: 0
+  delay: 0.5
 --- !u!114 &6059360420762867364
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -52897,7 +52908,7 @@ MonoBehaviour:
   storyText: "\u3042\u3041\u30FC\u65B0\u5165\u308A\u541B\u304B\uFF01\r\n\u52A9\u304B\u3063\u305F\u3088\u3001\u3042\u308A\u304C\u3068\u3046\uFF01\r"
   description: 
   character: {fileID: 702815507}
-  portrait: {fileID: 21300000, guid: 835b218481a824849979c80a61c5451e, type: 3}
+  portrait: {fileID: 21300000, guid: a0ddfcc539de1e644a1847e79f523841, type: 3}
   voiceOverClip: {fileID: 0}
   showAlways: 1
   showCount: 1
@@ -52921,9 +52932,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeRect:
     serializedVersion: 2
-    x: 284.53412
-    y: 96.7812
-    width: 110.80003
+    x: 283.5032
+    y: 95.75027
+    width: 107.73195
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 1
@@ -52951,33 +52962,6 @@ MonoBehaviour:
   parentBlock: {fileID: 6059360420762867365}
   suppressBlockAutoSelect: 0
   message: rescure_nic
---- !u!114 &6059360420762867368
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6059360420762867319}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec422cd568a9c4a31ad7c36d0572b9da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemId: 60
-  indentLevel: 0
-  storyText: "\u3053\u308C\u3067\u3088\u3057\u3002\r\n...\u3055\u3063\u304D\u306E\u3053\u3068\u3001\u30DC\u30D6\u306B\u306F\u5185\u7DD2\u306B\u306D\u3002"
-  description: 
-  character: {fileID: 243293682}
-  portrait: {fileID: 21300000, guid: 252dafc4aca5240478195d8da9ecd56a, type: 3}
-  voiceOverClip: {fileID: 0}
-  showAlways: 1
-  showCount: 1
-  extendPrevious: 0
-  fadeWhenDone: 1
-  waitForClick: 1
-  stopVoiceover: 1
-  waitForVO: 0
-  setSayDialog: {fileID: 0}
 --- !u!114 &6059360420762867369
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -52993,8 +52977,8 @@ MonoBehaviour:
   nodeRect:
     serializedVersion: 2
     x: 402.53403
-    y: 97.58115
-    width: 138.80005
+    y: 98.612076
+    width: 134.1237
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 1
@@ -53006,8 +52990,6 @@ MonoBehaviour:
   - {fileID: 6059360420762867372}
   - {fileID: 6059360420762867371}
   - {fileID: 6059360420762867370}
-  - {fileID: 6059360420762867368}
-  - {fileID: 6059360420762867384}
   suppressAllAutoSelections: 0
 --- !u!114 &6059360420762867370
 MonoBehaviour:
@@ -53025,7 +53007,7 @@ MonoBehaviour:
   indentLevel: 0
   targetObject: {fileID: 243293680}
   methodName: OpenDialog
-  delay: 0
+  delay: 0.5
 --- !u!114 &6059360420762867371
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -53111,7 +53093,7 @@ MonoBehaviour:
   indentLevel: 0
   targetObject: {fileID: 291475894}
   methodName: OpenDialog
-  delay: 0
+  delay: 0.5
 --- !u!114 &6059360420762867376
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -53180,9 +53162,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeRect:
     serializedVersion: 2
-    x: 286.93402
+    x: 283.8722
     y: 190.58118
-    width: 147.60004
+    width: 142.37112
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 1
@@ -53226,7 +53208,7 @@ MonoBehaviour:
   indentLevel: 0
   targetObject: {fileID: 1927684067}
   methodName: OpenDialog
-  delay: 0
+  delay: 0.5
 --- !u!114 &6059360420762867381
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -53295,9 +53277,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeRect:
     serializedVersion: 2
-    x: 160.53403
-    y: 190.58118
-    width: 118.00003
+    x: 161.56496
+    y: 186.45746
+    width: 114.329895
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 1
@@ -53310,23 +53292,6 @@ MonoBehaviour:
   - {fileID: 6059360420762867381}
   - {fileID: 6059360420762867380}
   suppressAllAutoSelections: 0
---- !u!114 &6059360420762867384
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6059360420762867319}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17a200dbd67304446a3019434503338a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemId: 64
-  indentLevel: 0
-  targetObject: {fileID: 0}
-  methodName: AnPauserObject
-  delay: 0
 --- !u!114 &6059360420762867386
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -53401,8 +53366,8 @@ MonoBehaviour:
   nodeRect:
     serializedVersion: 2
     x: 537.5341
-    y: 96.78117
-    width: 150.80005
+    y: 95.750244
+    width: 145.6701
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 1
@@ -53431,7 +53396,7 @@ MonoBehaviour:
   message: rescue_spencer
 --- !u!114 &6059360420762867392
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -54700,14 +54665,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 18825f1b116444645925daec351e81ba, type: 3}
---- !u!81 &7953290279340025569
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1606736983223482536}
-  m_Enabled: 1
 --- !u!64 &7954451041933539278
 MeshCollider:
   m_ObjectHideFlags: 0
