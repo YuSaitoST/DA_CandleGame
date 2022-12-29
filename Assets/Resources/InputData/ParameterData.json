@@ -23,6 +23,36 @@
     "pos_y": 0.0,
     "pos_z": 1.0
   },
+  "Bob": {
+    "pos_x": 0.0,
+    "pos_y": 0.0,
+    "pos_z": 0.0,
+    "rot_y": 0.0
+  },
+  "Nic": {
+    "pos_x": 0.0,
+    "pos_y": 0.0,
+    "pos_z": 0.0,
+    "rot_y": 0.0
+  },
+  "Spencer": {
+    "pos_x": 0.0,
+    "pos_y": 0.0,
+    "pos_z": 0.0,
+    "rot_y": 0.0
+  },
+  "Alan": {
+    "pos_x": 0.0,
+    "pos_y": 0.0,
+    "pos_z": 0.0,
+    "rot_y": 0.0
+  },
+  "Catherine": {
+    "pos_x": 0.0,
+    "pos_y": 0.0,
+    "pos_z": 0.0,
+    "rot_y": 0.0
+  },
   "yadokarock": {
     "speed": 0.3
   },
