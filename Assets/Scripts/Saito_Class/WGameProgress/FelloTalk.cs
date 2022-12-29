@@ -8,11 +8,12 @@ public class FelloTalk : MonoBehaviour
     [SerializeField, Tooltip("ダイアログ")] GameObject dialog_ = null;
     [SerializeField, Tooltip("ダイアログ前の会話ブロック名")] string message_front_ = "";
     [SerializeField, Tooltip("ダイアログ後の会話ブロック名")] string message_back_ = "";
-
+    int count_ = 0;
 
     void Start()
     {
         dialog_.SetActive(false);
+        count_ = 0;
     }
 
     /// <summary>
@@ -20,8 +21,12 @@ public class FelloTalk : MonoBehaviour
     /// </summary>
     public void PlayTalk()
     {
-        PauserObject.Pause();
-        flowchart_.SendFungusMessage(message_front_);
+        if (count_ == 0)
+        {
+            count_ += 1;
+            PauserObject.Pause();
+            flowchart_.SendFungusMessage(message_front_);
+        }
     }
 
     /// <summary>
