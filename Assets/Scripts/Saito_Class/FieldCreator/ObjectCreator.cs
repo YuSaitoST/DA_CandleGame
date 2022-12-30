@@ -19,6 +19,8 @@ public class ObjectCreator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        tanks_ = new System.Collections.Generic.List<GameObject>();
+
         string _inputString = Resources.Load<TextAsset>("InputData/EnemyData").ToString();
         DataList _dataList = JsonUtility.FromJson<DataList>(_inputString);
         Paramater _param = GameProgress.instance_.GetParameters();
@@ -61,17 +63,17 @@ public class ObjectCreator : MonoBehaviour
         }
 
         string _inputString_it = Resources.Load<TextAsset>("InputData/ItemData").ToString();
-        DataList _dataList_it = JsonUtility.FromJson<DataList>(_inputString);
+        DataList _dataList_it = JsonUtility.FromJson<DataList>(_inputString_it);
 
         try
         {
-            PrefabCreater.CreateMultiplePrefabs("InputData/ItemData", pref_items_, parent_items_);
+            //PrefabCreater.CreateMultiplePrefabs("InputData/ItemData", pref_items_, parent_items_);
 
             if (parent_items_ != null)
             {
                 foreach (CreateData data in _dataList_it.lists)
                 {
-                    GameObject _obj = Instantiate(pref_enemys_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up));
+                    GameObject _obj = Instantiate(pref_items_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up));
                     _obj.transform.parent = parent_enemy_.transform;
                     if (data.kind == 0)
                     {
@@ -84,9 +86,12 @@ public class ObjectCreator : MonoBehaviour
             {
                 foreach (CreateData data in _dataList.lists)
                 {
-                    Instantiate(pref_enemys_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up))
-                        .GetComponent<yadokarock>()
-                        .SetParameters(_speed[data.kind]);
+                    GameObject _obj = Instantiate(pref_items_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up));
+                    if (data.kind == 0)
+                    {
+                        _obj.SetActive(false);
+                        tanks_.Add(_obj);
+                    }
                 }
             }
 
@@ -164,7 +169,7 @@ public class ObjectCreator : MonoBehaviour
     {
         foreach(GameObject _obj in tanks_)
         {
-            _obj.GetComponent<RaderIcon>().SetActive(true);
+            _obj.SetActive(true);
         }
     }
 }

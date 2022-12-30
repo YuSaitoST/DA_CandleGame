@@ -39,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.12009774, g: 0.27062485, b: 0.39583078, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -956,7 +956,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flowchart_: {fileID: 6059360420762867357}
   dialog_: {fileID: 1311254586}
-  character_: {fileID: 0}
+  character_: {fileID: 834332748}
   message_front_: rescue_spencer
   message_back_: rescue_spencer_2
 --- !u!1001 &250042599
@@ -1046,8 +1046,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 291475894}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.000061035156, y: 0.000030517578, z: 0}
+  m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 963274343}
@@ -1086,7 +1086,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flowchart_: {fileID: 6059360420762867357}
   dialog_: {fileID: 234007527}
-  character_: {fileID: 0}
+  character_: {fileID: 1669628840}
   message_front_: rescure_catherine
   message_back_: 
 --- !u!1 &304337660
@@ -2371,8 +2371,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player_: {fileID: 9033653969166903198}
   mainCamera_: {fileID: 1766213595}
-  minimapCamera_: {fileID: 0}
-  creator_: {fileID: 0}
+  minimapCamera_: {fileID: 3598620572220805713}
+  creator_: {fileID: 563272246}
   debugPanel_: {fileID: 1697098676}
   bgmManager_: {fileID: 1771218366}
   audiosource_: {fileID: 1270118820}
@@ -2569,7 +2569,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flowchart_: {fileID: 6059360420762867357}
   dialog_: {fileID: 1888065306}
-  character_: {fileID: 0}
+  character_: {fileID: 187752947}
   message_front_: rescure_nic
   message_back_: 
 --- !u!1 &720185647
@@ -6968,7 +6968,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flowchart_: {fileID: 6059360420762867357}
   dialog_: {fileID: 458577572}
-  character_: {fileID: 0}
+  character_: {fileID: 1452363649}
   message_front_: rescure_alan
   message_back_: 
 --- !u!1 &1940460836
@@ -7305,7 +7305,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flowchart_: {fileID: 6059360420762867357}
   dialog_: {fileID: 1292346448}
-  character_: {fileID: 0}
+  character_: {fileID: 1290713854}
   message_front_: rescue_bob
   message_back_: 
 --- !u!1 &2081616661
@@ -53501,9 +53501,9 @@ MonoBehaviour:
     width: 0
     height: 0
   selectedBlocks:
-  - {fileID: 6059360420762867369}
+  - {fileID: 6059360420762867383}
   selectedCommands:
-  - {fileID: 6059360420762867372}
+  - {fileID: 6059360420762867382}
   variables: []
   description: 
   stepPause: 0
@@ -53956,7 +53956,7 @@ MonoBehaviour:
   storyText: "...! \u3075\u3045\u3001\u65B0\u5165\u308A\u541B\u3067\u3059\u304B\u3002\r\n\u52A9\u304B\u3063...\u3044\u3084\u3001\u79C1\u4E00\u4EBA\u3067\u3082\u629C\u3051\u51FA\u305B\u307E\u305B\u305F\u304C\u3002"
   description: 
   character: {fileID: 1927684069}
-  portrait: {fileID: 21300000, guid: e5a3d52b9a8005547b0f8df509b246c7, type: 3}
+  portrait: {fileID: 0}
   voiceOverClip: {fileID: 0}
   showAlways: 1
   showCount: 1
@@ -53980,8 +53980,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeRect:
     serializedVersion: 2
-    x: 160.53403
-    y: 184.3956
+    x: 163.62682
+    y: 185.42653
     width: 114.329895
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
