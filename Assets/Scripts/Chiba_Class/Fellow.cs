@@ -59,6 +59,16 @@ public class Fellow : MonoBehaviour
     }
 
     [SerializeField]
+    private Vector3 getLastFellow_;
+
+    public Vector3 GetLastFellow
+    {
+        get { return getLastFellow_; }
+    }
+
+
+
+    [SerializeField]
     private RaderIcon radericon_ = null;
 
     [SerializeField]
@@ -123,11 +133,12 @@ public class Fellow : MonoBehaviour
             }
             else if (type_ == fellows_.spencer)
             {
-
+                GameProgress.instance_.Radar_Contraction();
             }
             else if (type_ == fellows_.alan)
             {
-
+                GameProgress.instance_.Rader_TankIconActive();
+               
             }
             else if (type_ == fellows_.catherine)
             {
@@ -162,6 +173,12 @@ public class Fellow : MonoBehaviour
                 animator_.SetBool("isWalking", true);
                 //animator_.SetFloat("Speed", agent_.desiredVelocity.magnitude);
             }
+        }
+
+        //ç≈å„îˆÇÃéûÇ…ç¿ïWÇï‘Ç∑
+        if(last_)
+        {
+            getLastFellow_ = transform.position;
         }
 
        

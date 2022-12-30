@@ -850,7 +850,7 @@ public class Player : MonoBehaviour
         //–³“GŽžŠÔŠJŽn
         player_life_inv_tmp_ = player_life_inv_time_;
         fellow_count_ -= 1;
-        bloodDirection_.DamageDone();
+        //bloodDirection_.DamageDone();
         sePlayer_.TakeDamage();
     }
 
