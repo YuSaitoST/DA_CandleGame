@@ -4,16 +4,16 @@ using UnityEngine;
 public class ObjectCreator : MonoBehaviour
 {
     [SerializeField] GameObject[] pref_enemys_;     // 敵リスト
-    [SerializeField] GameObject[] pref_fellows_;    // 仲間
     [SerializeField] GameObject[] pref_items_;      // アイテムリスト
     [SerializeField] GameObject[] pref_bRocks_;     // 壊せる岩
     
     [SerializeField] GameObject parent_enemy_;      // 敵の親オブジェクト
-    [SerializeField] GameObject parent_fellow_;     // 仲間の親オブジェクト
     [SerializeField] GameObject parent_items_;      // アイテムの親オブジェクト
     [SerializeField] GameObject parent_bRock_;      // 壊せる岩
 
     [SerializeField] GameObject[] fellows_;         // 仲間
+
+    private System.Collections.Generic.List<GameObject> tanks_;
 
 
     // Start is called before the first frame update
@@ -60,19 +60,35 @@ public class ObjectCreator : MonoBehaviour
             Debug.Log("EnemysData : " + e.ToString());
         }
 
-        //try
-        //{
-        //    PrefabCreater.CreateMultiplePrefabs("InputData/FellowData", pref_fellows_, parent_fellow_);
-
-        //}
-        //catch (Exception e)
-        //{
-        //    Debug.Log("FollowsData : " + e.ToString());
-        //}
+        string _inputString_it = Resources.Load<TextAsset>("InputData/ItemData").ToString();
+        DataList _dataList_it = JsonUtility.FromJson<DataList>(_inputString);
 
         try
         {
             PrefabCreater.CreateMultiplePrefabs("InputData/ItemData", pref_items_, parent_items_);
+
+            if (parent_items_ != null)
+            {
+                foreach (CreateData data in _dataList_it.lists)
+                {
+                    GameObject _obj = Instantiate(pref_enemys_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up));
+                    _obj.transform.parent = parent_enemy_.transform;
+                    if (data.kind == 0)
+                    {
+                        _obj.SetActive(false);
+                        tanks_.Add(_obj);
+                    }
+                }
+            }
+            else
+            {
+                foreach (CreateData data in _dataList.lists)
+                {
+                    Instantiate(pref_enemys_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up))
+                        .GetComponent<yadokarock>()
+                        .SetParameters(_speed[data.kind]);
+                }
+            }
 
         }
         catch (Exception e)
@@ -139,5 +155,16 @@ public class ObjectCreator : MonoBehaviour
         CATHERINE _cat = _param.catherine;
         fellows_[4].transform.position = new Vector3(_cat.pos_x, _cat.pos_y, _cat.pos_z);
 #endif
+    }
+
+    /// <summary>
+    /// タンクのアイコンを一括で表示させる
+    /// </summary>
+    public void TanksActive()
+    {
+        foreach(GameObject _obj in tanks_)
+        {
+            _obj.GetComponent<RaderIcon>().SetActive(true);
+        }
     }
 }
