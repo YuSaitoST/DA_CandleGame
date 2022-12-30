@@ -60,15 +60,15 @@ public class ObjectCreator : MonoBehaviour
             Debug.Log("EnemysData : " + e.ToString());
         }
 
-        try
-        {
-            PrefabCreater.CreateMultiplePrefabs("InputData/FellowData", pref_fellows_, parent_fellow_);
+        //try
+        //{
+        //    PrefabCreater.CreateMultiplePrefabs("InputData/FellowData", pref_fellows_, parent_fellow_);
 
-        }
-        catch (Exception e)
-        {
-            Debug.Log("FollowsData : " + e.ToString());
-        }
+        //}
+        //catch (Exception e)
+        //{
+        //    Debug.Log("FollowsData : " + e.ToString());
+        //}
 
         try
         {
@@ -94,6 +94,7 @@ public class ObjectCreator : MonoBehaviour
 
 
 #else
+        // ìGê∂ê¨
         if (parent_enemy_ != null)
         {
             foreach (CreateData data in _dataList.lists)
@@ -116,10 +117,12 @@ public class ObjectCreator : MonoBehaviour
                     .SetParameters(_speed[data.kind]);
             }
         }
-        PrefabCreater.CreateMultiplePrefabs("InputData/FellowData", pref_fellows_, parent_fellow_);
+
+        // íáä‘
         PrefabCreater.CreateMultiplePrefabs("InputData/ItemData", pref_items_, parent_items_);
         //PrefabCreater.CreateMultiplePrefabs("InputData/BreakableRocksData", pref_bRocks_, parent_bRock_);
 
+        // íáä‘ÇÃç¿ïWê›íË
 
         BOB _bob = _param.bob;
         fellows_[0].transform.position = new Vector3(_bob.pos_x, _bob.pos_y, _bob.pos_z);

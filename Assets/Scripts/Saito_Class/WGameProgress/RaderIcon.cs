@@ -19,4 +19,13 @@ public class RaderIcon : MonoBehaviour
     {
         Destroy(icon_);
     }
+
+    /// <summary>
+    /// •\¦ó‘Ô‚ğ•ÏX‚·‚é
+    /// </summary>
+    /// <param name="active"></param>
+    public void SetActive(bool active)
+    {
+        icon_.SetActive(active);
+    }
 }
