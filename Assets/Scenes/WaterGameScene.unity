@@ -39,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.12009774, g: 0.27062485, b: 0.39583078, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2297,6 +2297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player_: {fileID: 9033653969166903198}
   mainCamera_: {fileID: 1766213595}
+  minimapCamera_: {fileID: 0}
   debugPanel_: {fileID: 1697098676}
   bgmManager_: {fileID: 1771218366}
   audiosource_: {fileID: 1270118820}
@@ -2330,7 +2331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df7c02f644221e64aac28aaff2ebafe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dark_on_: 1
+  dark_on_: 0
   light_: {fileID: 1199495216}
 --- !u!1001 &607790777
 PrefabInstance:
