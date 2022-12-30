@@ -8,6 +8,9 @@ public class Fellow : MonoBehaviour
     private CapsuleCollider collider_ = null;
  
     [SerializeField]
+    private GameObject death_effect_ = null;
+
+    [SerializeField]
     private NavMeshAgent agent_;
     // 追いかけるキャラクター
 
@@ -94,6 +97,8 @@ public class Fellow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        death_effect_.SetActive(false);
+
         radericon_ = GetComponent<RaderIcon>();
        // animator_ = GetComponent<Animator>();
         agent_ = GetComponent<NavMeshAgent>();
@@ -260,6 +265,8 @@ public class Fellow : MonoBehaviour
     {
         agent_.enabled = false;
         collider_.enabled = false;
+
+        death_effect_.SetActive(true);
 
         follow_flg_ = false;
         row_ = 0;
