@@ -112,6 +112,22 @@ public class ObjectCreator : MonoBehaviour
         //}
 
 
+        // íáä‘ÇÃç¿ïWê›íË
+
+        BOB _bob = _param.bob;
+        fellows_[0].transform.position = new Vector3(_bob.pos_x, _bob.pos_y, _bob.pos_z);
+
+        NIC _nic = _param.nic;
+        fellows_[1].transform.position = new Vector3(_nic.pos_x, _nic.pos_y, _nic.pos_z);
+
+        SPENCER _spe = _param.spencer;
+        fellows_[2].transform.position = new Vector3(_spe.pos_x, _spe.pos_y, _spe.pos_z);
+
+        ALAN _ala = _param.alan;
+        fellows_[3].transform.position = new Vector3(_ala.pos_x, _ala.pos_y, _ala.pos_z);
+
+        CATHERINE _cat = _param.catherine;
+        fellows_[4].transform.position = new Vector3(_cat.pos_x, _cat.pos_y, _cat.pos_z);
 
 
 #else
