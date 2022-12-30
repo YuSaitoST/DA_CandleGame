@@ -6,6 +6,7 @@ public class FelloTalk : MonoBehaviour
 {
     [SerializeField, Tooltip("Flow Chat")] Flowchart flowchart_ = null;
     [SerializeField, Tooltip("ダイアログ")] GameObject dialog_ = null;
+    [SerializeField, Tooltip("キャラ画像")] GameObject character_ = null;
     [SerializeField, Tooltip("ダイアログ前の会話ブロック名")] string message_front_ = "";
     [SerializeField, Tooltip("ダイアログ後の会話ブロック名")] string message_back_ = "";
     int count_ = 0;
@@ -30,6 +31,14 @@ public class FelloTalk : MonoBehaviour
     }
 
     /// <summary>
+    /// キャラクターを表示させる
+    /// </summary>
+    public void OpenCharacter()
+    {
+        character_.SetActive(true);
+    }
+
+    /// <summary>
     /// ダイアログ表示(Flowchat側から呼ぶ)
     /// </summary>
     public void OpenDialog()
@@ -40,6 +49,7 @@ public class FelloTalk : MonoBehaviour
 
     public void AnPauserObject()
     {
+        character_.SetActive(false);
         PauserObject.Resume();
     }
 
@@ -52,6 +62,7 @@ public class FelloTalk : MonoBehaviour
         }
 
         dialog_.SetActive(false);
+        character_.SetActive(false);
 
         yield return null;
 
