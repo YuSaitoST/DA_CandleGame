@@ -22,6 +22,7 @@ public class GameProgress : MonoBehaviour
     [SerializeField] GameObject     player_         = null; // プレイヤー
     [SerializeField] CameraMover    mainCamera_     = null;
     [SerializeField] Camera         minimapCamera_  = null;
+    [SerializeField] ObjectCreator  creator_        = null;
     [SerializeField] DebugPanel     debugPanel_     = null; // デバッグパネル
     [SerializeField] BGMManager     bgmManager_     = null; // BGM切り替え担当
     [SerializeField] AudioSource    audiosource_    = null;
@@ -146,6 +147,14 @@ public class GameProgress : MonoBehaviour
     {
         //minimapCamera_.orthographicSize = 7.0f;
         StartCoroutine(RadarScaleChange());
+    }
+
+    /// <summary>
+    /// タンクをレーダーに表示させる
+    /// </summary>
+    public void Rader_TankIconActive()
+    {
+        creator_.TanksActive();
     }
 
     /// <summary>
