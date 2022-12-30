@@ -43,6 +43,7 @@ public class FelloTalk : MonoBehaviour
     /// </summary>
     public void OpenDialog()
     {
+        character_.SetActive(false);
         dialog_.SetActive(true);
         StartCoroutine(StayNextInput());
     }
