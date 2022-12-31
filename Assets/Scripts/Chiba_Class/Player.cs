@@ -117,7 +117,14 @@ public class Player : MonoBehaviour
     private bool fire1_cancel_ = false;
 
     [Header("Bボタン関連")]
-   
+
+    [SerializeField]
+    private bool fire2_flg_ = false;
+
+    public bool Fire2_Flg__
+    {
+        get { return fire2_flg_; }
+    }
 
     [Header("Xボタン関連")]
     [SerializeField]
@@ -401,12 +408,14 @@ public class Player : MonoBehaviour
         //移動速度上昇
         if (Input.GetButton("Fire2")&&type_!=State.Damage && type_ != State.Action00 && type_ != State.Blood)
         {
+            fire2_flg_ = true;
             type_ = State.Dash;
             Debug.Log("Bボタンが押された");
            
         }
         else if(Input.GetButtonUp("Fire2") && type_ != State.Damage && type_ != State.Action00 && type_ != State.Blood)
         {
+            fire2_flg_ = false;
             type_ = State.Idle;
             Debug.Log("Bボタンが離された");
             

@@ -97,7 +97,10 @@ public class Fellow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         death_effect_.SetActive(false);
+
+        
 
         radericon_ = GetComponent<RaderIcon>();
        // animator_ = GetComponent<Animator>();
@@ -168,14 +171,36 @@ public class Fellow : MonoBehaviour
 
                 agent_.isStopped = true;
                 animator_.SetBool("isWalking", false);
+               // animator_.SetBool("isRunning", false);
+                if (player_script_.Fire2_Flg__)
+                {
+                    animator_.SetBool("isRunning", true);
+
+                }
+                else if (!player_script_.Fire2_Flg__)
+                {
+
+                    animator_.SetBool("isRunning", false);
+                }
                 //animator_.SetFloat("Speed", 0f);
                 //@“ž’…‚µ‚Ä‚¢‚È‚¢Žž‚Å’Ç‚¢‚©‚¯o‚·‹——£‚É‚È‚Á‚½‚ç
             }
             else if (agent_.remainingDistance > followDistance_)
             {
 
-                agent_.isStopped = false;
                 animator_.SetBool("isWalking", true);
+                agent_.isStopped = false;
+                if (player_script_.Fire2_Flg__)
+                {
+                    animator_.SetBool("isRunning", true);
+                   
+                }
+                else if (!player_script_.Fire2_Flg__)
+                {
+                   
+                    animator_.SetBool("isRunning", false);
+                }
+                
                 //animator_.SetFloat("Speed", agent_.desiredVelocity.magnitude);
             }
         }
