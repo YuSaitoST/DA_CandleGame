@@ -43,8 +43,6 @@ public class FelloTalk : MonoBehaviour
     /// </summary>
     public void OpenDialog()
     {
-        character_.SetActive(false);
-        dialog_.SetActive(true);
         StartCoroutine(StayNextInput());
     }
 
@@ -56,6 +54,10 @@ public class FelloTalk : MonoBehaviour
 
     IEnumerator StayNextInput()
     {
+        character_.SetActive(false);
+        dialog_.SetActive(true);
+
+        yield return null;
 
         while (!(Input.GetButton("Fire1") || Input.GetButton("Fire2") || Input.GetButton("Fire3")))
         {
