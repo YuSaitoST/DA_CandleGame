@@ -74,10 +74,10 @@ public class ObjectCreator : MonoBehaviour
                 foreach (CreateData data in _dataList_it.lists)
                 {
                     GameObject _obj = Instantiate(pref_items_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up));
-                    _obj.transform.parent = parent_enemy_.transform;
+                    _obj.transform.parent = parent_items_.transform;
                     if (data.kind == 0)
                     {
-                        _obj.SetActive(false);
+                        //_obj.GetComponent<RaderIcon>().SetActive(false);
                         tanks_.Add(_obj);
                     }
                 }
@@ -89,7 +89,7 @@ public class ObjectCreator : MonoBehaviour
                     GameObject _obj = Instantiate(pref_items_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up));
                     if (data.kind == 0)
                     {
-                        _obj.SetActive(false);
+                        //_obj.GetComponent<RaderIcon>().SetActive(false);
                         tanks_.Add(_obj);
                     }
                 }
@@ -112,22 +112,22 @@ public class ObjectCreator : MonoBehaviour
         //}
 
 
-        // 仲間の座標設定
+        //// 仲間の座標設定
 
-        BOB _bob = _param.bob;
-        fellows_[0].transform.position = new Vector3(_bob.pos_x, _bob.pos_y, _bob.pos_z);
+        //BOB _bob = _param.bob;
+        //fellows_[0].transform.position = new Vector3(_bob.pos_x, 0.0f, _bob.pos_z);
 
-        NIC _nic = _param.nic;
-        fellows_[1].transform.position = new Vector3(_nic.pos_x, _nic.pos_y, _nic.pos_z);
+        //NIC _nic = _param.nic;
+        //fellows_[1].transform.position = new Vector3(_nic.pos_x, 0.0f, _nic.pos_z);
 
-        SPENCER _spe = _param.spencer;
-        fellows_[2].transform.position = new Vector3(_spe.pos_x, _spe.pos_y, _spe.pos_z);
+        //SPENCER _spe = _param.spencer;
+        //fellows_[2].transform.position = new Vector3(_spe.pos_x, 0.0f, _spe.pos_z);
 
-        ALAN _ala = _param.alan;
-        fellows_[3].transform.position = new Vector3(_ala.pos_x, _ala.pos_y, _ala.pos_z);
+        //ALAN _ala = _param.alan;
+        //fellows_[3].transform.position = new Vector3(_ala.pos_x, 0.0f, _ala.pos_z);
 
-        CATHERINE _cat = _param.catherine;
-        fellows_[4].transform.position = new Vector3(_cat.pos_x, _cat.pos_y, _cat.pos_z);
+        //CATHERINE _cat = _param.catherine;
+        //fellows_[4].transform.position = new Vector3(_cat.pos_x, 0.0f, _cat.pos_z);
 
 
 #else
@@ -155,37 +155,37 @@ public class ObjectCreator : MonoBehaviour
             }
         }
 
-        // 仲間
         PrefabCreater.CreateMultiplePrefabs("InputData/ItemData", pref_items_, parent_items_);
         //PrefabCreater.CreateMultiplePrefabs("InputData/BreakableRocksData", pref_bRocks_, parent_bRock_);
 
-        // 仲間の座標設定
+        //// 仲間の座標設定
 
-        BOB _bob = _param.bob;
-        fellows_[0].transform.position = new Vector3(_bob.pos_x, _bob.pos_y, _bob.pos_z);
+        //BOB _bob = _param.bob;
+        //fellows_[0].transform.position = new Vector3(_bob.pos_x, _bob.pos_y, _bob.pos_z);
 
-        NIC _nic = _param.nic;
-        fellows_[1].transform.position = new Vector3(_nic.pos_x, _nic.pos_y, _nic.pos_z);
+        //NIC _nic = _param.nic;
+        //fellows_[1].transform.position = new Vector3(_nic.pos_x, _nic.pos_y, _nic.pos_z);
 
-        SPENCER _spe = _param.spencer;
-        fellows_[2].transform.position = new Vector3(_spe.pos_x, _spe.pos_y, _spe.pos_z);
+        //SPENCER _spe = _param.spencer;
+        //fellows_[2].transform.position = new Vector3(_spe.pos_x, _spe.pos_y, _spe.pos_z);
 
-        ALAN _ala = _param.alan;
-        fellows_[3].transform.position = new Vector3(_ala.pos_x, _ala.pos_y, _ala.pos_z);
+        //ALAN _ala = _param.alan;
+        //fellows_[3].transform.position = new Vector3(_ala.pos_x, _ala.pos_y, _ala.pos_z);
 
-        CATHERINE _cat = _param.catherine;
-        fellows_[4].transform.position = new Vector3(_cat.pos_x, _cat.pos_y, _cat.pos_z);
+        //CATHERINE _cat = _param.catherine;
+        //fellows_[4].transform.position = new Vector3(_cat.pos_x, _cat.pos_y, _cat.pos_z);
 #endif
     }
 
     /// <summary>
     /// タンクのアイコンを一括で表示させる
     /// </summary>
-    public void TanksActive()
+    /// <param name="active">表示状態</param>
+    public void TanksActive(bool active)
     {
         foreach(GameObject _obj in tanks_)
         {
-            _obj.SetActive(true);
+            _obj.GetComponent<RaderIcon>().SetActive(active);
         }
     }
 }

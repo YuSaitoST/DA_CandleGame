@@ -69,6 +69,7 @@ public class GameProgress : MonoBehaviour
         // 追っている敵の数をリセット
         instance_.num_pursuers_ = 0;
 
+        StartCoroutine(TankIconActive());
 
         // デバッグパネルの表示状態の変更
 #if _DEBUG_ON
@@ -154,7 +155,7 @@ public class GameProgress : MonoBehaviour
     /// </summary>
     public void Rader_TankIconActive()
     {
-        creator_.TanksActive();
+        creator_.TanksActive(true);
     }
 
     /// <summary>
@@ -245,6 +246,15 @@ public class GameProgress : MonoBehaviour
                 break;
             }
         }
+
+        yield return null;
+    }
+
+    IEnumerator TankIconActive()
+    {
+        yield return null;
+
+        creator_.TanksActive(false);
 
         yield return null;
     }
