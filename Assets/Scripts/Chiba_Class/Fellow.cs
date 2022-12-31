@@ -288,6 +288,8 @@ public class Fellow : MonoBehaviour
 
     private void DeathProcess()
     {
+        animator_.SetBool("isRunning", false);
+        animator_.SetBool("isWalking", false);
         agent_.enabled = false;
         collider_.enabled = false;
 
