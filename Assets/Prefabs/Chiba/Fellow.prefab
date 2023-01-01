@@ -164,7 +164,7 @@ MonoBehaviour:
   radericon_: {fileID: 0}
   fellotalk_: {fileID: 0}
   type_: 0
-  debug_: 1
+  debug_: 0
 --- !u!54 &3618584048260882578
 Rigidbody:
   m_ObjectHideFlags: 0
