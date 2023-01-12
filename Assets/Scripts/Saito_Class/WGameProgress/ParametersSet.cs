@@ -11,6 +11,11 @@ using UnityEngine;
     public FIELD field;
     public PLAYER player;
     public SUBMARINE submaline;
+    public BOB bob;
+    public NIC nic;
+    public SPENCER spencer;
+    public ALAN alan;
+    public CATHERINE catherine;
     public YADOKAROCK yadokarock;
     public YADEKAROCK yadekarock;
 }
@@ -43,6 +48,46 @@ using UnityEngine;
     public float pos_x;
     public float pos_y;
     public float pos_z;
+}
+
+[Serializable] public class BOB
+{
+    public float pos_x;
+    public float pos_y;
+    public float pos_z;
+    public float rot_y;
+}
+
+[Serializable] public class NIC
+{
+    public float pos_x;
+    public float pos_y;
+    public float pos_z;
+    public float rot_y;
+}
+
+[Serializable] public class SPENCER
+{
+    public float pos_x;
+    public float pos_y;
+    public float pos_z;
+    public float rot_y;
+}
+
+[Serializable] public class ALAN
+{
+    public float pos_x;
+    public float pos_y;
+    public float pos_z;
+    public float rot_y;
+}
+
+[Serializable] public class CATHERINE
+{
+    public float pos_x;
+    public float pos_y;
+    public float pos_z;
+    public float rot_y;
 }
 
 [Serializable] public class YADOKAROCK

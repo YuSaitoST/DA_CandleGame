@@ -21,6 +21,8 @@ public class GameProgress : MonoBehaviour
 
     [SerializeField] GameObject     player_         = null; // プレイヤー
     [SerializeField] CameraMover    mainCamera_     = null;
+    [SerializeField] Camera         minimapCamera_  = null;
+    [SerializeField] ObjectCreator  creator_        = null;
     [SerializeField] DebugPanel     debugPanel_     = null; // デバッグパネル
     [SerializeField] BGMManager     bgmManager_     = null; // BGM切り替え担当
     [SerializeField] AudioSource    audiosource_    = null;
@@ -67,6 +69,7 @@ public class GameProgress : MonoBehaviour
         // 追っている敵の数をリセット
         instance_.num_pursuers_ = 0;
 
+        StartCoroutine(TankIconActive());
 
         // デバッグパネルの表示状態の変更
 #if _DEBUG_ON
@@ -78,6 +81,7 @@ public class GameProgress : MonoBehaviour
 
     private void Update()
     {
+#if UNITY_EDITOR
         if (Input.GetKeyUp(KeyCode.K))
         {
             bgmManager_.MainToEnemy();
@@ -85,6 +89,12 @@ public class GameProgress : MonoBehaviour
         {
             bgmManager_.EnemyToMain();
         }
+
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            Radar_Contraction();
+        }
+#endif
     }
 
     /// <summary>
@@ -129,6 +139,23 @@ public class GameProgress : MonoBehaviour
     public void CameraShake()
     {
         mainCamera_.Shake(0.003f, 0.05f, 0.5f);
+    }
+
+    /// <summary>
+    /// レーダーの表示範囲を拡大させる
+    /// </summary>
+    public void Radar_Contraction()
+    {
+        //minimapCamera_.orthographicSize = 7.0f;
+        StartCoroutine(RadarScaleChange());
+    }
+
+    /// <summary>
+    /// タンクをレーダーに表示させる
+    /// </summary>
+    public void Rader_TankIconActive()
+    {
+        creator_.TanksActive(true);
     }
 
     /// <summary>
@@ -204,6 +231,30 @@ public class GameProgress : MonoBehaviour
         yield return new WaitForSeconds(3.5f);
 
         GameFine();
+
+        yield return null;
+    }
+
+    IEnumerator RadarScaleChange()
+    {
+        while (true)
+        {
+            minimapCamera_.orthographicSize = Mathf.Lerp(minimapCamera_.orthographicSize, 7.0f, 0.5f);
+
+            if(7.0f <= minimapCamera_.orthographicSize)
+            {
+                break;
+            }
+        }
+
+        yield return null;
+    }
+
+    IEnumerator TankIconActive()
+    {
+        yield return null;
+
+        creator_.TanksActive(false);
 
         yield return null;
     }

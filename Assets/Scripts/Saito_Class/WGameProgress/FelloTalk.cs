@@ -1,47 +1,84 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Fungus;
 
-[RequireComponent(typeof(Flowchart))]
 public class FelloTalk : MonoBehaviour
 {
-    [SerializeField] string message_ = "";
-    Flowchart flowChart_ = null;
-    bool isTalking_ = false;
+    [SerializeField, Tooltip("Flow Chat")] Flowchart flowchart_ = null;
+    [SerializeField, Tooltip("ダイアログ")] GameObject dialog_ = null;
+    [SerializeField, Tooltip("キャラ画像")] GameObject character_ = null;
+    [SerializeField, Tooltip("ダイアログ前の会話ブロック名")] string message_front_ = "";
+    [SerializeField, Tooltip("ダイアログ後の会話ブロック名")] string message_back_ = "";
+    int count_ = 0;
 
-
-    // Start is called before the first frame update
     void Start()
     {
-        flowChart_ = GetComponent<Flowchart>();
+        dialog_.SetActive(false);
+        count_ = 0;
     }
 
-    public void Talk()
+    /// <summary>
+    /// 会話開始
+    /// </summary>
+    public void PlayTalk()
     {
-        StartCoroutine(TalkStart());
+        if (count_ == 0)
+        {
+            count_ += 1;
+            PauserObject.Pause();
+            flowchart_.SendFungusMessage(message_front_);
+        }
     }
 
-    IEnumerator TalkStart()
+    /// <summary>
+    /// キャラクターを表示させる
+    /// </summary>
+    public void OpenCharacter()
     {
+        character_.SetActive(true);
+    }
 
-        if (isTalking_)
+    /// <summary>
+    /// ダイアログ表示(Flowchat側から呼ぶ)
+    /// </summary>
+    public void OpenDialog()
+    {
+        StartCoroutine(StayNextInput());
+    }
+
+    public void AnPauserObject()
+    {
+        character_.SetActive(false);
+        PauserObject.Resume();
+    }
+
+    IEnumerator StayNextInput()
+    {
+        character_.SetActive(false);
+        dialog_.SetActive(true);
+
+        yield return null;
+
+        while (!(Input.GetButton("Fire1") || Input.GetButton("Fire2") || Input.GetButton("Fire3")))
         {
             yield return null;
         }
 
-        isTalking_ = true;
+        dialog_.SetActive(false);
+        character_.SetActive(false);
 
-        PauserObject.Pause();
+        yield return null;
 
-        flowChart_.SendFungusMessage(message_);
+        if (message_back_ != "")
+        {
+            flowchart_.SendFungusMessage(message_back_);
+        }
+        else
+        {
+            PauserObject.Resume();
+        }
 
-        yield return new WaitUntil(() =>
-            flowChart_.GetExecutingBlocks().Count == 0);
-
-        isTalking_ = false;
-
-        PauserObject.Resume();
+        yield return null;
     }
 }
 

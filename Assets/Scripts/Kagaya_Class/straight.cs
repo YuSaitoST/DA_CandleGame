@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEditor;
-//using static UnityEditor.Experimental.GraphView.GraphView;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 enum ENE_STATE2
 {
@@ -292,7 +292,6 @@ public class straight : MonoBehaviour
         return vertices.ToArray();
     }
 
-#if UNITY_EDITOR
     [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected)]
     private static void DrawPointGizmos(straight i_object, GizmoType i_gizmoType)
     {
@@ -308,6 +307,4 @@ public class straight : MonoBehaviour
         Mesh fanMesh = CreateFanMesh(i_object.WidthAngle, TRIANGLE_COUNT);
         Gizmos.DrawMesh(fanMesh, pos, rot, scale);
     }
-#endif
 }
-

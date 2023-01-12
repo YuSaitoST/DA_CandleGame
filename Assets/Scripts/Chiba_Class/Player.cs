@@ -26,6 +26,11 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("現在のの移動速度(最大値)")]
     private float    player_move_ = 1.0f;
 
+    public float Player_Move_
+    {
+        get { return player_move_; }
+    }
+
     [SerializeField, Tooltip("プレイヤーのアニメーターを入れる")]
     private Animator player_animator_ =null;
 
@@ -84,12 +89,10 @@ public class Player : MonoBehaviour
     private int oxy_start_ = 3;
 
     //追加タンクフラグ
-    [SerializeField]
-    private bool fellow_oxy_add_ = false;
+    public bool fellow_oxy_add_ = false;
 
     //爆弾強化フラグ
-    [SerializeField]
-    private bool fellow_oxy_bomb_ = false;
+    public bool fellow_oxy_bomb_ = false;
 
     [SerializeField, Tooltip("ブースト時のゲージ消費倍率")]
     private float    oxy_cost_boost_ = 2.0f;
@@ -114,7 +117,14 @@ public class Player : MonoBehaviour
     private bool fire1_cancel_ = false;
 
     [Header("Bボタン関連")]
-   
+
+    [SerializeField]
+    private bool fire2_flg_ = false;
+
+    public bool Fire2_Flg__
+    {
+        get { return fire2_flg_; }
+    }
 
     [Header("Xボタン関連")]
     [SerializeField]
@@ -193,9 +203,9 @@ public class Player : MonoBehaviour
     private float knockback_stan_ = 1.0f;
 
     //潜水艦リミット
-    [SerializeField,Tooltip("潜水艦パーツのゲージ")]
+    [SerializeField,Tooltip("潜水艦仲間回収のゲージ")]
     private Slider submarine_slider_ = null;
-    [SerializeField, Tooltip("潜水艦パーツのゲージのキャンバス")]
+    [SerializeField, Tooltip("仲間回収のゲージのキャンバス")]
     private Canvas submarine_slider_canvas_ = null;
     [SerializeField]
     private float submarine_limit_ = 5.0f;
@@ -367,7 +377,24 @@ public class Player : MonoBehaviour
                 Debug.Log(oxy_count_);
             }
         }
-       
+        //4本目のボンベを追加
+        if (fellow_oxy_add_)
+        {
+            if (!oxy_add_slider_.activeSelf)
+            {
+                oxy_max_[3] = 33;
+            }
+            oxy_add_slider_.SetActive(true);
+
+            //4本目のボンベUIを表示
+            //float _tmp = oxy_max_[oxy_count_];
+            //oxy_max_[oxy_count_] = 33;
+           
+            // oxy_max_[4] = 33;
+
+
+
+        }
         //EventSystem.current.SetSelectedGameObject(button_firstSelect_);
     }
     
@@ -375,32 +402,20 @@ public class Player : MonoBehaviour
     {
         //プレイヤーの入力
 
-        //4本目のボンベを追加
-        if (Input.GetButton("Fire2"))
-        {
-            oxy_add_slider_.SetActive(true);
-            //一本も消費していなかった場合
-            //4本目のボンベUIを表示
-            //float _tmp = oxy_max_[oxy_count_];
-            //oxy_max_[oxy_count_] = 33;
-            fellow_oxy_add_ = true;
-            oxy_max_[3] = 33;
-           // oxy_max_[4] = 33;
-
-            
-
-        }
+        
 
         //Bボタン
         //移動速度上昇
         if (Input.GetButton("Fire2")&&type_!=State.Damage && type_ != State.Action00 && type_ != State.Blood)
         {
+            fire2_flg_ = true;
             type_ = State.Dash;
             Debug.Log("Bボタンが押された");
            
         }
         else if(Input.GetButtonUp("Fire2") && type_ != State.Damage && type_ != State.Action00 && type_ != State.Blood)
         {
+            fire2_flg_ = false;
             type_ = State.Idle;
             Debug.Log("Bボタンが離された");
             
@@ -844,6 +859,8 @@ public class Player : MonoBehaviour
         //無敵時間開始
         player_life_inv_tmp_ = player_life_inv_time_;
         fellow_count_ -= 1;
+        //bloodDirection_.DamageDone();
+        sePlayer_.TakeDamage();
     }
 
 
@@ -919,22 +936,22 @@ public class Player : MonoBehaviour
             }
 
                 //パーツの範囲
-                if (other.gameObject.CompareTag("PC"))
-            {
+            //    if (other.gameObject.CompareTag("PC"))
+            //{
 
-                item_ui_.enabled = true;
+            //    item_ui_.enabled = true;
 
-                fire1_range_flg_ = true;
-                if (Input.GetButton("Fire1"))
-                {
+            //    fire1_range_flg_ = true;
+            //    if (Input.GetButton("Fire1"))
+            //    {
                   
-                    var _parts = other;
-                    _parts.GetComponent<Parts>().Pickup();
-                    _parts = null;
-                    sePlayer_.PartGet();
-                }
+            //        var _parts = other;
+            //        _parts.GetComponent<Parts>().Pickup();
+            //        _parts = null;
+            //        sePlayer_.PartGet();
+            //    }
 
-            }
+            //}
 
             //ボンベ回復
             if (other.gameObject.CompareTag("Tank"))

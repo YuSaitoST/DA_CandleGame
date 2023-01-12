@@ -17,7 +17,8 @@ public class Tank : MonoBehaviour
 
     IEnumerator OnPickup()
     {
-       // tank_ui_.enabled = false;
+        this.GetComponent<RaderIcon>().Detectioned();
+        // tank_ui_.enabled = false;
         this.transform.position = new Vector3(0, -100, 0);
         yield return new WaitForSeconds(0.5f);
 

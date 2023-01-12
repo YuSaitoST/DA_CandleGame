@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class CameraMover : MonoBehaviour
 {
+    [SerializeField] float correction_y = 0.0f;
+    [SerializeField] float correction_z = 0.0f;
     bool shakeFrag_ = false;
 
     private void Start()
@@ -23,8 +25,8 @@ public class CameraMover : MonoBehaviour
     public Vector3 GetPosition()
     {
         Vector3 _pos = GameProgress.instance_.GetPlayerPos();
-        _pos.y = 3.0f;
-        _pos.z -= 0.5f;
+        _pos.y = correction_y;
+        _pos.z -= correction_z;
         return _pos;
     }
 
