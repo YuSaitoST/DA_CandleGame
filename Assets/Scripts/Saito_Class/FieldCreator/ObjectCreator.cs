@@ -19,6 +19,8 @@ public class ObjectCreator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameProgress.instance_.SetCreator(this);
+
         tanks_ = new System.Collections.Generic.List<GameObject>();
 
         string _inputString = Resources.Load<TextAsset>("InputData/EnemyData").ToString();

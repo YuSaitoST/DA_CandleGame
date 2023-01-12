@@ -16,6 +16,8 @@ public class BGMManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameProgress.instance_.SetBGMMamager(this);
+
         bgm_main_.Play();
         bgm_main_.volume = volume_max_;
         bgm_enes_.volume = 0.0f;
