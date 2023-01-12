@@ -7,7 +7,11 @@ using UnityEditor;
 enum ENE_STATE { 
     STAY,
     TRACKING,
-    TRACKING_NEXT
+    TRACKING_NEXT,
+    bomb0,
+    bomb1,
+    bomb2,
+    bomb3
 }
 [RequireComponent(typeof(NavMeshAgent))]
 
@@ -62,37 +66,35 @@ public class yadokarock : MonoBehaviour
         speed_ = speed; // ƒƒ“ƒo[•Ï”‚É‘ã“ü‚·‚é
     }
 
-    void OnCollisionStay(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
-        timebent += Time.deltaTime;
-        Debug.Log("Ž~‚Ü‚ê");
+        timebent = Time.deltaTime;
+        Debug.Log("Ž~");
         string tags = other.transform.tag.Substring(0, other.transform.tag.Length - 2);
-        if (tags == "OxyBomb00" || tags == "OxyBomb01" || tags == "OxyBomb02" || tags == "OxyBomb03"
-            || tags == "OxyBomb04" || tags == "OxyBomb05") 
+
+        if (tags == "OxyBomb")
         {
-            time = Time.deltaTime;
-            if(tags == "OxyBomb00")
-            {
-                state = ENE_STATE.STAY;
-                if (time >= 1.0f)
-                {
-                    Debug.Log("“–‚½‚è");
-                    time = 0.0f;
-                }
-            }
             
-            
-        }
-        if (timebent >= 1.0f)
-        {
-            Debug.Log("“®‚­");
-            state = ENE_STATE.TRACKING;
-            //number = 1;
-            if (timebent >= 3.0f)
+            if (tags == "OxyBomb00")
             {
-                timebent = 0.0f;
+                state = ENE_STATE.bomb0;
+                Debug.Log("ƒXƒ^ƒ“");
             }
+            if (tags == "OxyBomb01")
+            {
+                state = ENE_STATE.bomb1;
+            }
+            if (tags == "OxyBomb02")
+            {
+                state = ENE_STATE.bomb2;
+            }
+            if (tags == "OxyBomb03")
+            {
+                state = ENE_STATE.bomb3;
+            }
+
         }
+
     }
 
     private void OnTriggerStay(Collider other)
@@ -115,7 +117,7 @@ public class yadokarock : MonoBehaviour
                         if (time >= 1.0f)
                         {
                             state = ENE_STATE.TRACKING;
-
+                            GameProgress.instance_.Enemy_StartTracking();
                         }
                         Debug.Log("range of view");
                     }
@@ -156,9 +158,53 @@ public class yadokarock : MonoBehaviour
                 Debug.Log("Ž~‚Ü‚Á‚½");
                 rigidbody.velocity = Vector3.zero;
                 time = 0.0f;
+                GameProgress.instance_.Enemy_EndTracking();
                 state = ENE_STATE.STAY;
             }
         }
+
+        if(state == ENE_STATE.bomb0)
+        {
+            //state = ENE_STATE.STAY;
+            if (timebent >= 1.0f)
+            {
+                Debug.Log("ÄŽn“®");
+                state = ENE_STATE.TRACKING;
+                GameProgress.instance_.Enemy_StartTracking();
+                timebent = 0.0f;
+            }
+        }
+        if (state == ENE_STATE.bomb1)
+        {
+            state = ENE_STATE.STAY;
+            if (timebent >= 1.4f)
+            {
+                state = ENE_STATE.TRACKING;
+                GameProgress.instance_.Enemy_StartTracking();
+                timebent = 0.0f;
+            }
+        }
+        if (state == ENE_STATE.bomb2)
+        {
+            state = ENE_STATE.STAY;
+            if (timebent >= 1.8f)
+            {
+                state = ENE_STATE.TRACKING;
+                GameProgress.instance_.Enemy_StartTracking();
+                timebent = 0.0f;
+            }
+        }
+        if (state == ENE_STATE.bomb3)
+        {
+            state = ENE_STATE.STAY;
+            if (timebent >= 2.2f)
+            {
+                state = ENE_STATE.TRACKING;
+                GameProgress.instance_.Enemy_StartTracking();
+                timebent = 0.0f;
+            }
+        }
+        
 
         if (Input.GetKeyDown(KeyCode.S))
         {
