@@ -84,6 +84,9 @@ public class Player : MonoBehaviour
     //[SerializeField, Tooltip("酸素ゲージ1本の最大値(初期値)"), Range(0, 33.3f)]
     private float[]  oxy_max_       =  new float[10];
 
+    //[SerializeField, Tooltip("酸素ゲージ1本の最大値(初期値)"), Range(0, 33.3f)]
+    private float[] oxy_max_red_ = new float[10];
+
     //最初のタンクの数
     [SerializeField]
     private int oxy_start_ = 3;
@@ -105,6 +108,9 @@ public class Player : MonoBehaviour
 
     [SerializeField, Tooltip("ボンベの数")]
     private Slider[] oxy_slider_ = new Slider[3];
+
+    [SerializeField, Tooltip("ボンベの数")]
+    private Slider[] oxy_slider_red_ = null;
 
     [SerializeField]
     private GameObject oxy_add_slider_ = null;
@@ -242,6 +248,8 @@ public class Player : MonoBehaviour
         get { return fellow_count_; }
     }
 
+    public int fellow_die_row_ = 0;
+
     [SerializeField,Tooltip("BloodDirectionをアタッチ")]
     BloodDirection bloodDirection_ = null;
 
@@ -252,6 +260,8 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+
+
         oxy_add_slider_.SetActive(false);
 
         // 弾の初速度や生成座標を持つコンポーネント
@@ -262,7 +272,9 @@ public class Player : MonoBehaviour
        {
             
             oxy_max_[i] = _h;
-       }
+            oxy_max_red_[i] = _h;
+
+        }
 
         tr_ = GetComponent<Transform>();
         rb_ = GetComponent<Rigidbody>();
@@ -317,6 +329,11 @@ public class Player : MonoBehaviour
             oxy_slider_[1].value = oxy_max_[2];
             oxy_slider_[2].value = oxy_max_[1];
             oxy_slider_[3].value = oxy_max_[0];
+
+            oxy_slider_red_[0].value = oxy_max_red_[3];
+            oxy_slider_red_[1].value = oxy_max_red_[2];
+            oxy_slider_red_[2].value = oxy_max_red_[1];
+            oxy_slider_red_[3].value = oxy_max_red_[0];
         }
         else
         {
@@ -325,7 +342,17 @@ public class Player : MonoBehaviour
             oxy_slider_[0].value = oxy_max_[2];
             oxy_slider_[1].value = oxy_max_[1];
             oxy_slider_[2].value = oxy_max_[0];
+
+            oxy_slider_red_[0].value = oxy_max_red_[2];
+            oxy_slider_red_[1].value = oxy_max_red_[1];
+            oxy_slider_red_[2].value = oxy_max_red_[0];
+
+            
+            
         }
+
+
+
         oxy_text_.SetText(oxy_total_.ToString("F1")/* + ("％")*/);
 
      
@@ -357,6 +384,7 @@ public class Player : MonoBehaviour
         {
             if (oxy_max_[oxy_count_] <= 0.0f && oxy_count_ < 3)
             {
+                oxy_max_red_[oxy_count_] = 0.0f;
                 oxy_max_[oxy_count_] = 0.0f;
                 //別クラス呼び出し
                 fire3_draw_.Off();
@@ -369,6 +397,7 @@ public class Player : MonoBehaviour
         {
             if (oxy_max_[oxy_count_] <= 0.0f && oxy_count_ < 2)
             {
+                oxy_max_red_[oxy_count_] = 0.0f;
                 oxy_max_[oxy_count_] = 0.0f;
                 //別クラス呼び出し
                 fire3_draw_.Off();
@@ -632,6 +661,19 @@ public class Player : MonoBehaviour
             player_life_inv_tmp_ -= 1.0f*Time.deltaTime;
         }
 
+        //赤ゲージ関連
+        if (oxy_max_red_[oxy_count_] > oxy_max_[oxy_count_])
+        {
+
+            oxy_max_red_[oxy_count_] -= 9.0f * Time.deltaTime;
+
+        }
+        else if (oxy_max_red_[oxy_count_] < oxy_max_[oxy_count_])
+        {
+
+            oxy_max_red_[oxy_count_] = oxy_max_[oxy_count_];
+
+        }
     }
     private void Action00()
     {
@@ -681,6 +723,7 @@ public class Player : MonoBehaviour
         _tmp = oxy_max_[oxy_count_] -fire3_button_cost_[count_];
         if (_tmp < 0.0f)
         {
+            oxy_max_red_[oxy_count_] = 0;
             oxy_max_[oxy_count_] = 0;
             if (debug_death_ == false)
             {
