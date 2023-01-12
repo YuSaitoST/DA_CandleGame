@@ -11978,7 +11978,6 @@ MonoBehaviour:
   mainCamera_: {fileID: 1766213595}
   minimapCamera_: {fileID: 3598620572220805713}
   creator_: {fileID: 563272246}
-  debugPanel_: {fileID: 1697098676}
   bgmManager_: {fileID: 1771218366}
   audiosource_: {fileID: 1270118820}
   se_death_: {fileID: 8300000, guid: 024951e93a6e3e743bc93a3c6ca055ed, type: 3}
@@ -18912,6 +18911,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1270118821}
   - component: {fileID: 1270118820}
+  - component: {fileID: 1270118822}
   m_Layer: 0
   m_Name: SEPlayerMain
   m_TagString: Untagged
@@ -19030,6 +19030,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1270118822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1270118819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a25a914ec0243bf4d9ac4166310cb333, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1290713854
 GameObject:
   m_ObjectHideFlags: 0
@@ -30509,6 +30521,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1771218367}
   - component: {fileID: 1771218366}
+  - component: {fileID: 1771218368}
   m_Layer: 0
   m_Name: BGMPlayer
   m_TagString: Untagged
@@ -30549,6 +30562,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1771218368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1771218365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61a76d4ebe9f2404bb6295c196964127, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1773871369 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7146415041565342443, guid: 6d2149c643cbbc347b724e709f4e9fce,
@@ -38469,6 +38494,7 @@ GameObject:
   - component: {fileID: 699700093271256597}
   - component: {fileID: 3598620572220805713}
   - component: {fileID: 96616436006885860}
+  - component: {fileID: 3598620572220805714}
   m_Layer: 0
   m_Name: Camera_Mini
   m_TagString: Untagged
@@ -43476,6 +43502,18 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &3598620572220805714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606736983223482536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44fd022bb51041f42a482b916839f150, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3618584048967271832
 PrefabInstance:
   m_ObjectHideFlags: 0
