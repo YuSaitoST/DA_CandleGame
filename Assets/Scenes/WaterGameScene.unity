@@ -12011,7 +12011,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df7c02f644221e64aac28aaff2ebafe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dark_on_: 1
+  dark_on_: 0
   light_: {fileID: 1199495216}
 --- !u!1001 &607790777
 PrefabInstance:

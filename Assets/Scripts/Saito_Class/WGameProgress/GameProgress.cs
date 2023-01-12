@@ -23,7 +23,6 @@ public class GameProgress : MonoBehaviour
     [SerializeField] CameraMover    mainCamera_     = null;
     [SerializeField] Camera         minimapCamera_  = null;
     [SerializeField] ObjectCreator  creator_        = null;
-    [SerializeField] DebugPanel     debugPanel_     = null; // デバッグパネル
     [SerializeField] BGMManager     bgmManager_     = null; // BGM切り替え担当
     [SerializeField] AudioSource    audiosource_    = null;
     [SerializeField] AudioClip      se_death_       = null;
@@ -50,12 +49,7 @@ public class GameProgress : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
         // パラメータをセットする
         instance_.parameters_ = new ParametersSet();
         instance_.parameters_.SetParameter();
@@ -69,14 +63,17 @@ public class GameProgress : MonoBehaviour
         // 追っている敵の数をリセット
         instance_.num_pursuers_ = 0;
 
-        StartCoroutine(TankIconActive());
+        instance_.mainCamera_ = Camera.main.GetComponent<CameraMover>();
+        instance_.mainCamera_.transform.rotation = Quaternion.AngleAxis(75.0f, Vector3.right);
 
-        // デバッグパネルの表示状態の変更
-#if _DEBUG_ON
-        instance_.debugPanel_.SetActive(true);
-#else
-        instance_.debugPanel_.SetActive(false);
-#endif
+        StartCoroutine(TankIconActive());
+    }
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
     }
 
     private void Update()
@@ -96,6 +93,12 @@ public class GameProgress : MonoBehaviour
         }
 #endif
     }
+
+    public void SetPlayer(GameObject player) { instance_.player_ = player; }
+    public void SetMiniCamera(Camera minicamera) { instance_.minimapCamera_ = minicamera; }
+    public void SetCreator(ObjectCreator creater) { instance_.creator_ = creater; }
+    public void SetBGMMamager(BGMManager manager) { instance_.bgmManager_ = manager; }
+    public void SetAudioSource(AudioSource audioSource) { instance_.audiosource_ = audioSource; }
 
     /// <summary>
     /// 現在の進行状態を取得する
@@ -125,9 +128,6 @@ public class GameProgress : MonoBehaviour
     public void GameOver()
     {
         progress_ = GAME_PROGRESS.OVER;
-#if _DEBUG_ON
-        debugPanel_.SetMessageText("GameOver...", "no Clear");
-#endif
 
         audiosource_.PlayOneShot(se_death_);
         StartCoroutine(StayToGoResult());
