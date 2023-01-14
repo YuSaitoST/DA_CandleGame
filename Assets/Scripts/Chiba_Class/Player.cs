@@ -260,7 +260,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        GameProgress.instance_.SetPlayer(this);
+        GameProgress.instance_.SetPlayer(gameObject);
 
         oxy_add_slider_.SetActive(false);
 
