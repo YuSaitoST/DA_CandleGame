@@ -34,6 +34,8 @@ public class GameProgress : MonoBehaviour
 
     GAME_PROGRESS progress_;    // ƒQ[ƒ€‚Ìisó‘Ô
 
+    bool[] friendsWhoHelped_;
+
     int num_pursuers_;  // ’Ç‚Á‚Ä‚¢‚é“G‚Ì”
 
 
@@ -65,6 +67,8 @@ public class GameProgress : MonoBehaviour
 
         instance_.mainCamera_ = Camera.main.GetComponent<CameraMover>();
         instance_.mainCamera_.transform.rotation = Quaternion.AngleAxis(75.0f, Vector3.right);
+
+        instance_.friendsWhoHelped_ = new bool[] { false, false, false, false, false };
 
         StartCoroutine(TankIconActive());
     }
@@ -107,6 +111,15 @@ public class GameProgress : MonoBehaviour
     public GAME_PROGRESS GetNowProgress()
     {
         return progress_;
+    }
+
+    /// <summary>
+    /// •‚¯‚½’‡ŠÔ‚ğ“o˜^‚·‚é
+    /// </summary>
+    /// <param name="id">•‚¯‚½’‡ŠÔ‚Ì”Ô†</param>
+    public void SetFriendWhoHelped(Fellow.fellows_ id)
+    {
+        friendsWhoHelped_[(int)id] = true;
     }
 
     /// <summary>
