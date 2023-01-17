@@ -320,6 +320,55 @@ public class Player : MonoBehaviour
         //プレイヤー入力
         PlayerInput();
 
+        //ボンベのゲージが0になったら次のボンベに切り替える
+        if (fellow_oxy_add_)
+        {
+            if (oxy_max_[oxy_count_] <= 0.0f && oxy_count_ < 3)
+            {
+                
+                oxy_max_[oxy_count_] = 0.0f;
+                //別クラス呼び出し
+                fire3_draw_.Off();
+
+                oxy_count_++;
+                Debug.Log(oxy_count_);
+
+               
+            }
+        }
+        else
+        {
+            if (oxy_max_[oxy_count_] <= 0.0f && oxy_count_ < 2)
+            {
+              
+                oxy_max_[oxy_count_] = 0.0f;
+                //別クラス呼び出し
+                fire3_draw_.Off();
+
+                oxy_count_++;
+                Debug.Log(oxy_count_);
+              
+            }
+        }
+        //4本目のボンベを追加
+        if (fellow_oxy_add_)
+        {
+            if (!oxy_add_slider_.activeSelf)
+            {
+                oxy_max_[3] = 33;
+            }
+            oxy_add_slider_.SetActive(true);
+
+            //4本目のボンベUIを表示
+            //float _tmp = oxy_max_[oxy_count_];
+            //oxy_max_[oxy_count_] = 33;
+
+            // oxy_max_[4] = 33;
+
+
+
+        }
+
         //同期
         if (fellow_oxy_add_)
         {
@@ -334,6 +383,8 @@ public class Player : MonoBehaviour
             oxy_slider_red_[1].value = oxy_max_red_[2];
             oxy_slider_red_[2].value = oxy_max_red_[1];
             oxy_slider_red_[3].value = oxy_max_red_[0];
+
+           
         }
         else
         {
@@ -345,13 +396,13 @@ public class Player : MonoBehaviour
 
             oxy_slider_red_[0].value = oxy_max_red_[2];
             oxy_slider_red_[1].value = oxy_max_red_[1];
-            oxy_slider_red_[2].value = oxy_max_red_[0];
-
-            
-            
+            oxy_slider_red_[2].value = oxy_max_red_[0];  
         }
 
-
+        if (oxy_count_ >= 1)
+        {
+            oxy_max_red_[oxy_count_ - 1] = 0.0f;
+        }
 
         oxy_text_.SetText(oxy_total_.ToString("F1")/* + ("％")*/);
 
@@ -369,7 +420,7 @@ public class Player : MonoBehaviour
         //0になったらBloodステートに移動
         if (debug_death_==false) 
         {
-            if (oxy_total_ <= 0.01f)
+            if (oxy_total_ <= 0.01f&& type_ != State.Death)
             {
 
                 type_ = State.Blood;
@@ -379,51 +430,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        //ボンベのゲージが0になったら次のボンベに切り替える
-        if(fellow_oxy_add_)
-        {
-            if (oxy_max_[oxy_count_] <= 0.0f && oxy_count_ < 3)
-            {
-                oxy_max_red_[oxy_count_] = 0.0f;
-                oxy_max_[oxy_count_] = 0.0f;
-                //別クラス呼び出し
-                fire3_draw_.Off();
-
-                oxy_count_++;
-                Debug.Log(oxy_count_);
-            }
-        }
-        else
-        {
-            if (oxy_max_[oxy_count_] <= 0.0f && oxy_count_ < 2)
-            {
-                oxy_max_red_[oxy_count_] = 0.0f;
-                oxy_max_[oxy_count_] = 0.0f;
-                //別クラス呼び出し
-                fire3_draw_.Off();
-
-                oxy_count_++;
-                Debug.Log(oxy_count_);
-            }
-        }
-        //4本目のボンベを追加
-        if (fellow_oxy_add_)
-        {
-            if (!oxy_add_slider_.activeSelf)
-            {
-                oxy_max_[3] = 33;
-            }
-            oxy_add_slider_.SetActive(true);
-
-            //4本目のボンベUIを表示
-            //float _tmp = oxy_max_[oxy_count_];
-            //oxy_max_[oxy_count_] = 33;
-           
-            // oxy_max_[4] = 33;
-
-
-
-        }
+        
         //EventSystem.current.SetSelectedGameObject(button_firstSelect_);
     }
     
@@ -649,7 +656,7 @@ public class Player : MonoBehaviour
                     oxy_max_[2] = 0;
                     oxy_total_ = 0;
 
-                    GameProgress.instance_.GameOver();
+                    //GameProgress.instance_.GameOver();
                 }
                 break;
         }
@@ -797,7 +804,11 @@ public class Player : MonoBehaviour
         
     }
 
-
+    //ゲームオーバー状態の受け取り用
+    public void GameOver()
+    {
+        type_ = State.Death;
+    }
 
         //移動処理
         private void Move()
