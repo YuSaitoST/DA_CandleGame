@@ -128,6 +128,7 @@ public class GameProgress : MonoBehaviour
     public void GameOver()
     {
         progress_ = GAME_PROGRESS.OVER;
+        sc_player_.GameOver();
 
         audiosource_.PlayOneShot(se_death_);
         StartCoroutine(StayToGoResult());
