@@ -114,6 +114,15 @@ public class GameProgress : MonoBehaviour
     }
 
     /// <summary>
+    /// ’‡ŠÔ‚Ì‹~oó‘Ô‚ğæ“¾‚·‚é
+    /// </summary>
+    /// <returns>’‡ŠÔ‚Ì‹~oó‘Ô</returns>
+    public bool[] GetFriendsWhoHelped()
+    {
+        return friendsWhoHelped_;
+    }
+
+    /// <summary>
     /// •‚¯‚½’‡ŠÔ‚ğ“o˜^‚·‚é
     /// </summary>
     /// <param name="id">•‚¯‚½’‡ŠÔ‚Ì”Ô†</param>
