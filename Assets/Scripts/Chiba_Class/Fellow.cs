@@ -134,22 +134,26 @@ public class Fellow : MonoBehaviour
             if (type_ == fellows_.bob)
             {
                 player_script_.fellow_oxy_bomb_ = true;
+                GameProgress.instance_.SetFriendWhoHelped(fellows_.bob);
             }
             else if (type_ == fellows_.nic)
             {
-
+                GameProgress.instance_.SetFriendWhoHelped(fellows_.nic);
             }
             else if (type_ == fellows_.spencer)
             {
+                GameProgress.instance_.SetFriendWhoHelped(fellows_.spencer);
                 GameProgress.instance_.Radar_Contraction();
             }
             else if (type_ == fellows_.alan)
             {
+                GameProgress.instance_.SetFriendWhoHelped(fellows_.alan);
                 GameProgress.instance_.Rader_TankIconActive();
                
             }
             else if (type_ == fellows_.catherine)
             {
+                GameProgress.instance_.SetFriendWhoHelped(fellows_.catherine);
                 player_script_.fellow_oxy_add_ = true;
             }
 
