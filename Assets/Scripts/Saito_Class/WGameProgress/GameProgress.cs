@@ -34,7 +34,7 @@ public class GameProgress : MonoBehaviour
 
     GAME_PROGRESS progress_;    // ƒQ[ƒ€‚Ìisó‘Ô
 
-    bool[] friendsWhoHelped_;
+    System.Collections.Generic.List<bool> friendsWhoHelped_;
 
     int num_pursuers_;  // ’Ç‚Á‚Ä‚¢‚é“G‚Ì”
 
@@ -68,7 +68,7 @@ public class GameProgress : MonoBehaviour
         instance_.mainCamera_ = Camera.main.GetComponent<CameraMover>();
         instance_.mainCamera_.transform.rotation = Quaternion.AngleAxis(75.0f, Vector3.right);
 
-        instance_.friendsWhoHelped_ = new bool[] { false, false, false, false, false };
+        instance_.friendsWhoHelped_ = new System.Collections.Generic.List<bool>() { false, false, false, false, false };
 
         StartCoroutine(TankIconActive());
     }
@@ -117,7 +117,7 @@ public class GameProgress : MonoBehaviour
     /// ’‡ŠÔ‚Ì‹~oó‘Ô‚ğæ“¾‚·‚é
     /// </summary>
     /// <returns>’‡ŠÔ‚Ì‹~oó‘Ô</returns>
-    public bool[] GetFriendsWhoHelped()
+    public System.Collections.Generic.List<bool> GetFriendsWhoHelped()
     {
         return friendsWhoHelped_;
     }
