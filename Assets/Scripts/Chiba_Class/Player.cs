@@ -441,7 +441,7 @@ public class Player : MonoBehaviour
         //0になったらBloodステートに移動
         if (debug_death_==false) 
         {
-            if (oxy_total_ <= 0.01f&& type_ != State.Death)
+            if (oxy_total_ <= 0.01f&& type_ != State.Death&& type_ != State.Damage)
             {
 
                 type_ = State.Blood;
@@ -890,9 +890,15 @@ public class Player : MonoBehaviour
         player_animator_.SetBool("isWalking", false);
 
         yield return new WaitForSeconds(knockback_stan_);
-        type_ = State.Idle; 
-        
-        
+
+        if (oxy_total_ >= 0.0f)
+        {
+            type_ = State.Idle;
+        }
+        else
+        {
+            type_ = State.Blood;
+        }
     }
 
   
@@ -974,6 +980,17 @@ public class Player : MonoBehaviour
        
         if (collision.gameObject.tag == "Enemy"&& player_life_inv_tmp_ <= 0)
         {
+            if (type_ != State.Blood)
+            {
+                type_ = State.Damage;
+                //ダメージ食らう
+                oxy_max_[oxy_count_] -= damage_;
+            }
+            else
+            {
+                type_ = State.Damage;
+            }
+
             rb_.velocity = Vector3.zero;
             // 自分の位置と接触してきたオブジェクトの位置を計算
             Vector3 _distination = (transform.position - collision.transform.position).normalized;
@@ -981,16 +998,9 @@ public class Player : MonoBehaviour
             rb_.AddForce(_distination * knockback_power_, ForceMode.VelocityChange);
             rb_.AddForce(transform.up * knockback_power_up_, ForceMode.VelocityChange);
 
-            if (type_ != State.Blood)
-            {
-                type_ = State.Damage;
-                //ダメージ食らう
-                oxy_max_[oxy_count_] -= damage_;
-            }
-            else 
-            {
+            Debug.Log("敵に接触");
 
-            }
+           
             //無敵時間開始
             player_life_inv_tmp_ = player_life_inv_time_;
 
