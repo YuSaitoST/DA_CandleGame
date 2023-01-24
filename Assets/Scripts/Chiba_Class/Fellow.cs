@@ -134,22 +134,26 @@ public class Fellow : MonoBehaviour
             if (type_ == fellows_.bob)
             {
                 player_script_.fellow_oxy_bomb_ = true;
+                GameProgress.instance_.SetFriendWhoHelped(fellows_.bob);
             }
             else if (type_ == fellows_.nic)
             {
-
+                GameProgress.instance_.SetFriendWhoHelped(fellows_.nic);
             }
             else if (type_ == fellows_.spencer)
             {
+                GameProgress.instance_.SetFriendWhoHelped(fellows_.spencer);
                 GameProgress.instance_.Radar_Contraction();
             }
             else if (type_ == fellows_.alan)
             {
+                GameProgress.instance_.SetFriendWhoHelped(fellows_.alan);
                 GameProgress.instance_.Rader_TankIconActive();
                
             }
             else if (type_ == fellows_.catherine)
             {
+                GameProgress.instance_.SetFriendWhoHelped(fellows_.catherine);
                 player_script_.fellow_oxy_add_ = true;
             }
 
@@ -242,6 +246,7 @@ public class Fellow : MonoBehaviour
     //プレイヤーにタッチされたときの判定
     public void Follow()
     {
+       
         follow_flg_ = true;
         if (player_script_.fellow_Count_ > 1)
         {
@@ -288,6 +293,9 @@ public class Fellow : MonoBehaviour
 
     private void DeathProcess()
     {
+        player_script_.fellow_die_row_ = row_;
+
+        row_ = 0;
         animator_.SetBool("isRunning", false);
         animator_.SetBool("isWalking", false);
         agent_.enabled = false;
@@ -296,48 +304,51 @@ public class Fellow : MonoBehaviour
         death_effect_.SetActive(true);
 
         follow_flg_ = false;
-        row_ = 0;
+       
         player_script_.FellowHit();
 
         Vector3 position = transform.position;
         position.y = 0.07f;
         transform.position = position;
 
-        transform.eulerAngles = new Vector3(90, 100, 0);
+        transform.eulerAngles = new Vector3(90, transform.rotation.y, 0);
     }
 
 
 
     public void Death()
     {
-        if(last_)
+
+        if(follow_flg_)
         {
-            Debug.Log("最後尾死亡");
-            for (int i = 0; i < fellows_obj_.Length; i++)
+            int _fellow_die = player_script_.fellow_die_row_;
+            if(_fellow_die <row_)
             {
-                if (fellow_[i].Row_ == row_ - 1)
+               
+                row_ -= 1;
+                if (row_ == 1)
                 {
-                    fellow_[i].Last();
-                    break;
+                    row_ = 1;
+                    chase_target_ = player_;
+
                 }
-            }
-
-            DeathProcess();
-
-           
-        }
-        else
-        {
-            for (int i = 0; i < fellows_obj_.Length; i++)
-            {
-                if (fellow_[i].Row_ == row_ + 1)
+                else
                 {
-                    fellow_[i].Death();
-                    break;
-                }
-            }
-        }
+                 
+                    for (int j = 0; j < fellows_obj_.Length; j++)
+                    {
+                        if (fellow_[j].Row_ == row_ - 1)
+                        {
+                            chase_target_ = fellows_obj_[j];
+                            break;
 
+                        }
+                    }
+
+                }
+            }      
+
+        }
 
     }
 
@@ -373,14 +384,19 @@ public class Fellow : MonoBehaviour
             else//自分が最後尾ではないとき
             {
                 Debug.Log("最後尾じゃない仲間が当たった");
+                DeathProcess();
                 for (int i = 0; i < fellows_obj_.Length; i++)
                 {
-                    if (fellow_[i].Row_ == row_ + 1)
-                    {
-                        fellow_[i].Death();
-                        break;
-                    }
+                   
+                    fellow_[i].Death();
+                    //if (fellow_[i].Row_ == row_ + 1)
+                    //{
+                    //    fellow_[i].Death();
+                    //    break;
+                    //}
                 }
+              
+
                 //無敵時間開始
                 //life_inv_tmp_ = life_inv_time_;
                 //player_script_.FellowHit();

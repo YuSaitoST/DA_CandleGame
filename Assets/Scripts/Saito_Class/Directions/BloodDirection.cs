@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class BloodDirection : MonoBehaviour
 {
     [SerializeField] Image img_blood_ = null;
+    [SerializeField] AudioSource as_bgm_ = null;
     [SerializeField] AudioSource audioSource_ = null;
     [SerializeField] AudioClip se_heart_rate_ = null;
 
@@ -144,6 +145,7 @@ public class BloodDirection : MonoBehaviour
             SetAlpha();
 
             audioSource_.volume = alpha_;
+            as_bgm_.volume = 1 - alpha_;
         }
 
         audioSource_.Stop();

@@ -34,6 +34,8 @@ public class GameProgress : MonoBehaviour
 
     GAME_PROGRESS progress_;    // ƒQ[ƒ€‚Ìisó‘Ô
 
+    System.Collections.Generic.List<bool> friendsWhoHelped_;
+
     int num_pursuers_;  // ’Ç‚Á‚Ä‚¢‚é“G‚Ì”
 
 
@@ -65,6 +67,8 @@ public class GameProgress : MonoBehaviour
 
         instance_.mainCamera_ = Camera.main.GetComponent<CameraMover>();
         instance_.mainCamera_.transform.rotation = Quaternion.AngleAxis(75.0f, Vector3.right);
+
+        instance_.friendsWhoHelped_ = new System.Collections.Generic.List<bool>() { false, false, false, false, false };
 
         StartCoroutine(TankIconActive());
     }
@@ -110,6 +114,24 @@ public class GameProgress : MonoBehaviour
     }
 
     /// <summary>
+    /// ’‡ŠÔ‚Ì‹~oó‘Ô‚ğæ“¾‚·‚é
+    /// </summary>
+    /// <returns>’‡ŠÔ‚Ì‹~oó‘Ô</returns>
+    public System.Collections.Generic.List<bool> GetFriendsWhoHelped()
+    {
+        return friendsWhoHelped_;
+    }
+
+    /// <summary>
+    /// •‚¯‚½’‡ŠÔ‚ğ“o˜^‚·‚é
+    /// </summary>
+    /// <param name="id">•‚¯‚½’‡ŠÔ‚Ì”Ô†</param>
+    public void SetFriendWhoHelped(Fellow.fellows_ id)
+    {
+        friendsWhoHelped_[(int)id] = true;
+    }
+
+    /// <summary>
     /// ƒQ[ƒ€ƒNƒŠƒAˆ—
     /// </summary>
     public void GameClear()
@@ -128,6 +150,7 @@ public class GameProgress : MonoBehaviour
     public void GameOver()
     {
         progress_ = GAME_PROGRESS.OVER;
+        sc_player_.GameOver();
 
         audiosource_.PlayOneShot(se_death_);
         StartCoroutine(StayToGoResult());

@@ -63,6 +63,7 @@ public class Player : MonoBehaviour
         Action04, //ポンプ落とす
         Damage,   //ダメージくらう
         Blood,    //酸素がないとき
+        Escape,   //脱出するかの選択画面
         Death     //死
     }
     //2型の作成
@@ -83,6 +84,9 @@ public class Player : MonoBehaviour
 
     //[SerializeField, Tooltip("酸素ゲージ1本の最大値(初期値)"), Range(0, 33.3f)]
     private float[]  oxy_max_       =  new float[10];
+
+    //[SerializeField, Tooltip("酸素ゲージ1本の最大値(初期値)"), Range(0, 33.3f)]
+    private float[] oxy_max_red_ = new float[10];
 
     //最初のタンクの数
     [SerializeField]
@@ -105,6 +109,9 @@ public class Player : MonoBehaviour
 
     [SerializeField, Tooltip("ボンベの数")]
     private Slider[] oxy_slider_ = new Slider[3];
+
+    [SerializeField, Tooltip("ボンベの数")]
+    private Slider[] oxy_slider_red_ = null;
 
     [SerializeField]
     private GameObject oxy_add_slider_ = null;
@@ -236,11 +243,33 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int fellow_rescue_ = 0;
 
-   //読み取り用
+    
+    [SerializeField]
+    private Canvas escape_ui_ = null;
+
+    private bool escape_ui_flg = false;
+
+    //連打防止
+    private bool escape_select_flg_ = false;
+
+    private bool escape_flg = false;
+    
+
+    [SerializeField]
+    private Canvas escape_ui_yes_ = null;
+
+    [SerializeField]
+    private Canvas escape_ui_no_ = null;
+
+    
+
+    //読み取り用
     public int fellow_Count_
     {
         get { return fellow_count_; }
     }
+
+    public int fellow_die_row_ = 0;
 
     [SerializeField,Tooltip("BloodDirectionをアタッチ")]
     BloodDirection bloodDirection_ = null;
@@ -252,6 +281,8 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        GameProgress.instance_.SetPlayer(gameObject);
+
         oxy_add_slider_.SetActive(false);
 
         // 弾の初速度や生成座標を持つコンポーネント
@@ -262,7 +293,9 @@ public class Player : MonoBehaviour
        {
             
             oxy_max_[i] = _h;
-       }
+            oxy_max_red_[i] = _h;
+
+        }
 
         tr_ = GetComponent<Transform>();
         rb_ = GetComponent<Rigidbody>();
@@ -308,6 +341,55 @@ public class Player : MonoBehaviour
         //プレイヤー入力
         PlayerInput();
 
+        //ボンベのゲージが0になったら次のボンベに切り替える
+        if (fellow_oxy_add_)
+        {
+            if (oxy_max_[oxy_count_] <= 0.0f && oxy_count_ < 3)
+            {
+                
+                oxy_max_[oxy_count_] = 0.0f;
+                //別クラス呼び出し
+                fire3_draw_.Off();
+
+                oxy_count_++;
+                Debug.Log(oxy_count_);
+
+               
+            }
+        }
+        else
+        {
+            if (oxy_max_[oxy_count_] <= 0.0f && oxy_count_ < 2)
+            {
+              
+                oxy_max_[oxy_count_] = 0.0f;
+                //別クラス呼び出し
+                fire3_draw_.Off();
+
+                oxy_count_++;
+                Debug.Log(oxy_count_);
+              
+            }
+        }
+        //4本目のボンベを追加
+        if (fellow_oxy_add_)
+        {
+            if (!oxy_add_slider_.activeSelf)
+            {
+                oxy_max_[3] = 33;
+            }
+            oxy_add_slider_.SetActive(true);
+
+            //4本目のボンベUIを表示
+            //float _tmp = oxy_max_[oxy_count_];
+            //oxy_max_[oxy_count_] = 33;
+
+            // oxy_max_[4] = 33;
+
+
+
+        }
+
         //同期
         if (fellow_oxy_add_)
         {
@@ -317,6 +399,13 @@ public class Player : MonoBehaviour
             oxy_slider_[1].value = oxy_max_[2];
             oxy_slider_[2].value = oxy_max_[1];
             oxy_slider_[3].value = oxy_max_[0];
+
+            oxy_slider_red_[0].value = oxy_max_red_[3];
+            oxy_slider_red_[1].value = oxy_max_red_[2];
+            oxy_slider_red_[2].value = oxy_max_red_[1];
+            oxy_slider_red_[3].value = oxy_max_red_[0];
+
+           
         }
         else
         {
@@ -325,7 +414,17 @@ public class Player : MonoBehaviour
             oxy_slider_[0].value = oxy_max_[2];
             oxy_slider_[1].value = oxy_max_[1];
             oxy_slider_[2].value = oxy_max_[0];
+
+            oxy_slider_red_[0].value = oxy_max_red_[2];
+            oxy_slider_red_[1].value = oxy_max_red_[1];
+            oxy_slider_red_[2].value = oxy_max_red_[0];  
         }
+
+        if (oxy_count_ >= 1)
+        {
+            oxy_max_red_[oxy_count_ - 1] = 0.0f;
+        }
+
         oxy_text_.SetText(oxy_total_.ToString("F1")/* + ("％")*/);
 
      
@@ -342,7 +441,7 @@ public class Player : MonoBehaviour
         //0になったらBloodステートに移動
         if (debug_death_==false) 
         {
-            if (oxy_total_ <= 0.01f)
+            if (oxy_total_ <= 0.01f&& type_ != State.Death)
             {
 
                 type_ = State.Blood;
@@ -352,68 +451,84 @@ public class Player : MonoBehaviour
             }
         }
 
-        //ボンベのゲージが0になったら次のボンベに切り替える
-        if(fellow_oxy_add_)
-        {
-            if (oxy_max_[oxy_count_] <= 0.0f && oxy_count_ < 3)
-            {
-                oxy_max_[oxy_count_] = 0.0f;
-                //別クラス呼び出し
-                fire3_draw_.Off();
-
-                oxy_count_++;
-                Debug.Log(oxy_count_);
-            }
-        }
-        else
-        {
-            if (oxy_max_[oxy_count_] <= 0.0f && oxy_count_ < 2)
-            {
-                oxy_max_[oxy_count_] = 0.0f;
-                //別クラス呼び出し
-                fire3_draw_.Off();
-
-                oxy_count_++;
-                Debug.Log(oxy_count_);
-            }
-        }
-        //4本目のボンベを追加
-        if (fellow_oxy_add_)
-        {
-            if (!oxy_add_slider_.activeSelf)
-            {
-                oxy_max_[3] = 33;
-            }
-            oxy_add_slider_.SetActive(true);
-
-            //4本目のボンベUIを表示
-            //float _tmp = oxy_max_[oxy_count_];
-            //oxy_max_[oxy_count_] = 33;
-           
-            // oxy_max_[4] = 33;
-
-
-
-        }
+        
         //EventSystem.current.SetSelectedGameObject(button_firstSelect_);
     }
     
     void PlayerInput()
     {
         //プレイヤーの入力
+        if (type_==State.Escape)
+        {
+            escape_ui_.enabled = false;
+            
+            escape_ui_yes_.enabled = true;
+            
 
-        
+            Debug.Log("選択画面");
+            if (Input.GetButtonDown("Fire1") && !escape_select_flg_)
+            {
+                Debug.Log("はい");
+                escape_select_flg_ = true;
+                //ゲームクリア
+                escape_ui_.enabled = false;
+                escape_ui_yes_.enabled = false;
+                GameProgress.instance_.GameClear();
+
+            }
+            if (Input.GetButtonDown("Fire2"))
+            {
+                Debug.Log("いいえ");
+                escape_select_flg_ = true;
+                //脱出しない
+                escape_ui_.enabled = false;
+                escape_ui_yes_.enabled = false;
+
+               
+                type_ = State.Idle;
+
+
+
+            }
+        }
+
+        if(escape_flg == true)
+        {
+            if (Input.GetButtonDown("Fire1"))
+            {
+                if (fellow_rescue_ >= 3)
+                {
+                    type_ = State.Escape;
+                    escape_select_flg_ = false;
+                }
+                else
+                {
+                    escape_ui_.enabled = false;
+                    escape_ui_no_.enabled = true;
+
+                    //UIのフェードアウト処理
+                    StartCoroutine(CloseUi());
+                }
+            }
+
+            if (!escape_ui_flg)
+            {
+                escape_ui_.enabled = true;
+                escape_ui_flg = true;
+            }
+        }
+
 
         //Bボタン
         //移動速度上昇
-        if (Input.GetButton("Fire2")&&type_!=State.Damage && type_ != State.Action00 && type_ != State.Blood)
+        if (Input.GetButton("Fire2")&&type_!=State.Damage && type_ != State.Action00 && type_ != State.Blood&& type_ != State.Escape)
         {
             fire2_flg_ = true;
             type_ = State.Dash;
             Debug.Log("Bボタンが押された");
            
         }
-        else if(Input.GetButtonUp("Fire2") && type_ != State.Damage && type_ != State.Action00 && type_ != State.Blood)
+        else if(Input.GetButtonUp("Fire2") && type_ != State.Damage && type_ != State.Action00 && type_ != State.Blood && type_ != State.Escape)
         {
             fire2_flg_ = false;
             type_ = State.Idle;
@@ -423,8 +538,8 @@ public class Player : MonoBehaviour
 
         //Xボタン
         //ボンベアクション
-        if (/*oxy_count_ != 2 &&*/ oxy_max_[2] >= fire3_button_cost_[0] && type_ != State.Damage && type_ != State.Action00 && type_ != State.Blood
-            || fellow_oxy_add_ && oxy_max_[3] >= fire3_button_cost_[0] && type_ != State.Damage && type_ != State.Action00 && type_ != State.Blood)
+        if (/*oxy_count_ != 2 &&*/ oxy_max_[2] >= fire3_button_cost_[0] && type_ != State.Damage && type_ != State.Action00 && type_ != State.Blood && type_ != State.Escape
+            || fellow_oxy_add_ && oxy_max_[3] >= fire3_button_cost_[0] && type_ != State.Damage && type_ != State.Action00 && type_ != State.Blood && type_ != State.Escape)
         {
 
             if (Input.GetButton("Fire3")&&fire1_cancel_ == false )
@@ -602,6 +717,13 @@ public class Player : MonoBehaviour
                 }
                 break;
 
+            case State.Escape://脱出するかどうかの選択画面
+                {
+                    
+                  
+                }
+                break;
+
             case State.Death://(idleに戻らない)
                 {
                     
@@ -620,7 +742,7 @@ public class Player : MonoBehaviour
                     oxy_max_[2] = 0;
                     oxy_total_ = 0;
 
-                    GameProgress.instance_.GameOver();
+                    //GameProgress.instance_.GameOver();
                 }
                 break;
         }
@@ -632,6 +754,19 @@ public class Player : MonoBehaviour
             player_life_inv_tmp_ -= 1.0f*Time.deltaTime;
         }
 
+        //赤ゲージ関連
+        if (oxy_max_red_[oxy_count_] > oxy_max_[oxy_count_])
+        {
+
+            oxy_max_red_[oxy_count_] -= 9.0f * Time.deltaTime;
+
+        }
+        else if (oxy_max_red_[oxy_count_] < oxy_max_[oxy_count_])
+        {
+
+            oxy_max_red_[oxy_count_] = oxy_max_[oxy_count_];
+
+        }
     }
     private void Action00()
     {
@@ -656,6 +791,11 @@ public class Player : MonoBehaviour
             Debug.Log("仲間を回収した");
             fellow_rescue_ += fellow_count_;
             fellow_count_ = 0;
+
+            if (fellow_rescue_ <= 2)
+            {
+                escape_ui_flg = true;
+            }
         }
        
         
@@ -681,6 +821,7 @@ public class Player : MonoBehaviour
         _tmp = oxy_max_[oxy_count_] -fire3_button_cost_[count_];
         if (_tmp < 0.0f)
         {
+            oxy_max_red_[oxy_count_] = 0;
             oxy_max_[oxy_count_] = 0;
             if (debug_death_ == false)
             {
@@ -754,7 +895,13 @@ public class Player : MonoBehaviour
         
     }
 
+  
 
+    //ゲームオーバー状態の受け取り用
+    public void GameOver()
+    {
+        type_ = State.Death;
+    }
 
         //移動処理
         private void Move()
@@ -879,6 +1026,7 @@ public class Player : MonoBehaviour
 
                 if (Input.GetButton("Fire1"))
                 {
+                   
                     submarine_slider_canvas_.enabled = true;
                     //ステート移行
                     type_ = State.Action00;
@@ -891,6 +1039,14 @@ public class Player : MonoBehaviour
                     type_ = State.Idle;
                 }
 
+            }
+            if (other.gameObject.CompareTag("Submarine") && fellow_count_ == 0 )
+            {
+                escape_flg = true;
+
+              
+
+              
             }
 
             //パーツ
@@ -1014,7 +1170,9 @@ public class Player : MonoBehaviour
         }
 
     }
-    private void OnTriggerExit(Collider other)
+
+   
+        private void OnTriggerExit(Collider other)
     {
         //アイテムの範囲から出た
         if (other.gameObject.CompareTag("PC"))
@@ -1036,6 +1194,14 @@ public class Player : MonoBehaviour
             fire1_range_flg_ = false;
             submarine_ui_.enabled = false;
             recovery_ui_.enabled = false;
+
+            escape_flg = false;
+            escape_ui_.enabled = false;
+            //escape_ui_yes_.enabled = false;
+            escape_ui_no_.enabled = false;
+            escape_ui_flg = false;
+            escape_select_flg_ = false;
+
             submarine_slider_canvas_.enabled = false;
             if (type_ == State.Action00)
             {
@@ -1050,5 +1216,11 @@ public class Player : MonoBehaviour
 
         }
 
+    }
+
+    IEnumerator CloseUi()
+    {
+        yield return new WaitForSeconds(5.0f);
+        escape_ui_no_.enabled = false;
     }
 }
