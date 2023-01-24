@@ -14,6 +14,7 @@ public class GameResultDisplay : MonoBehaviour
     [SerializeField] Image dialog_ = null;
 
     [SerializeField] float speed_dialog_fade_ = 0.016f;
+    [SerializeField] float max_dialog_fade_ = 0.73f;
 
 
     // Start is called before the first frame update
@@ -40,15 +41,9 @@ public class GameResultDisplay : MonoBehaviour
         StartCoroutine(animation_.Scroll(OpenDialog()));
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     IEnumerator OpenDialog()
     {
-        while (dialog_.color.a < 0.73)
+        while (dialog_.color.a < max_dialog_fade_)
         {
             dialog_.color += new Color(0, 0, 0, speed_dialog_fade_);
             yield return null;

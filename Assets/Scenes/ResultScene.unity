@@ -15046,7 +15046,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6716d455b6802d2498aa7221edbe9891, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f83b6e89e985d2c42a4cf32865c0e1e8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -19943,7 +19943,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 05c7211e2e676804abb39328d991d121, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c98cbf0503de26041bfbcff8bd54aaea, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -20207,6 +20207,7 @@ MonoBehaviour:
   animation_: {fileID: 1813468716}
   dialog_: {fileID: 899029162}
   speed_dialog_fade_: 0.0016
+  max_dialog_fade_: 0.73
 --- !u!4 &1813468714
 Transform:
   m_ObjectHideFlags: 0
@@ -20249,7 +20250,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panel_sea_: {fileID: 1133176401}
   panel_mnt_: {fileID: 1106757173}
-  speed_scroll_: 8
+  speed_scroll_: 8.5
+  max_scroll_pos_y_: -6920
   reaction_range_sea_: 0.6
   reaction_range_mnt_: 0.3
 --- !u!1 &1831290973

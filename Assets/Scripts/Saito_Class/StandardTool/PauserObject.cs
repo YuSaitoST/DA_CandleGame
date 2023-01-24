@@ -63,9 +63,8 @@ public class PauserObject : MonoBehaviour
     // É|Å[ÉY
     public static void Pause()
     {
-        foreach (PauserObject obj in GameObject.FindObjectsOfType<PauserObject>())
+        foreach (PauserObject obj in FindObjectsOfType<PauserObject>())
         {
-            Debug.Log(obj.gameObject.name);
             if (obj != null)
             {
                 obj.OnPause();

@@ -20,12 +20,12 @@ public class GameProgress : MonoBehaviour
     static public GameProgress instance_;   // インスタンス
 
     [SerializeField] GameObject     player_         = null; // プレイヤー
-    [SerializeField] CameraMover    mainCamera_     = null;
-    [SerializeField] Camera         minimapCamera_  = null;
-    [SerializeField] ObjectCreator  creator_        = null;
+    [SerializeField] CameraMover    mainCamera_     = null; // メインカメラ
+    [SerializeField] Camera         minimapCamera_  = null; // マップカメラ
+    [SerializeField] ObjectCreator  creator_        = null; // オブジェクト生成
     [SerializeField] BGMManager     bgmManager_     = null; // BGM切り替え担当
-    [SerializeField] AudioSource    audiosource_    = null;
-    [SerializeField] AudioClip      se_death_       = null;
+    [SerializeField] AudioSource    audiosource_    = null; // SE再生
+    [SerializeField] AudioClip      se_death_       = null; // SE
 
     [SerializeField] Player             sc_player_      = null;
     [SerializeField] SubmarineManager   sc_submarine_   = null;
@@ -71,31 +71,6 @@ public class GameProgress : MonoBehaviour
         instance_.friendsWhoHelped_ = new System.Collections.Generic.List<bool>() { false, false, false, false, false };
 
         StartCoroutine(TankIconActive());
-    }
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    private void Update()
-    {
-#if UNITY_EDITOR
-        if (Input.GetKeyUp(KeyCode.K))
-        {
-            bgmManager_.MainToEnemy();
-        }else if (Input.GetKeyUp(KeyCode.L))
-        {
-            bgmManager_.EnemyToMain();
-        }
-
-        if (Input.GetKeyUp(KeyCode.R))
-        {
-            Radar_Contraction();
-        }
-#endif
     }
 
     public void SetPlayer(GameObject player) { instance_.player_ = player; }
@@ -241,12 +216,7 @@ public class GameProgress : MonoBehaviour
     public Paramater GetParameters()
     {
         Paramater _param = parameters_.GetParameter();
-        if(_param != null)
-        {
-            return _param;
-        }
-
-        return null;
+        return (_param != null) ? _param : null;
     }
 
     IEnumerator StayToGoResult()
