@@ -19,6 +19,8 @@ TagManager:
   - Enemy
   - Fellow
   - RescueArea
+  - MiniMap
+  - OxyBomb00
   layers:
   - Default
   - TransparentFX
