@@ -5,6 +5,9 @@ using UnityEngine;
 public class WavesCreate : MonoBehaviour
 {
     [SerializeField] GameObject prefab_ = null;
+    [SerializeField] int pieces_per_side_ = 9;
+    [SerializeField] float start_x_ = -13.0f;
+    [SerializeField] float start_z_ = -14.5f;
 
 
     // Start is called before the first frame update
@@ -12,15 +15,12 @@ public class WavesCreate : MonoBehaviour
     {
         const float DLT = 3.0f;
         GameObject _obj;
-        int _count = 9;
-        float _x = -13.0f;
         float _y = 2.7f;
-        float _z = -14.5f;
-        for(int i = 0; i < _count; ++i)
+        for(int i = 0; i < pieces_per_side_; ++i)
         {
-            for(int j = 0; j < _count; ++j)
+            for(int j = 0; j < pieces_per_side_; ++j)
             {
-                _obj = Instantiate(prefab_, new Vector3(_x + DLT * i, _y, _z + DLT * j), Quaternion.identity);
+                _obj = Instantiate(prefab_, new Vector3(start_x_ + DLT * i, _y, start_z_ + DLT * j), Quaternion.identity);
                 _obj.transform.parent = transform;
             }
         }

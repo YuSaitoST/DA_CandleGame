@@ -55,6 +55,9 @@ public class GameProgress : MonoBehaviour
         // パラメータをセットする
         instance_.parameters_ = new ParametersSet();
         instance_.parameters_.SetParameter();
+        PLAYER _param = parameters_.GetParameter().player;
+        player_.transform.position = new Vector3(_param.pos_x, _param.pos_y, _param.pos_z);
+        player_.transform.rotation = Quaternion.AngleAxis(_param.rot_y, Vector3.up);
 
         // 重力の強さを調整
         Physics.gravity = new Vector3(0.0f, -1.0f, 0.0f);
