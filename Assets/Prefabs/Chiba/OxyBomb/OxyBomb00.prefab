@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: 3955431197796883581}
   m_Layer: 7
   m_Name: Exp
-  m_TagString: OxyBomb01
+  m_TagString: OxyBomb00
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

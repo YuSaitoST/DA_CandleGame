@@ -157,6 +157,7 @@ GameObject:
   - component: {fileID: 6111853900053452268}
   - component: {fileID: 7135999358851515585}
   - component: {fileID: 3536741453856850092}
+  - component: {fileID: -8271248114546627324}
   m_Layer: 7
   m_Name: OxyBomb05s
   m_TagString: Untagged
@@ -279,6 +280,18 @@ MonoBehaviour:
   parent_: {fileID: 6111853900053452241}
   exp_count_: 3
   bomb_obj_: {fileID: 6111853900053452271}
+--- !u!114 &-8271248114546627324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6111853900053452241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 549c6067f24110341982a944d33a2bb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9078916647359274071
 GameObject:
   m_ObjectHideFlags: 0

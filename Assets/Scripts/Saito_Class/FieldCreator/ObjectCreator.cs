@@ -6,10 +6,12 @@ public class ObjectCreator : MonoBehaviour
     [SerializeField] GameObject[] pref_enemys_;     // 敵リスト
     [SerializeField] GameObject[] pref_items_;      // アイテムリスト
     [SerializeField] GameObject[] pref_bRocks_;     // 壊せる岩
+    [SerializeField] GameObject[] pref_gimmicks_;   // ギミック
     
     [SerializeField] GameObject parent_enemy_;      // 敵の親オブジェクト
     [SerializeField] GameObject parent_items_;      // アイテムの親オブジェクト
-    [SerializeField] GameObject parent_bRock_;      // 壊せる岩
+    [SerializeField] GameObject parent_bRock_;      // 壊せる岩の親オブジェクト
+    [SerializeField] GameObject parent_gimmick_;    // ギミックの親オブジェクト
 
     [SerializeField] GameObject[] fellows_;         // 仲間
 
@@ -23,8 +25,8 @@ public class ObjectCreator : MonoBehaviour
 
         tanks_ = new System.Collections.Generic.List<GameObject>();
 
-        string _inputString = Resources.Load<TextAsset>("InputData/EnemyData").ToString();
-        DataList _dataList = JsonUtility.FromJson<DataList>(_inputString);
+        DataList _dataList_en = JsonUtility.FromJson<DataList>(Resources.Load<TextAsset>("InputData/EnemyData").ToString());
+        DataList _dataList_it = JsonUtility.FromJson<DataList>(Resources.Load<TextAsset>("InputData/ItemData").ToString());
         Paramater _param = GameProgress.instance_.GetParameters();
         float[] _speed = new float[3]{
             _param.yadokarock.speed,
@@ -33,11 +35,12 @@ public class ObjectCreator : MonoBehaviour
         };
 
 #if UNITY_EDITOR
+        // 敵生成
         try
         {
             if (parent_enemy_ != null)
             {
-                foreach (CreateData data in _dataList.lists)
+                foreach (CreateData data in _dataList_en.lists)
                 {
                     GameObject _obj = Instantiate(pref_enemys_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up));
                     _obj.transform.parent = parent_enemy_.transform;
@@ -50,7 +53,7 @@ public class ObjectCreator : MonoBehaviour
             }
             else
             {
-                foreach (CreateData data in _dataList.lists)
+                foreach (CreateData data in _dataList_en.lists)
                 {
                     Instantiate(pref_enemys_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up))
                         .GetComponent<yadokarock>()
@@ -64,13 +67,9 @@ public class ObjectCreator : MonoBehaviour
             Debug.Log("EnemysData : " + e.ToString());
         }
 
-        string _inputString_it = Resources.Load<TextAsset>("InputData/ItemData").ToString();
-        DataList _dataList_it = JsonUtility.FromJson<DataList>(_inputString_it);
-
+        // アイテム
         try
         {
-            //PrefabCreater.CreateMultiplePrefabs("InputData/ItemData", pref_items_, parent_items_);
-
             if (parent_items_ != null)
             {
                 foreach (CreateData data in _dataList_it.lists)
@@ -86,7 +85,7 @@ public class ObjectCreator : MonoBehaviour
             }
             else
             {
-                foreach (CreateData data in _dataList.lists)
+                foreach (CreateData data in _dataList_en.lists)
                 {
                     GameObject _obj = Instantiate(pref_items_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up));
                     if (data.kind == 0)
@@ -101,6 +100,17 @@ public class ObjectCreator : MonoBehaviour
         catch (Exception e)
         {
             Debug.Log("ItemsData : " + e.ToString());
+        }
+
+        // ギミック
+        try
+        {
+            PrefabCreater.CreateMultiplePrefabs("InputData/Gimmicksdata", pref_gimmicks_, parent_gimmick_);
+
+        }
+        catch (Exception e)
+        {
+            Debug.Log("GimmicksData : " + e.ToString());
         }
 
         //try
@@ -136,7 +146,7 @@ public class ObjectCreator : MonoBehaviour
         // 敵生成
         if (parent_enemy_ != null)
         {
-            foreach (CreateData data in _dataList.lists)
+            foreach (CreateData data in _dataList_en.lists)
             {
                 GameObject _obj = Instantiate(pref_enemys_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up));
                 _obj.transform.parent = parent_enemy_.transform;
@@ -149,7 +159,7 @@ public class ObjectCreator : MonoBehaviour
         }
         else
         {
-            foreach (CreateData data in _dataList.lists)
+            foreach (CreateData data in _dataList_en.lists)
             {
                 Instantiate(pref_enemys_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up))
                     .GetComponent<yadokarock>()
@@ -157,7 +167,37 @@ public class ObjectCreator : MonoBehaviour
             }
         }
 
-        PrefabCreater.CreateMultiplePrefabs("InputData/ItemData", pref_items_, parent_items_);
+        // アイテム
+        if (parent_items_ != null)
+        {
+            foreach (CreateData data in _dataList_it.lists)
+            {
+                GameObject _obj = Instantiate(pref_items_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up));
+                _obj.transform.parent = parent_items_.transform;
+                if (data.kind == 0)
+                {
+                    //_obj.GetComponent<RaderIcon>().SetActive(false);
+                    tanks_.Add(_obj);
+                }
+            }
+        }
+        else
+        {
+            foreach (CreateData data in _dataList_en.lists)
+            {
+                GameObject _obj = Instantiate(pref_items_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up));
+                if (data.kind == 0)
+                {
+                    //_obj.GetComponent<RaderIcon>().SetActive(false);
+                    tanks_.Add(_obj);
+                }
+            }
+        }
+
+        // ギミック
+        PrefabCreater.CreateMultiplePrefabs("InputData/Gimmicksdata", pref_gimmicks_, parent_gimmick_);
+
+
         //PrefabCreater.CreateMultiplePrefabs("InputData/BreakableRocksData", pref_bRocks_, parent_bRock_);
 
         //// 仲間の座標設定
