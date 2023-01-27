@@ -9,6 +9,9 @@ public class BG_Scroll : MonoBehaviour
     [SerializeField] RectTransform panel_mnt_ = null;
     [SerializeField] Image panel_flash_ = null;
 
+    [Header("パーティクル")]
+    [SerializeField] ParticleSystem[] ps_list_ = null;
+
     [Header("スクロール関連値")]
     [SerializeField] float speed_scroll_ = 8.0f;
     [SerializeField] float pos_y_max_scroll_ = -6580.0f;
@@ -38,12 +41,17 @@ public class BG_Scroll : MonoBehaviour
     }
 
     // 脱出アニメーション
-    public IEnumerator PlayONeShot(IEnumerator displays)
+    public IEnumerator PlayOneShot(IEnumerator displays)
     {
         // SE鳴らす
 #if !UNITY_EDITOR
         audioSource_.PlayOneShot(se_bable_);
 #endif
+
+        foreach(ParticleSystem ps in ps_list_)
+        {
+            ps.Play(true);
+        }
 
         // 水面に上がるスクロール処理
         while (pos_y_max_scroll_ < panel_sea_.anchoredPosition.y)

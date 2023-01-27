@@ -1,5 +1,3 @@
-#define debug_on_
-
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,10 +15,6 @@ public class BloodDirection : MonoBehaviour
     [SerializeField] float ratio_oxyNoneDamage_ = 0.03f;
 
     [SerializeField] ParticleEffectPlayer effect_ = null;
-
-#if debug_on_
-    [SerializeField] Text txt_debug_ = null;
-#endif
 
     bool pushFrag_damageDone_ = false;
     bool pushFrag_oxyEmpty_ = false;
@@ -42,10 +36,6 @@ public class BloodDirection : MonoBehaviour
         audioSource_.loop = true;
 
         coro_oxyEmpty_ = OxygenEmpty();
-
-#if debug_on_
-        txt_debug_.text = "b-a : " + alpha_;
-#endif
     }
 
     /// <summary>
@@ -54,10 +44,6 @@ public class BloodDirection : MonoBehaviour
     private void SetAlpha()
     {
         img_blood_.color = new Color(1.0f, 1.0f, 1.0f, Mathf.Min(alpha_, 1.0f));
-
-#if debug_on_
-        txt_debug_.text = "b-a : " + alpha_;
-#endif
 
         if (img_blood_.color.a == 1.0f)
         {
@@ -94,7 +80,15 @@ public class BloodDirection : MonoBehaviour
         {
             pushFrag_oxyEmpty_ = true;
             audioSource_.PlayOneShot(se_heart_rate_);
-            StartCoroutine(coro_oxyEmpty_);
+            if (coro_oxyEmpty_ != null)
+            {
+                StartCoroutine(coro_oxyEmpty_);
+            }
+            else
+            {
+                coro_oxyEmpty_ = OxygenEmpty();
+                StartCoroutine(coro_oxyEmpty_);
+            }
         }
     }
 

@@ -113,15 +113,16 @@ public class ObjectCreator : MonoBehaviour
             Debug.Log("GimmicksData : " + e.ToString());
         }
 
-        //try
-        //{
-        //    PrefabCreater.CreateMultiplePrefabs("InputData/BreakableRocksData", pref_bRocks_, parent_bRock_);
+        // 壊せる岩
+        try
+        {
+            PrefabCreater.CreateMultiplePrefabs("InputData/BreakableRocksData", pref_bRocks_, parent_bRock_);
 
-        //}
-        //catch (Exception e)
-        //{
-        //    Debug.Log("BreakableRocksData : " + e.ToString());
-        //}
+        }
+        catch (Exception e)
+        {
+            Debug.Log("BreakableRocksData : " + e.ToString());
+        }
 
 
         // 仲間
@@ -186,8 +187,8 @@ public class ObjectCreator : MonoBehaviour
         // ギミック
         PrefabCreater.CreateMultiplePrefabs("InputData/Gimmicksdata", pref_gimmicks_, parent_gimmick_);
 
-
-        //PrefabCreater.CreateMultiplePrefabs("InputData/BreakableRocksData", pref_bRocks_, parent_bRock_);
+        // 壊せる岩
+        PrefabCreater.CreateMultiplePrefabs("InputData/BreakableRocksData", pref_bRocks_, parent_bRock_);
 
         // 仲間の座標設定
         BOB         _bob = _param.bob;

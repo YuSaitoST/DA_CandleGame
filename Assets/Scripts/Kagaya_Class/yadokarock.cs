@@ -3,16 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEditor;
+using Fungus;
+using Unity.VisualScripting;
 
 enum ENE_STATE { 
     STAY,
     TRACKING,
-    TRACKING_NEXT
+    TRACKING_NEXT,
+    bomb0,
+    bomb1,
+    bomb2,
+    bomb3
 }
 [RequireComponent(typeof(NavMeshAgent))]
 
 public class yadokarock : MonoBehaviour
 {
+
     Rigidbody rigidbody;
     private GameObject playerC;
     private NavMeshAgent Agent;
@@ -31,13 +38,16 @@ public class yadokarock : MonoBehaviour
     Vector3 axis = Vector3.up;
     const float angle = 90f;
     Vector3 playerPos;
-    const float trackingRange = 4.0f;
+    const float trackingRange = 1.6f;
     ENE_STATE state = ENE_STATE.STAY;
     const float widthAngle = 90.0f;
     const float heightAngle = 0.0f;
-    const float length = 3.9f;
-
+    const float length = 1.5f;
+    private Animator Animator;
     float speed_;
+    float timebent = 0.0f;
+    bool anime = true;
+
     public float WidthAngle { get { return widthAngle; } }
     public float HeightAngle { get { return heightAngle; } }
     public float Length { get { return length; } }
@@ -50,7 +60,7 @@ public class yadokarock : MonoBehaviour
         targetRot = Quaternion.AngleAxis(angle, axis) * transform.rotation;
         enabled = true;
         state = ENE_STATE.STAY;
-        
+        Animator = gameObject.transform.GetComponent<Animator>();
         //SPEED=GameProgress.instance_
     }
 
@@ -58,8 +68,38 @@ public class yadokarock : MonoBehaviour
     {
         speed_ = speed; // メンバー変数に代入する
     }
-        
-    
+
+    private void OnTriggerEnter(Collider other)
+    {
+        timebent = Time.deltaTime;
+        Debug.Log("止");
+        string tags = other.transform.tag.Substring(0, other.transform.tag.Length - 2);
+
+        if (tags == "OxyBomb")
+        {
+            
+            if (tags == "OxyBomb00")
+            {
+                state = ENE_STATE.bomb0;
+                Debug.Log("スタン");
+            }
+            if (tags == "OxyBomb01")
+            {
+                state = ENE_STATE.bomb1;
+            }
+            if (tags == "OxyBomb02")
+            {
+                state = ENE_STATE.bomb2;
+            }
+            if (tags == "OxyBomb03")
+            {
+                state = ENE_STATE.bomb3;
+            }
+
+        }
+
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "Player") //視界の範囲内の当たり判定
@@ -76,10 +116,16 @@ public class yadokarock : MonoBehaviour
                     {
                         time += Time.deltaTime;
                         Agent.destination = playerC.transform.position;
+                        GameProgress.instance_.Enemy_StartTracking();
                         if (time >= 1.0f)
                         {
                             state = ENE_STATE.TRACKING;
-
+                            GameProgress.instance_.Enemy_StartTracking();
+                        }
+                        if(anime == true)
+                        {
+                            Animator.SetBool("bulubulu", true);
+                            anime = false;
                         }
                         Debug.Log("range of view");
                     }
@@ -90,6 +136,18 @@ public class yadokarock : MonoBehaviour
     
     void Update()
     {
+        //var child = transform.Find("CrabMonster 1/Armature/Root/Thorax_1");
+        //var child2 = transform.Find("CrabMonster 1/Armature/Eyes");
+        //child.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        //child2.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        //if (time >= 1.0f)
+        //{
+        //    child.transform.localScale = new Vector3(1f, 1f, 1f);
+        //    child2.transform.localScale = new Vector3(1f, 1f, 1f);
+        //    Debug.Log("デカい");
+
+        //}
+
         rigidbody.velocity = Vector3.zero;
         if (state == ENE_STATE.TRACKING)
         {
@@ -105,9 +163,10 @@ public class yadokarock : MonoBehaviour
             {
                 state = ENE_STATE.TRACKING_NEXT;
                 rigidbody.velocity = new Vector3(0.0f, rigidbody.velocity.y, 0.0f);
-                Debug.Log("外れた");
+                GameProgress.instance_.Enemy_EndTracking();
                 Agent.destination = playerC.transform.position;
                 DoMove(Agent.destination);
+                Debug.Log("外れた");
             }
         }
         else if (state == ENE_STATE.TRACKING_NEXT)
@@ -115,14 +174,60 @@ public class yadokarock : MonoBehaviour
             time += Time.deltaTime;
             Agent.destination = playerC.transform.position;
             DoMove(Agent.destination);
-            if (time >= 5.0f)
+            if (time >= 10.0f)
             {
                 Debug.Log("止まった");
                 rigidbody.velocity = Vector3.zero;
                 time = 0.0f;
+                GameProgress.instance_.Enemy_EndTracking();
                 state = ENE_STATE.STAY;
             }
         }
+
+        if(state == ENE_STATE.bomb0)
+        {
+            //state = ENE_STATE.STAY;
+            if (timebent >= 1.0f)
+            {
+                Debug.Log("再始動");
+                state = ENE_STATE.TRACKING;
+                GameProgress.instance_.Enemy_StartTracking();
+                timebent = 0.0f;
+            }
+        }
+        if (state == ENE_STATE.bomb1)
+        {
+            state = ENE_STATE.STAY;
+            if (timebent >= 1.4f)
+            {
+                state = ENE_STATE.TRACKING;
+                GameProgress.instance_.Enemy_StartTracking();
+                timebent = 0.0f;
+            }
+        }
+        if (state == ENE_STATE.bomb2)
+        {
+            state = ENE_STATE.STAY;
+            if (timebent >= 1.8f)
+            {
+                state = ENE_STATE.TRACKING;
+                GameProgress.instance_.Enemy_StartTracking();
+                timebent = 0.0f;
+            }
+        }
+        if (state == ENE_STATE.bomb3)
+        {
+            state = ENE_STATE.STAY;
+            if (timebent >= 2.2f)
+            {
+                state = ENE_STATE.TRACKING;
+                GameProgress.instance_.Enemy_StartTracking();
+                timebent = 0.0f;
+            }
+        }
+        
+
+        
     }
 
 #if UNITY_EDITOR

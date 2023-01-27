@@ -125,3 +125,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab47e2640de99a04696b5681ba4bfc4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pref_breakEffect_: {fileID: 8332570993840777335, guid: 55401c5af4d92db47884091aa95ae3e7,
+    type: 3}
+  pref_sePlayer_: {fileID: 9116921851342906320, guid: e9d0a6b80701dbb4d9818baa838b298f,
+    type: 3}
+  se_break_: {fileID: 8300000, guid: 055f8117f0f20ca45bdd3a4bc2a675f6, type: 3}
