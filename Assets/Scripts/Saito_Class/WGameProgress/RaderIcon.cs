@@ -26,6 +26,9 @@ public class RaderIcon : MonoBehaviour
     /// <param name="active"></param>
     public void SetActive(bool active)
     {
-        icon_.SetActive(active);
+        if (icon_ != null)
+        {
+            icon_.SetActive(active);
+        }
     }
 }

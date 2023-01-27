@@ -20196,8 +20196,8 @@ MonoBehaviour:
   img_clears:
   - {fileID: 21300000, guid: 302498e52a1da7546af1d718164a75a6, type: 3}
   - {fileID: 21300000, guid: 04cc6aa0b83d0a5448db736dee1894cc, type: 3}
-  - {fileID: 21300000, guid: fd7d4c38536eb4240bdbda95588f19ad, type: 3}
   - {fileID: 21300000, guid: 25b6a9ae4fdd9e1489bfc973375158c6, type: 3}
+  - {fileID: 21300000, guid: fd7d4c38536eb4240bdbda95588f19ad, type: 3}
   animation_: {fileID: 1813468716}
   panel_lose_: {fileID: 1443970652}
   dialog_: {fileID: 899029162}
@@ -20247,7 +20247,11 @@ MonoBehaviour:
   panel_sea_: {fileID: 1133176401}
   panel_mnt_: {fileID: 1106757173}
   panel_flash_: {fileID: 1224873278}
-  ps_list_: []
+  ps_list_:
+  - {fileID: 1116003098}
+  - {fileID: 702182209}
+  - {fileID: 679524582}
+  - {fileID: 521236118}
   speed_scroll_: 16.75
   pos_y_max_scroll_: -6967
   pos_y_out_of_sea_: -6462

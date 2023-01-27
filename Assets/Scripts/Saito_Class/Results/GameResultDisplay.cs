@@ -24,7 +24,13 @@ public class GameResultDisplay : MonoBehaviour
     void Start()
     {
         GameProgress _g_progress = GameProgress.instance_;
-        GAME_PROGRESS _progress = _g_progress.GetNowProgress();
+        GAME_PROGRESS _progress;
+
+#if UNITY_EDITOR
+        _progress = GAME_PROGRESS.CLEAR;
+#else
+        _progress = _g_progress.GetNowProgress();
+#endif
 
         inputCount_ = 0;
 
@@ -33,7 +39,12 @@ public class GameResultDisplay : MonoBehaviour
         if (_progress == GAME_PROGRESS.CLEAR)
         {
             panel_lose_.SetActive(false);
+
+#if UNITY_EDITOR
+            img_result_.sprite = img_clears[1];    // クリア最低条件数分引く
+#else
             img_result_.sprite = img_clears[_g_progress.GetFriendsWhoHelped().Count(n => n) - 3];    // クリア最低条件数分引く
+#endif
             StartCoroutine(animation_.PlayOneShot(OpenDialog()));
         }
         else if (_progress == GAME_PROGRESS.OVER)
