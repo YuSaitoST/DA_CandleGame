@@ -20203,6 +20203,7 @@ MonoBehaviour:
   dialog_: {fileID: 899029162}
   speed_dialog_fade_: 0.0025
   max_dialog_fade_: 0.73
+  stay_loseDialog_time_: 2
 --- !u!4 &1813468714
 Transform:
   m_ObjectHideFlags: 0
