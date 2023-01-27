@@ -24,6 +24,7 @@ public class GameResultDisplay : MonoBehaviour
         if (_progress == GAME_PROGRESS.CLEAR)
         {
             img_result_.sprite = img_clears[_g_progress.GetFriendsWhoHelped().Count(n => n) - 3];    // ƒNƒŠƒAÅ’áğŒ”•ªˆø‚­
+            StartCoroutine(animation_.PlayONeShot(OpenDialog()));
         }
         else if (_progress == GAME_PROGRESS.OVER)
         {
@@ -31,8 +32,6 @@ public class GameResultDisplay : MonoBehaviour
         }
 
         dialog_.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-
-        StartCoroutine(animation_.Scroll(OpenDialog()));
     }
 
     IEnumerator OpenDialog()

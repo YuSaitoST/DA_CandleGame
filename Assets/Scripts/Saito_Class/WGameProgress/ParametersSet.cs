@@ -32,6 +32,7 @@ using UnityEngine;
     public float pos_x;
     public float pos_y;
     public float pos_z;
+    public float rot_y;
     public float move_speed;
     public float move_boost;
     public float oxy_max;
