@@ -134,35 +134,31 @@ public class Fellow : MonoBehaviour
             if (type_ == fellows_.bob)
             {
                 player_script_.fellow_oxy_bomb_ = true;
-                GameProgress.instance_.SetFriendWhoHelped(fellows_.bob);
-            }
-            else if (type_ == fellows_.nic)
-            {
-                GameProgress.instance_.SetFriendWhoHelped(fellows_.nic);
+                
             }
             else if (type_ == fellows_.spencer)
-            {
-                GameProgress.instance_.SetFriendWhoHelped(fellows_.spencer);
+            {               
                 GameProgress.instance_.Radar_Contraction();
             }
             else if (type_ == fellows_.alan)
-            {
-                GameProgress.instance_.SetFriendWhoHelped(fellows_.alan);
-                GameProgress.instance_.Rader_TankIconActive();
-               
+            {            
+                GameProgress.instance_.Rader_TankIconActive();             
             }
             else if (type_ == fellows_.catherine)
             {
-                GameProgress.instance_.SetFriendWhoHelped(fellows_.catherine);
+               
                 player_script_.fellow_oxy_add_ = true;
             }
-
-            agent_.speed = player_script_.Player_Move_;
 
             if (!debug_)
             {
                 fellotalk_.PlayTalk();
             }
+
+            GameProgress.instance_.SetFriendWhoHelped(type_);
+
+            agent_.speed = player_script_.Player_Move_;
+
          
             agent_.SetDestination(chase_target_.transform.position);
 
@@ -175,18 +171,10 @@ public class Fellow : MonoBehaviour
 
                 agent_.isStopped = true;
                 animator_.SetBool("isWalking", false);
-               // animator_.SetBool("isRunning", false);
-                if (player_script_.Fire2_Flg__)
-                {
-                    animator_.SetBool("isRunning", true);
-
-                }
-                else if (!player_script_.Fire2_Flg__)
-                {
-
-                    animator_.SetBool("isRunning", false);
-                }
+               
+                animator_.SetBool("isRunning", player_script_.Fire2_Flg__);
                 //animator_.SetFloat("Speed", 0f);
+
                 //@“ž’…‚µ‚Ä‚¢‚È‚¢Žž‚Å’Ç‚¢‚©‚¯o‚·‹——£‚É‚È‚Á‚½‚ç
             }
             else if (agent_.remainingDistance > followDistance_)
