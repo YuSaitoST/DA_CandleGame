@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEditor;
+using Fungus;
+using Unity.VisualScripting;
 
 enum ENE_STATE { 
     STAY,
@@ -36,14 +38,15 @@ public class yadokarock : MonoBehaviour
     Vector3 axis = Vector3.up;
     const float angle = 90f;
     Vector3 playerPos;
-    const float trackingRange = 4.0f;
+    const float trackingRange = 1.6f;
     ENE_STATE state = ENE_STATE.STAY;
     const float widthAngle = 90.0f;
     const float heightAngle = 0.0f;
-    const float length = 3.9f;
+    const float length = 1.5f;
     private Animator Animator;
     float speed_;
     float timebent = 0.0f;
+    bool anime = true;
 
     public float WidthAngle { get { return widthAngle; } }
     public float HeightAngle { get { return heightAngle; } }
@@ -99,7 +102,6 @@ public class yadokarock : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-
         if (other.gameObject.tag == "Player") //Ž‹ŠE‚Ì”ÍˆÍ“à‚Ì“–‚½‚è”»’è
         {
             Vector3 posDelta = other.transform.position - this.transform.position;
@@ -114,10 +116,16 @@ public class yadokarock : MonoBehaviour
                     {
                         time += Time.deltaTime;
                         Agent.destination = playerC.transform.position;
+                        GameProgress.instance_.Enemy_StartTracking();
                         if (time >= 1.0f)
                         {
                             state = ENE_STATE.TRACKING;
                             GameProgress.instance_.Enemy_StartTracking();
+                        }
+                        if(anime == true)
+                        {
+                            Animator.SetBool("bulubulu", true);
+                            anime = false;
                         }
                         Debug.Log("range of view");
                     }
@@ -128,6 +136,18 @@ public class yadokarock : MonoBehaviour
     
     void Update()
     {
+        //var child = transform.Find("CrabMonster 1/Armature/Root/Thorax_1");
+        //var child2 = transform.Find("CrabMonster 1/Armature/Eyes");
+        //child.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        //child2.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        //if (time >= 1.0f)
+        //{
+        //    child.transform.localScale = new Vector3(1f, 1f, 1f);
+        //    child2.transform.localScale = new Vector3(1f, 1f, 1f);
+        //    Debug.Log("ƒfƒJ‚¢");
+
+        //}
+
         rigidbody.velocity = Vector3.zero;
         if (state == ENE_STATE.TRACKING)
         {
@@ -143,9 +163,10 @@ public class yadokarock : MonoBehaviour
             {
                 state = ENE_STATE.TRACKING_NEXT;
                 rigidbody.velocity = new Vector3(0.0f, rigidbody.velocity.y, 0.0f);
-                Debug.Log("ŠO‚ê‚½");
+                GameProgress.instance_.Enemy_EndTracking();
                 Agent.destination = playerC.transform.position;
                 DoMove(Agent.destination);
+                Debug.Log("ŠO‚ê‚½");
             }
         }
         else if (state == ENE_STATE.TRACKING_NEXT)
@@ -153,7 +174,7 @@ public class yadokarock : MonoBehaviour
             time += Time.deltaTime;
             Agent.destination = playerC.transform.position;
             DoMove(Agent.destination);
-            if (time >= 5.0f)
+            if (time >= 10.0f)
             {
                 Debug.Log("Ž~‚Ü‚Á‚½");
                 rigidbody.velocity = Vector3.zero;
@@ -206,10 +227,7 @@ public class yadokarock : MonoBehaviour
         }
         
 
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            Animator.SetFloat("Speed", -1);
-        }
+        
     }
 
 #if UNITY_EDITOR
