@@ -126,12 +126,11 @@ public class ObjectCreator : MonoBehaviour
 
 
         // íáä‘
-        fellows_[0].transform.position = new Vector3(0.0f, 0.0f, -1.0f);
-        fellows_[1].transform.position = new Vector3(0.5f, 0.0f, -1.0f);
-        fellows_[2].transform.position = new Vector3(1.0f, 0.0f, -1.0f);
-        fellows_[3].transform.position = new Vector3(-0.5f, 0.0f, -1.0f);
-        fellows_[4].transform.position = new Vector3(-1.0f, 0.0f, -1.0f);
-       
+        fellows_[0].transform.position = new Vector3(0.0f, 0.0f, -1.5f);
+        fellows_[1].transform.position = new Vector3(0.5f, 0.0f, -1.5f);
+        fellows_[2].transform.position = new Vector3(1.0f, 0.0f, -1.5f);
+        fellows_[3].transform.position = new Vector3(-0.5f, 0.0f, -1.5f);
+        fellows_[4].transform.position = new Vector3(-1.0f, 0.0f, -1.5f);
 #else
         // ìGê∂ê¨
         if (parent_enemy_ != null)

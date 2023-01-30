@@ -24,6 +24,36 @@
     "pos_y": 0.0,
     "pos_z": 0.0
   },
+  "bob": {
+    "pos_x": -1.5,
+    "pos_y": 0.0,
+    "pos_z": 8.34,
+    "rot_y": 130.0
+  },
+  "nic": {
+    "pos_x": -11.7,
+    "pos_y": 0.0,
+    "pos_z": 1.6,
+    "rot_y": 90.0
+  },
+  "spencer": {
+    "pos_x": 0.5,
+    "pos_y": 0.0,
+    "pos_z": 4.0,
+    "rot_y": 270.0
+  },
+  "alan": {
+    "pos_x": 3.1,
+    "pos_y": 0.0,
+    "pos_z": 1.1,
+    "rot_y": 300.0
+  },
+  "catherine": {
+    "pos_x": 10.7,
+    "pos_y": 0.0,
+    "pos_z": -10.1,
+    "rot_y": 300.0
+  },
   "yadokarock": {
     "speed": 0.4
   },

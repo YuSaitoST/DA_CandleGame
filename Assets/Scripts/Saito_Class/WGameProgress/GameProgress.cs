@@ -106,7 +106,7 @@ public class GameProgress : MonoBehaviour
     /// <param name="id">•‚¯‚½’‡ŠÔ‚Ì”Ô†</param>
     public void SetFriendWhoHelped(Fellow.fellows_ id)
     {
-        friendsWhoHelped_[(int)id] = true;
+        friendsWhoHelped_[((int)id) - 1] = true;
     }
 
     /// <summary>

@@ -48,9 +48,9 @@ public class BG_Scroll : MonoBehaviour
         audioSource_.PlayOneShot(se_bable_);
 #endif
 
-        foreach(ParticleSystem ps in ps_list_)
+        foreach (ParticleSystem ps in ps_list_)
         {
-            ps.Play(true);
+            ps.Play();
         }
 
         // …–Ê‚Éã‚ª‚éƒXƒNƒ[ƒ‹ˆ—
