@@ -37,6 +37,7 @@ public class GameProgress : MonoBehaviour
     System.Collections.Generic.List<bool> friendsWhoHelped_;
 
     int num_pursuers_;  // 追っている敵の数
+    int num_people_saved_;  // 助けた人数
 
 
     private void Awake()
@@ -65,8 +66,9 @@ public class GameProgress : MonoBehaviour
         // ゲームの進行状態をセット
         instance_.progress_ = GAME_PROGRESS.START;
 
-        // 追っている敵の数をリセット
+        // 数をリセット
         instance_.num_pursuers_ = 0;
+        instance_.num_people_saved_ = 0;
 
         instance_.mainCamera_ = Camera.main.GetComponent<CameraMover>();
         instance_.mainCamera_.transform.rotation = Quaternion.AngleAxis(75.0f, Vector3.right);
@@ -107,6 +109,23 @@ public class GameProgress : MonoBehaviour
     public void SetFriendWhoHelped(Fellow.fellows_ id)
     {
         friendsWhoHelped_[((int)id) - 1] = true;
+    }
+
+    /// <summary>
+    /// 助けた人数をカウントする
+    /// </summary>
+    public void FriendWhoHelpedCount()
+    {
+        num_people_saved_ += 1;
+    }
+
+    /// <summary>
+    /// 助けた人数を取得する
+    /// </summary>
+    /// <returns>助けた人数</returns>
+    public int GetFriendWhoHelpedCount()
+    {
+        return num_people_saved_;
     }
 
     /// <summary>

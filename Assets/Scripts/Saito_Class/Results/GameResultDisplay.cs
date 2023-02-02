@@ -12,6 +12,7 @@ public class GameResultDisplay : MonoBehaviour
     [SerializeField] BG_Scroll animation_ = null;
     [SerializeField] GameObject panel_lose_ = null;
     [SerializeField] Image dialog_ = null;
+    [SerializeField] Text txt_dialog_ = null;
 
     [SerializeField] float speed_dialog_fade_ = 0.016f;
     [SerializeField] float max_dialog_fade_ = 0.73f;
@@ -42,8 +43,17 @@ public class GameResultDisplay : MonoBehaviour
 
 #if UNITY_EDITOR
             img_result_.sprite = img_clears[1];    // クリア最低条件数分引く
+            txt_dialog_.text = "99人救出！";
 #else
-            img_result_.sprite = img_clears[_g_progress.GetFriendsWhoHelped().Count(n => n) - 3];    // クリア最低条件数分引く
+            RESULT _res = _g_progress.GetParameters().result;
+            int _count = _g_progress.GetFriendWhoHelpedCount();
+            // img_result_.sprite = img_clears[_g_progress.GetFriendsWhoHelped().Count(n => n) - 3];    // クリア最低条件数分引く
+            img_result_.sprite = img_clears[
+                0 <= _count && _count <= _res.c_high ? 0 :
+                _res.c_high + 1 <= _count && _count <= _res.b_high ? 0 :
+                _res.b_high + 1 <= _count && _count <= _res.a_high ? 1 : 2
+            ];
+            txt_dialog_.text = _count + "人救出！";
 #endif
             StartCoroutine(animation_.PlayOneShot(OpenDialog()));
         }
