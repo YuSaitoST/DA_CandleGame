@@ -18,6 +18,7 @@ using UnityEngine;
     public CATHERINE catherine;
     public YADOKAROCK yadokarock;
     public YADEKAROCK yadekarock;
+    public RESULT result;
 }
 
 [Serializable] public class FIELD
@@ -102,6 +103,14 @@ public class YADEKAROCK
     public float speed;
 }
 
+[Serializable]
+public class RESULT
+{
+    public int c_high;
+    public int b_high;
+    public int a_high;
+    public int s_high;
+}
 
 public class ParametersSet
 {
