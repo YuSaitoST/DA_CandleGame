@@ -16,6 +16,7 @@ using UnityEngine;
     public SPENCER spencer;
     public ALAN alan;
     public CATHERINE catherine;
+    public GENERAL_FELLOW[] general_fellow;
     public YADOKAROCK yadokarock;
     public YADEKAROCK yadekarock;
     public RESULT result;
@@ -76,6 +77,15 @@ using UnityEngine;
     public float rot_y;
 }
 
+[Serializable] public class GENERAL_FELLOW
+{
+    public int id;
+    public float pos_x;
+    public float pos_y;
+    public float pos_z;
+    public float rot_y;
+}
+
 [Serializable] public class ALAN
 {
     public float pos_x;
@@ -97,14 +107,12 @@ using UnityEngine;
     public float speed;
 }
 
-[Serializable]
-public class YADEKAROCK
+[Serializable] public class YADEKAROCK
 {
     public float speed;
 }
 
-[Serializable]
-public class RESULT
+[Serializable] public class RESULT
 {
     public int c_high;
     public int b_high;
