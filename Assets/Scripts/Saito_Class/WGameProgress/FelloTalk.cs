@@ -55,7 +55,11 @@ public class FelloTalk : MonoBehaviour
     IEnumerator StayNextInput()
     {
         character_.SetActive(false);
-        dialog_.SetActive(true);
+
+        if (dialog_ != null)
+        {
+            dialog_.SetActive(true);
+        }
 
         yield return null;
 
@@ -64,7 +68,11 @@ public class FelloTalk : MonoBehaviour
             yield return null;
         }
 
-        dialog_.SetActive(false);
+        if (dialog_ != null)
+        {
+            dialog_.SetActive(false);
+        }
+
         character_.SetActive(false);
 
         yield return null;

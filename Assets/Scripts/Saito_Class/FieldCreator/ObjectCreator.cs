@@ -13,7 +13,8 @@ public class ObjectCreator : MonoBehaviour
     [SerializeField] GameObject parent_bRock_;      // 壊せる岩の親オブジェクト
     [SerializeField] GameObject parent_gimmick_;    // ギミックの親オブジェクト
 
-    [SerializeField] GameObject[] fellows_;         // 仲間
+    [SerializeField] GameObject[] fellows_;         // 仲間(固有)
+    [SerializeField] GameObject[] pref_fellows_;    // 仲間(一般)
 
     private System.Collections.Generic.List<GameObject> tanks_;
 

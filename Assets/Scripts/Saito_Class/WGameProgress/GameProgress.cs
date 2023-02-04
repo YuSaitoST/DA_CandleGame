@@ -19,6 +19,12 @@ public class GameProgress : MonoBehaviour
 {
     static public GameProgress instance_;   // インスタンス
 
+    /*
+     * ・走る時
+     * ・爆弾使用時
+     * ・タンク取得時
+     */
+
     [SerializeField] GameObject     player_         = null; // プレイヤー
     [SerializeField] CameraMover    mainCamera_     = null; // メインカメラ
     [SerializeField] Camera         minimapCamera_  = null; // マップカメラ
