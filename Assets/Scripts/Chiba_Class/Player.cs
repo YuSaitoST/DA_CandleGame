@@ -1020,6 +1020,11 @@ public class Player : MonoBehaviour
         sePlayer_.TakeDamage();
     }
 
+    public void FellowCount()
+    {
+        fellow_count_ += 1;
+    }
+
 
     private void OnTriggerStay(Collider other)
     {
@@ -1091,7 +1096,7 @@ public class Player : MonoBehaviour
                 if (Input.GetButton("Fire1"))
                 {
                     fellow_ui_.enabled = false;
-                    fellow_count_ += 1;
+                    
                     var _fellow = other;
                     _fellow.GetComponent<RescueArea>().Follow();
                     _fellow = null;
