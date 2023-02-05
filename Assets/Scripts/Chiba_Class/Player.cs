@@ -279,8 +279,17 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("SEプレイヤー")]
     PlayersSEPlayer sePlayer_ = null;
 
+    [SerializeField]
+    private bool first_bomb_ = false;
+
+    [SerializeField]
+    private bool first_tank_ = false;
+
     void Start()
     {
+        first_bomb_ = false;
+        first_tank_ = false;
+
         GameProgress.instance_.SetPlayer(gameObject);
 
         oxy_add_slider_.SetActive(false);
@@ -812,7 +821,10 @@ public class Player : MonoBehaviour
 
     private void Action03()
     {
-       
+        if (!first_bomb_)
+        {
+            first_bomb_ = true;
+        }
 
         //別クラス呼び出し
         fire3_draw_.Off();
@@ -1133,6 +1145,10 @@ public class Player : MonoBehaviour
                 fire1_range_flg_ = true;
                 if (Input.GetButton("Fire1"))
                 {
+                    if(!first_tank_)
+                    {
+                        first_tank_ = true;
+                    }
                    
                     //もしstateの状態がbloodだったら
                    
