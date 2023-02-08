@@ -13,7 +13,8 @@ public class ObjectCreator : MonoBehaviour
     [SerializeField] GameObject parent_bRock_;      // 壊せる岩の親オブジェクト
     [SerializeField] GameObject parent_gimmick_;    // ギミックの親オブジェクト
 
-    [SerializeField] GameObject[] fellows_;         // 仲間
+    [SerializeField] GameObject[] fellows_;         // 仲間(固有)
+    [SerializeField] GameObject[] pref_fellows_;    // 仲間(一般)
 
     private System.Collections.Generic.List<GameObject> tanks_;
 
@@ -113,24 +114,24 @@ public class ObjectCreator : MonoBehaviour
             Debug.Log("GimmicksData : " + e.ToString());
         }
 
-        //try
-        //{
-        //    PrefabCreater.CreateMultiplePrefabs("InputData/BreakableRocksData", pref_bRocks_, parent_bRock_);
+        // 壊せる岩
+        try
+        {
+            PrefabCreater.CreateMultiplePrefabs("InputData/BreakableRocksData", pref_bRocks_, parent_bRock_);
 
-        //}
-        //catch (Exception e)
-        //{
-        //    Debug.Log("BreakableRocksData : " + e.ToString());
-        //}
+        }
+        catch (Exception e)
+        {
+            Debug.Log("BreakableRocksData : " + e.ToString());
+        }
 
 
         // 仲間
-        fellows_[0].transform.position = new Vector3(0.0f, 0.0f, -1.0f);
-        fellows_[1].transform.position = new Vector3(0.5f, 0.0f, -1.0f);
-        fellows_[2].transform.position = new Vector3(1.0f, 0.0f, -1.0f);
-        fellows_[3].transform.position = new Vector3(-0.5f, 0.0f, -1.0f);
-        fellows_[4].transform.position = new Vector3(-1.0f, 0.0f, -1.0f);
-       
+        fellows_[0].transform.position = new Vector3(0.0f, 0.0f, -1.5f);
+        fellows_[1].transform.position = new Vector3(0.5f, 0.0f, -1.5f);
+        fellows_[2].transform.position = new Vector3(1.0f, 0.0f, -1.5f);
+        fellows_[3].transform.position = new Vector3(-0.5f, 0.0f, -1.5f);
+        fellows_[4].transform.position = new Vector3(-1.0f, 0.0f, -1.5f);
 #else
         // 敵生成
         if (parent_enemy_ != null)
@@ -186,8 +187,8 @@ public class ObjectCreator : MonoBehaviour
         // ギミック
         PrefabCreater.CreateMultiplePrefabs("InputData/Gimmicksdata", pref_gimmicks_, parent_gimmick_);
 
-
-        //PrefabCreater.CreateMultiplePrefabs("InputData/BreakableRocksData", pref_bRocks_, parent_bRock_);
+        // 壊せる岩
+        PrefabCreater.CreateMultiplePrefabs("InputData/BreakableRocksData", pref_bRocks_, parent_bRock_);
 
         // 仲間の座標設定
         BOB         _bob = _param.bob;

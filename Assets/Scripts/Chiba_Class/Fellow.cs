@@ -36,6 +36,8 @@ public class Fellow : MonoBehaviour
     [SerializeField]
     private float followDistance_ = 1f;
 
+    
+
     [SerializeField]
     private bool follow_flg_ = false;
 
@@ -79,31 +81,55 @@ public class Fellow : MonoBehaviour
     
     public enum fellows_
         {
-         dummy,
+         normal,
          bob,
          nic,
          spencer,
          alan,
-         catherine
-        };
+         catherine,
+         groupParent,
+         groupEntourage
+
+    };
     [Header("仲間の種類")]
     [SerializeField]
-    public fellows_ type_= fellows_.dummy;
+    public fellows_ type_= fellows_.normal;
 
     [Header("デバック用")]
     [SerializeField]
     private bool debug_ = false;
 
+
+
+    //救助されたときに一度だけ実行
+    [SerializeField]
+    private bool rescue_flg_ = false;
+
+    public bool Rescue_flg_
+    {
+        get { return rescue_flg_; }
+    }
+
+    //親となるFellowを入れる(Groupのみ)
+    [SerializeField]
+    private Fellow parent_fellow_ = null;
+
+    [SerializeField]
+    private GameObject parent_fellow_gameobject_ = null;
+
+    [SerializeField]
+    private float delay_time_ = 2;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
         death_effect_.SetActive(false);
 
-        
+
 
         radericon_ = GetComponent<RaderIcon>();
-       // animator_ = GetComponent<Animator>();
+        // animator_ = GetComponent<Animator>();
         agent_ = GetComponent<NavMeshAgent>();
         fellows_obj_ = GameObject.FindGameObjectsWithTag("Fellow");
 
@@ -112,81 +138,100 @@ public class Fellow : MonoBehaviour
         player_script_ = player_.GetComponent<Player>();
 
         collider_ = GetComponent<CapsuleCollider>();
-       
+
         //最初からメンバ変数に入れようとするとしっぱいするからローカル変数にいったん入れてからメンバ変数に入れた
         var _fellow = new Fellow[fellows_obj_.Length];
-      
+
         for (int h = 0; h < fellows_obj_.Length; h++)
         {
             _fellow[h] = fellows_obj_[h].GetComponent<Fellow>();
         }
 
         fellow_ = _fellow;
+
+        //エラー対策(後で改善)
+        if (type_ != fellows_.groupEntourage)
+        {
+            parent_fellow_ = gameObject.GetComponent<Fellow>();
+        }
     }
    
 
     // Update is called once per frame
     void Update()
     {
+        if (type_ == fellows_.groupEntourage)
+        {
+            //親が救助されたら自動的に子もついていく
+            if (parent_fellow_.Rescue_flg_)
+            {
+
+                follow_flg_ = true;
+            }
+        }
 
         if (follow_flg_)
         {
-            if (type_ == fellows_.bob)
+            //救助されたときに一度だけ実行
+            if (!rescue_flg_)
             {
-                player_script_.fellow_oxy_bomb_ = true;
-                GameProgress.instance_.SetFriendWhoHelped(fellows_.bob);
-            }
-            else if (type_ == fellows_.nic)
-            {
-                GameProgress.instance_.SetFriendWhoHelped(fellows_.nic);
-            }
-            else if (type_ == fellows_.spencer)
-            {
-                GameProgress.instance_.SetFriendWhoHelped(fellows_.spencer);
-                GameProgress.instance_.Radar_Contraction();
-            }
-            else if (type_ == fellows_.alan)
-            {
-                GameProgress.instance_.SetFriendWhoHelped(fellows_.alan);
-                GameProgress.instance_.Rader_TankIconActive();
-               
-            }
-            else if (type_ == fellows_.catherine)
-            {
-                GameProgress.instance_.SetFriendWhoHelped(fellows_.catherine);
-                player_script_.fellow_oxy_add_ = true;
+                if (type_ == fellows_.bob)
+                {
+                    player_script_.fellow_oxy_bomb_ = true;
+
+                }
+                else if (type_ == fellows_.spencer)
+                {
+                    GameProgress.instance_.Radar_Contraction();
+                }
+                else if (type_ == fellows_.alan)
+                {
+                    GameProgress.instance_.Rader_TankIconActive();
+                }
+                else if (type_ == fellows_.catherine)
+                {
+
+                    player_script_.fellow_oxy_add_ = true;
+                }
+
+                if (!debug_&& type_ != fellows_.groupParent&& type_ != fellows_.groupEntourage)
+                {
+                    fellotalk_.PlayTalk();
+                    GameProgress.instance_.SetFriendWhoHelped(type_);
+                }
+                else if(type_ == fellows_.groupEntourage)
+                {
+                    
+                    chase_target_ = parent_fellow_gameobject_;
+                    StartCoroutine(FellowGroupEntourage());
+                }
+
+                player_script_.FellowCount();
+                GameProgress.instance_.FriendWhoHelpedCount();
+                    
+
+                
+                //レーダーアイコンを消す処理
+                radericon_.Detectioned();
+
+                
+
+                rescue_flg_ = true;
             }
 
             agent_.speed = player_script_.Player_Move_;
 
-            if (!debug_)
-            {
-                fellotalk_.PlayTalk();
-            }
-         
             agent_.SetDestination(chase_target_.transform.position);
-
-            //レーダーアイコンを消す処理
-            radericon_.Detectioned();
-
             //　到着している時
             if (agent_.remainingDistance < arrivedDistance_)
             {
 
                 agent_.isStopped = true;
                 animator_.SetBool("isWalking", false);
-               // animator_.SetBool("isRunning", false);
-                if (player_script_.Fire2_Flg__)
-                {
-                    animator_.SetBool("isRunning", true);
-
-                }
-                else if (!player_script_.Fire2_Flg__)
-                {
-
-                    animator_.SetBool("isRunning", false);
-                }
+               
+                animator_.SetBool("isRunning", player_script_.Fire2_Flg__);
                 //animator_.SetFloat("Speed", 0f);
+
                 //　到着していない時で追いかけ出す距離になったら
             }
             else if (agent_.remainingDistance > followDistance_)
@@ -243,6 +288,29 @@ public class Fellow : MonoBehaviour
         animator_.SetLookAtPosition(chase_target_.transform.position + Vector3.up * 1.5f);
     }
 
+    IEnumerator FellowGroupEntourage()
+    {
+        yield return new WaitForSeconds(delay_time_);
+        follow_flg_ = true;
+        row_ = parent_fellow_.Row_+1;
+        if (player_script_.fellow_Count_ > 1)
+        {
+            last_ = true;
+
+            for (int i = 0; i < fellows_obj_.Length; i++)
+            {
+
+                if (fellow_[i].Row_ == row_ - 1)
+                {
+                    chase_target_ = fellows_obj_[i];
+                    fellow_[i].AddFellow();
+                    break;
+                }
+            }
+        }
+
+    }
+
     //プレイヤーにタッチされたときの判定
     public void Follow()
     {
@@ -250,7 +318,8 @@ public class Fellow : MonoBehaviour
         follow_flg_ = true;
         if (player_script_.fellow_Count_ > 1)
         {
-            row_ = player_script_.fellow_Count_ ;
+            Debug.Log("A");
+            row_ = player_script_.fellow_Count_ +1;
             //ほかに仲間がいる場合こいつが最後尾になる
             last_ = true;
 

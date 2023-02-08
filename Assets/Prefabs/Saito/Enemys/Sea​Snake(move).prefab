@@ -642,6 +642,7 @@ GameObject:
   - component: {fileID: 6564383813381345555}
   - component: {fileID: 6564383813381345554}
   - component: {fileID: 8637974587458906114}
+  - component: {fileID: 8640240157631659697}
   m_Layer: 0
   m_Name: snake
   m_TagString: Enemy
@@ -768,6 +769,20 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.015909404, y: 0.4345652, z: -0.2861078}
     m_Extent: {x: 0.08365526, y: 0.5695808, z: 0.36535427}
   m_DirtyAABB: 0
+--- !u!136 &8640240157631659697
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6564383813381345553}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 7.67
+  m_Height: 87.58
+  m_Direction: 1
+  m_Center: {x: 1.0207816, y: -50, z: -4.72748}
 --- !u!1 &6831406627245290653
 GameObject:
   m_ObjectHideFlags: 0

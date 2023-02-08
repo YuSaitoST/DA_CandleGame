@@ -230,6 +230,7 @@ GameObject:
   - component: {fileID: 5589890671405157748}
   - component: {fileID: 8057972633275152943}
   - component: {fileID: 6523575214718287940}
+  - component: {fileID: 7027384244962035435}
   m_Layer: 10
   m_Name: Yadkarock
   m_TagString: Enemy
@@ -306,7 +307,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 4.2
+  m_Radius: 7.58
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!195 &5508484279156907841
 NavMeshAgent:
@@ -368,6 +369,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 549c6067f24110341982a944d33a2bb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &7027384244962035435
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2698067158999161426}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 637edbae8a411724c98ab6556df4ecd3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4428511931404395767
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,23 +5,24 @@
     "z_clip": 5
   },
   "player": {
-    "pos_x": -0.8,
-    "pos_y": 0.0,
-    "pos_z": -0.9,
-    "move_speed": 0.5,
-    "move_boost": 1.0,
-    "oxy_max": 100.0,
-    "oxy_cost_boost": 2.0,
-    "oxy_cost": 0.3,
-    "damage": 10.0,
-    "knockback_power": 0.8,
-    "knockback_power_up": 0.4,
-    "knockback_stan_": 1.3
-  },
-  "submaline": {
     "pos_x": -1.0,
     "pos_y": 0.0,
-    "pos_z": 1.0
+    "pos_z": 2.8,
+    "rot_y": 0.0,
+    "move_speed": 0.5,
+    "move_boost": 0.8,
+    "oxy_max": 100.0,
+    "oxy_cost_boost": 2.0,
+    "oxy_cost": 0.6,
+    "damage": 10.0,
+    "knockback_power": 0.8,
+    "knockback_power_up": 0.7,
+    "knockback_stan_": 1.0
+  },
+  "submaline": {
+    "pos_x": 0.5,
+    "pos_y": 0.0,
+    "pos_z": 0.0
   },
   "bob": {
     "pos_x": -1.5,
@@ -53,10 +54,39 @@
     "pos_z": -10.1,
     "rot_y": 300.0
   },
+  "general_fellow": [
+    {
+      "id": 0,
+      "pos_x": 0.0,
+      "pos_y": 0.0,
+      "pos_z": 0.0,
+      "rot_y": 0.0
+    },
+    {
+      "id": 1,
+      "pos_x": 1.0,
+      "pos_y": 0.0,
+      "pos_z": 0.0,
+      "rot_y": 30.0
+    },
+    {
+      "id": 2,
+      "pos_x": 3.0,
+      "pos_y": 0.0,
+      "pos_z": 0.0,
+      "rot_y": 30.0
+    }
+  ],
   "yadokarock": {
-    "speed": 0.3
+    "speed": 0.4
   },
   "yadekarock": {
     "speed": 0.2
+  },
+  "result": {
+    "c_high": 1,
+    "b_high": 2,
+    "a_high": 3,
+    "s_high": 5
   }
 }
