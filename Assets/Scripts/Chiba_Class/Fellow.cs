@@ -5,57 +5,57 @@ using UnityEngine.AI;
 
 public class Fellow : MonoBehaviour
 {
-    private CapsuleCollider collider_ = null;
+    protected CapsuleCollider collider_ = null;
  
     [SerializeField]
-    private GameObject death_effect_ = null;
+    protected GameObject death_effect_ = null;
 
     [SerializeField]
-    private NavMeshAgent agent_;
+    protected NavMeshAgent agent_;
     // 追いかけるキャラクター
 
     //プレイヤー
     [SerializeField]
-    private GameObject player_ = null;
+    protected GameObject player_ = null;
 
     [SerializeField]
-    private GameObject[] fellows_obj_ = null;
+    protected GameObject[] fellows_obj_ = null;
 
     [SerializeField]
-    private Fellow[] fellow_ /*= new Fellow[100]*/;
+    protected Fellow[] fellow_ /*= new Fellow[100]*/;
 
     [SerializeField]
-    private GameObject chase_target_;
+    protected GameObject chase_target_;
 
     [SerializeField]
-    private Animator animator_;
+    protected Animator animator_;
     //　到着したとする距離
     [SerializeField]
-    private float arrivedDistance_ = 1.5f;
+    protected float arrivedDistance_ = 0.4f;
     //　追いかけ始める距離
     [SerializeField]
-    private float followDistance_ = 1f;
+    protected float followDistance_ = 0.6f;
 
     
 
     [SerializeField]
-    private bool follow_flg_ = false;
+    protected bool follow_flg_ = false;
 
    [SerializeField,Tooltip("無敵時間")]
-    private float life_inv_time_ = 3.0f;
+    protected float life_inv_time_ = 3.0f;
 
     //無敵時間
-    private float life_inv_tmp_ = 0.0f;
+    protected float life_inv_tmp_ = 0.0f;
 
     [SerializeField]
-    private Player player_script_ = null;
+    protected Player player_script_ = null;
 
     //自分が最後尾かどうか
     [SerializeField]
-    private bool last_ = false;
+    protected bool last_ = false;
 
     //自分が列で何番目か
-    private int row_ = 0;
+    protected int row_ = 0;
 
    //読み取り用
     public int Row_
@@ -64,7 +64,7 @@ public class Fellow : MonoBehaviour
     }
 
     [SerializeField]
-    private Vector3 getLastFellow_;
+    protected Vector3 getLastFellow_;
 
     public Vector3 GetLastFellow
     {
@@ -74,10 +74,10 @@ public class Fellow : MonoBehaviour
 
 
     [SerializeField]
-    private RaderIcon radericon_ = null;
+    protected RaderIcon radericon_ = null;
 
     [SerializeField]
-    private FelloTalk fellotalk_ = null;
+    protected FelloTalk fellotalk_ = null;
     
     public enum fellows_
         {
@@ -92,36 +92,28 @@ public class Fellow : MonoBehaviour
 
     };
     [Header("仲間の種類")]
-    [SerializeField]
-    public fellows_ type_= fellows_.normal;
+    [HideInInspector]
+    public  fellows_ type_= fellows_.normal;
 
     [Header("デバック用")]
     [SerializeField]
-    private bool debug_ = false;
+    protected bool debug_ = false;
 
 
 
     //救助されたときに一度だけ実行
     [SerializeField]
-    private bool rescue_flg_ = false;
+    protected bool rescue_flg_ = false;
 
     public bool Rescue_flg_
     {
         get { return rescue_flg_; }
     }
 
-    //親となるFellowを入れる(Groupのみ)
-    [SerializeField]
-    private Fellow parent_fellow_ = null;
-
-    [SerializeField]
-    private GameObject parent_fellow_gameobject_ = null;
-
-    [SerializeField]
-    private float delay_time_ = 2;
+  
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
 
         death_effect_.SetActive(false);
@@ -149,177 +141,132 @@ public class Fellow : MonoBehaviour
 
         fellow_ = _fellow;
 
-        //エラー対策(後で改善)
-        if (type_ != fellows_.groupEntourage)
-        {
-            parent_fellow_ = gameObject.GetComponent<Fellow>();
-        }
+        
     }
-   
+
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
-        if (type_ == fellows_.groupEntourage)
-        {
-            //親が救助されたら自動的に子もついていく
-            if (parent_fellow_.Rescue_flg_)
-            {
-
-                follow_flg_ = true;
-            }
-        }
+       
 
         if (follow_flg_)
         {
             //救助されたときに一度だけ実行
             if (!rescue_flg_)
             {
-                if (type_ == fellows_.bob)
-                {
-                    player_script_.fellow_oxy_bomb_ = true;
-
-                }
-                else if (type_ == fellows_.spencer)
-                {
-                    GameProgress.instance_.Radar_Contraction();
-                }
-                else if (type_ == fellows_.alan)
-                {
-                    GameProgress.instance_.Rader_TankIconActive();
-                }
-                else if (type_ == fellows_.catherine)
-                {
-
-                    player_script_.fellow_oxy_add_ = true;
-                }
-
-                if (!debug_&& type_ != fellows_.groupParent&& type_ != fellows_.groupEntourage)
-                {
-                    fellotalk_.PlayTalk();
-                    GameProgress.instance_.SetFriendWhoHelped(type_);
-                }
-                else if(type_ == fellows_.groupEntourage)
-                {
-                    
-                    chase_target_ = parent_fellow_gameobject_;
-                    StartCoroutine(FellowGroupEntourage());
-                }
-
-                player_script_.FellowCount();
+               
                 GameProgress.instance_.FriendWhoHelpedCount();
-                    
 
-                
                 //レーダーアイコンを消す処理
                 radericon_.Detectioned();
 
-                
+                RescueProcess();
 
-                rescue_flg_ = true;
+                rescue_flg_ = true;           
             }
 
-            agent_.speed = player_script_.Player_Move_;
-
-            agent_.SetDestination(chase_target_.transform.position);
-            //　到着している時
-            if (agent_.remainingDistance < arrivedDistance_)
-            {
-
-                agent_.isStopped = true;
-                animator_.SetBool("isWalking", false);
-               
-                animator_.SetBool("isRunning", player_script_.Fire2_Flg__);
-                //animator_.SetFloat("Speed", 0f);
-
-                //　到着していない時で追いかけ出す距離になったら
-            }
-            else if (agent_.remainingDistance > followDistance_)
-            {
-
-                animator_.SetBool("isWalking", true);
-                agent_.isStopped = false;
-                if (player_script_.Fire2_Flg__)
-                {
-                    animator_.SetBool("isRunning", true);
-                   
-                }
-                else if (!player_script_.Fire2_Flg__)
-                {
-                   
-                    animator_.SetBool("isRunning", false);
-                }
-                
-                //animator_.SetFloat("Speed", agent_.desiredVelocity.magnitude);
-            }
-        }
-
-        //最後尾の時に座標を返す
-        if(last_)
-        {
-            getLastFellow_ = transform.position;
+            Move();
         }
 
        
+               
+    }
 
-        //潜水艦に回収される処理
-        if(player_script_.fellow_Count_ ==0&&follow_flg_)
-        {
-            row_ = 0;
-            transform.position = new(0,0,0);
-            this.gameObject.SetActive(false);
-            follow_flg_ = false;
-        }
+    protected virtual void RescueProcess()
+    {
+        //if (type_ == fellows_.bob)
+        //{
+        //    player_script_.fellow_oxy_bomb_ = true;
 
-        life_inv_tmp_ = player_script_.Player_life_inv_tmp_;
+        //}
+        //else if (type_ == fellows_.spencer)
+        //{
+        //    GameProgress.instance_.Radar_Contraction();
+        //}
+        //else if (type_ == fellows_.alan)
+        //{
+        //    GameProgress.instance_.Rader_TankIconActive();
+        //}
+        //else if (type_ == fellows_.catherine)
+        //{
 
+        //    player_script_.fellow_oxy_add_ = true;
+        //}
+
+        //if (!debug_ && type_ != fellows_.groupParent && type_ != fellows_.groupEntourage)
+        //{
+        //    fellotalk_.PlayTalk();
+        //    GameProgress.instance_.SetFriendWhoHelped(type_);
+        //}
         
     }
-    private void FixedUpdate()
+
+    
+
+   
+
+    protected virtual void Move()
+    {
+        agent_.speed = player_script_.Player_Move_;
+
+        agent_.SetDestination(chase_target_.transform.position);
+        //　到着している時
+        if (agent_.remainingDistance < arrivedDistance_)
+        {
+
+            agent_.isStopped = true;
+            animator_.SetBool("isWalking", false);
+
+            animator_.SetBool("isRunning", player_script_.Fire2_Flg__);
+            //animator_.SetFloat("Speed", 0f);
+
+            //　到着していない時で追いかけ出す距離になったら
+        }
+        else if (agent_.remainingDistance > followDistance_)
+        {
+
+            animator_.SetBool("isWalking", true);
+            agent_.isStopped = false;
+            if (player_script_.Fire2_Flg__)
+            {
+                animator_.SetBool("isRunning", true);
+
+            }
+            else if (!player_script_.Fire2_Flg__)
+            {
+
+                animator_.SetBool("isRunning", false);
+            }
+
+            //animator_.SetFloat("Speed", agent_.desiredVelocity.magnitude);
+        }
+    }
+
+    protected virtual void FixedUpdate()
     {
         if (life_inv_tmp_ > 0)
         {
             life_inv_tmp_ -= 1.0f * Time.deltaTime;
         }
     }
-    private void OnAnimatorIK()
+    protected virtual void OnAnimatorIK()
     {
         animator_.SetLookAtWeight(1f, 0.3f, 1f, 0f, 0.5f);
         animator_.SetLookAtPosition(chase_target_.transform.position + Vector3.up * 1.5f);
     }
 
-    IEnumerator FellowGroupEntourage()
-    {
-        yield return new WaitForSeconds(delay_time_);
-        follow_flg_ = true;
-        row_ = parent_fellow_.Row_+1;
-        if (player_script_.fellow_Count_ > 1)
-        {
-            last_ = true;
-
-            for (int i = 0; i < fellows_obj_.Length; i++)
-            {
-
-                if (fellow_[i].Row_ == row_ - 1)
-                {
-                    chase_target_ = fellows_obj_[i];
-                    fellow_[i].AddFellow();
-                    break;
-                }
-            }
-        }
-
-    }
+   
 
     //プレイヤーにタッチされたときの判定
-    public void Follow()
+    public virtual void Follow()
     {
        
         follow_flg_ = true;
         if (player_script_.fellow_Count_ > 1)
         {
             Debug.Log("A");
-            row_ = player_script_.fellow_Count_ +1;
+            row_ = player_script_.fellow_Count_ ;
             //ほかに仲間がいる場合こいつが最後尾になる
             last_ = true;
 
@@ -346,21 +293,21 @@ public class Fellow : MonoBehaviour
 
         }
     }
-    public void AddFellow()
+    public virtual void AddFellow()
     {
         last_ = false;
 
     }
 
     //最後尾が被弾した場合の引継ぎ処理
-    public void Last()
+    public virtual void Last()
     {
         last_ = true;
 
     }
 
 
-    private void DeathProcess()
+    protected virtual void DeathProcess()
     {
         player_script_.fellow_die_row_ = row_;
 
@@ -385,7 +332,7 @@ public class Fellow : MonoBehaviour
 
 
 
-    public void Death()
+    public virtual void Death()
     {
 
         if(follow_flg_)
@@ -423,7 +370,7 @@ public class Fellow : MonoBehaviour
 
 
 
-    private void OnCollisionStay(Collision collision)
+    protected virtual void OnCollisionStay(Collision collision)
     {
        
         if (collision.gameObject.tag == "Enemy" && player_script_.Player_life_inv_tmp_ <= 0 && follow_flg_ == true)
