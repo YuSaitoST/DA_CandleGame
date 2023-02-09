@@ -469,11 +469,9 @@ public class Player : MonoBehaviour
         //プレイヤーの入力
         if (type_==State.Escape)
         {
-            escape_ui_.enabled = false;
-            
-            escape_ui_yes_.enabled = true;
-            
+          
 
+            //脱出するかどうか
             Debug.Log("選択画面");
             if (Input.GetButtonDown("Fire1") && !escape_select_flg_)
             {
@@ -481,8 +479,11 @@ public class Player : MonoBehaviour
                 escape_select_flg_ = true;
                 //ゲームクリア
                 escape_ui_.enabled = false;
-                escape_ui_yes_.enabled = false;
+               
                 GameProgress.instance_.GameClear();
+
+                //UIを閉じる
+                StartCoroutine(CloseUiYes());
 
             }
             if (Input.GetButtonDown("Fire2"))
@@ -501,14 +502,20 @@ public class Player : MonoBehaviour
             }
         }
 
-        if(escape_flg == true)
+        if(escape_flg)
         {
+            //脱出範囲内
             if (Input.GetButtonDown("Fire1"))
             {
+                //救助した人数が規定値になったら脱出できる
                 if (fellow_rescue_ >= 3)
                 {
                     type_ = State.Escape;
                     escape_select_flg_ = false;
+
+                    escape_ui_.enabled = false;
+
+                    escape_ui_yes_.enabled = true;
                 }
                 else
                 {
@@ -516,7 +523,7 @@ public class Player : MonoBehaviour
                     escape_ui_no_.enabled = true;
 
                     //UIのフェードアウト処理
-                    StartCoroutine(CloseUi());
+                    StartCoroutine(CloseUiNo());
                 }
             }
 
@@ -801,7 +808,7 @@ public class Player : MonoBehaviour
             fellow_rescue_ += fellow_count_;
             fellow_count_ = 0;
 
-            if (fellow_rescue_ <= 2)
+            if (fellow_rescue_ <= 10)
             {
                 escape_ui_flg = true;
             }
@@ -1212,9 +1219,15 @@ public class Player : MonoBehaviour
 
     }
 
-    IEnumerator CloseUi()
+    IEnumerator CloseUiNo()
     {
         yield return new WaitForSeconds(5.0f);
         escape_ui_no_.enabled = false;
+    }
+
+    IEnumerator CloseUiYes()
+    {
+        yield return new WaitForSeconds(0.5f);
+        escape_ui_yes_.enabled = false;
     }
 }

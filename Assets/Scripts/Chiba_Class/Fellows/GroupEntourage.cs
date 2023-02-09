@@ -47,9 +47,18 @@ public class GroupEntourage : Fellow
             }
 
             Move();
+
+            
         }
 
-
+        //ö…ŠÍ‚É‰ñû‚³‚ê‚éˆ—
+        if (player_script_.fellow_Count_ == 0 && follow_flg_)
+        {
+            row_ = 0;
+            transform.position = new(0, 0, 0);
+            this.gameObject.SetActive(false);
+            follow_flg_ = false;
+        }
 
     }
 
