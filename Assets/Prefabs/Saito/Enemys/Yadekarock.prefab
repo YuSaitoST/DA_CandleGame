@@ -2945,6 +2945,7 @@ GameObject:
   - component: {fileID: 6157439727891812834}
   - component: {fileID: 3211443094010017014}
   - component: {fileID: 352348081104374680}
+  - component: {fileID: 8493938494620125732}
   m_Layer: 10
   m_Name: Yadekarock
   m_TagString: Enemy
@@ -3067,7 +3068,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a76f5fd6a667a24ebfcb89eb6e8a8d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator_: {fileID: 205398465523841135}
 --- !u!64 &3211443094010017014
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3094,6 +3094,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e8de6642cc528f45a3e601d3c24a4ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8493938494620125732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255333734293179859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d74ce51f72505340a878cdac4c1eba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pref_icon_: {fileID: 2900133041037989829, guid: d972f657330207948b30fffafbf68391,
+    type: 3}
 --- !u!1 &255338682133006247
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,7 +13,10 @@ public class FelloTalk : MonoBehaviour
 
     void Start()
     {
-        dialog_.SetActive(false);
+        if (dialog_ != null)
+        {
+            dialog_.SetActive(false);
+        }
         count_ = 0;
     }
 

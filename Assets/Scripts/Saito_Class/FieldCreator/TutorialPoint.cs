@@ -8,6 +8,9 @@ public class TutorialPoint : MonoBehaviour
 
     public static float TIME_FADEIN = 0.5f;
     public static float SPED_FADEIN = 2.0f;
+    public static float SPED_FADEOT = 1.3f;
+
+    public static TutorialPoint[] isOpenTutorial = { null, null, null, null, null };
 
     [SerializeField] GameObject target_ = null; // チュートリアルの対象
     [SerializeField] Image img_talk_ = null;    // 上記画像を表示させる
@@ -26,10 +29,12 @@ public class TutorialPoint : MonoBehaviour
         {
             if (point_ == Point.A || point_ == Point.D)
             {
+                CloseTutorial();
                 StartCoroutine(FadeInOut());
             }
             else if (point_ == Point.B || point_ == Point.C)
             {
+                CloseTutorial();
                 StartCoroutine(FadeAndMission());
             }
         }
@@ -40,16 +45,36 @@ public class TutorialPoint : MonoBehaviour
     /// </summary>
     public void AutoTutorial()
     {
+        CloseTutorial();
         StartCoroutine(FadeInOut());
     }
 
-    IEnumerator Fade(int inout)
+    public void Close()
+    {
+        img_talk_.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+    }
+
+    private void CloseTutorial()
+    {
+        // 既に表示されているものを探す
+        for (int i = 0; i < 5; ++i)
+        {
+            if (isOpenTutorial[i])
+            {
+                isOpenTutorial[i].Close();
+                img_talk_.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                break;
+            }
+        }
+    }
+
+    IEnumerator Fade(int inout, float speed)
     {
         if (inout == 1)
         {
             while (img_talk_.color.a < 1)
             {
-                img_talk_.color += new Color(0.0f, 0.0f, 0.0f, inout * SPED_FADEIN * Time.deltaTime);
+                img_talk_.color = new Color(1.0f, 1.0f, 1.0f, Mathf.Min(img_talk_.color.a + speed * Time.deltaTime, 1.0f));
 
                 yield return null;
             }
@@ -58,15 +83,10 @@ public class TutorialPoint : MonoBehaviour
         {
             while(0 < img_talk_.color.a)
             {
-                img_talk_.color += new Color(0.0f, 0.0f, 0.0f, inout * SPED_FADEIN * Time.deltaTime);
+                img_talk_.color = new Color(1.0f, 1.0f, 1.0f, Mathf.Max(img_talk_.color.a - speed * Time.deltaTime, 0.0f));
 
                 yield return null;
             }
-        }
-        
-        if (img_talk_.color.a == 0.0f)
-        {
-            gameObject.SetActive(false);
         }
 
         yield return null;
@@ -74,18 +94,18 @@ public class TutorialPoint : MonoBehaviour
 
     IEnumerator FadeInOut()
     {
-        StartCoroutine(Fade(1));
+        StartCoroutine(Fade(1, SPED_FADEIN));
 
         yield return new WaitForSeconds(5.0f);
 
-        StartCoroutine(Fade(-1));
-        
+        StartCoroutine(Fade(-1, SPED_FADEOT));
+
         yield return null;
     }
 
     IEnumerator FadeAndMission()
     {
-        StartCoroutine(Fade(1));
+        StartCoroutine(Fade(1, SPED_FADEIN));
 
         yield return null;
 
@@ -99,19 +119,18 @@ public class TutorialPoint : MonoBehaviour
             {
                 yield return null;
             }
+            StartCoroutine(Fade(-1, SPED_FADEOT));
         }
         else if (point_ == Point.C)
         {
             // C 爆弾
-            while (true)
+            while (!_player.first_bomb_)
             {
                 yield return null;
             }
         }
 
-        yield return null;
-
-        StartCoroutine(Fade(-1));
+        StartCoroutine(Fade(-1, SPED_FADEOT));
 
         yield return null;
     }
