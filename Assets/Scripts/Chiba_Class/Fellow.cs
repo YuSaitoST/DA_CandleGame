@@ -77,7 +77,7 @@ public class Fellow : MonoBehaviour
     protected RaderIcon radericon_ = null;
 
     [SerializeField]
-    protected FelloTalk fellotalk_ = null;
+    public FelloTalk fellotalk_ = null;
     
     public enum fellows_
         {

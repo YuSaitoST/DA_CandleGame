@@ -280,10 +280,10 @@ public class Player : MonoBehaviour
     PlayersSEPlayer sePlayer_ = null;
 
     [SerializeField]
-    private bool first_bomb_ = false;
+    public bool first_bomb_ = false;
 
     [SerializeField]
-    private bool first_tank_ = false;
+    public bool first_tank_ = false;
 
     void Start()
     {
@@ -594,31 +594,31 @@ public class Player : MonoBehaviour
                         if (fire3_button_count_ >= 5.0f&&fellow_oxy_bomb_)
                         {
                             count_ = 5;
-                            type_ = State.Action03;//投げるステート
+                            type_ = State.Action04;//投げるステート
                             Debug.Log("アクション実行03-5");
                         }
                         else if (fire3_button_count_ >= 4.0f&& fellow_oxy_bomb_)
                         {
                             count_ = 4;
-                            type_ = State.Action03;//投げるステート
+                            type_ = State.Action04;//投げるステート
                             Debug.Log("アクション実行03-4");
                         }
                         else if (fire3_button_count_ >= 3.0f)
                         {
                             count_ = 3;
-                            type_ = State.Action03;//投げるステート
+                            type_ = State.Action04;//投げるステート
                             Debug.Log("アクション実行03-3");
                         }
                         else if (fire3_button_count_ >= 2.0f)
                         {
                             count_ = 2;
-                            type_ = State.Action03;//投げるステート
+                            type_ = State.Action04;//投げるステート
                             Debug.Log("アクション実行03-2");
                         }
                         else if (fire3_button_count_ >= 1.0f)
                         {
                             count_ = 1;
-                            type_ = State.Action03;//投げるステート
+                            type_ = State.Action04;//投げるステート
                             Debug.Log("アクション実行03-1");
 
 
@@ -821,10 +821,7 @@ public class Player : MonoBehaviour
 
     private void Action03()
     {
-        if (!first_bomb_)
-        {
-            first_bomb_ = true;
-        }
+       
 
         //別クラス呼び出し
         fire3_draw_.Off();
@@ -858,6 +855,10 @@ public class Player : MonoBehaviour
     }
     private void Action04()
     { 
+         if (!first_bomb_)
+        {
+            first_bomb_ = true;
+        }
         //別クラス呼び出し
         fire3_draw_.Off();
 
@@ -1073,28 +1074,7 @@ public class Player : MonoBehaviour
               
             }
 
-            //パーツ
-            //if (other.gameObject.CompareTag("Submarine") && PartsManager.Instance.count_ > 0)
-            //{
-
-            //    submarine_ui_.enabled = true;
-
-
-            //    if (Input.GetButton("Fire1"))
-            //    {
-            //        submarine_slider_canvas_.enabled = true;
-            //        //ステート移行
-            //        type_ = State.Action00;
-            //    }
-            //    else
-            //    {
-
-            //        submarine_limit_tmp_ = 0;
-            //        submarine_slider_canvas_.enabled = false;
-            //        type_ = State.Idle;
-            //    }
-
-            //}
+          
 
             //仲間の処理
             if (other.gameObject.CompareTag("RescueArea"))
@@ -1117,23 +1097,7 @@ public class Player : MonoBehaviour
 
             }
 
-                //パーツの範囲
-            //    if (other.gameObject.CompareTag("PC"))
-            //{
-
-            //    item_ui_.enabled = true;
-
-            //    fire1_range_flg_ = true;
-            //    if (Input.GetButton("Fire1"))
-            //    {
-                  
-            //        var _parts = other;
-            //        _parts.GetComponent<Parts>().Pickup();
-            //        _parts = null;
-            //        sePlayer_.PartGet();
-            //    }
-
-            //}
+          
 
             //ボンベ回復
             if (other.gameObject.CompareTag("Tank"))
