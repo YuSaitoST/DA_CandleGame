@@ -20,6 +20,7 @@ public class BloodDirection : MonoBehaviour
     bool pushFrag_oxyEmpty_ = false;
 
     float alpha_ = 0.0f;
+    float time_ = 0.0f;
 
     IEnumerator coro_oxyEmpty_;
 
@@ -169,14 +170,18 @@ public class BloodDirection : MonoBehaviour
     /// <returns>ÉRÉãÅ[É`Éì</returns>
     IEnumerator OxygenEmpty()
     {
+        time_ = 0.0f;
+
         while (alpha_ < 1.0f)
         {
-            yield return new WaitForSeconds(1.0f);
-
-            alpha_ += ratio_oxyNoneDamage_;
+            //alpha_ += ratio_oxyNoneDamage_;
+            time_ += Time.deltaTime;
+            alpha_ = 0.2f * Mathf.Sin(3 * time_) + 0.06f * time_;
             SetAlpha();
 
             audioSource_.volume = alpha_;
+
+            yield return null;
         }
 
         pushFrag_damageDone_ = false;
