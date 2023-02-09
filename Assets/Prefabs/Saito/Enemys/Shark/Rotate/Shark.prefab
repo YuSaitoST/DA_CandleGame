@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4147713095975352681}
   - component: {fileID: 4147713095975352596}
+  - component: {fileID: 2370996624880248065}
   m_Layer: 0
   m_Name: Shark
   m_TagString: Untagged
@@ -46,6 +47,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cube_: {fileID: 202217626179127775, guid: d35b56fe4ccef1d46b43087082164087, type: 3}
+--- !u!114 &2370996624880248065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4147713095975352683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d74ce51f72505340a878cdac4c1eba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pref_icon_: {fileID: 2900133041037989829, guid: d972f657330207948b30fffafbf68391,
+    type: 3}
 --- !u!1 &7760439537852633323
 GameObject:
   m_ObjectHideFlags: 0
