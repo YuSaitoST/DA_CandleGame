@@ -36,6 +36,8 @@ public class GameProgress : MonoBehaviour
     [SerializeField] Player             sc_player_      = null;
     [SerializeField] SubmarineManager   sc_submarine_   = null;
 
+    [SerializeField] GameObject[] fellow_general_ = null;
+
     ParametersSet parameters_;     // パラメータ
 
     GAME_PROGRESS progress_;    // ゲームの進行状態
@@ -62,9 +64,19 @@ public class GameProgress : MonoBehaviour
         // パラメータをセットする
         instance_.parameters_ = new ParametersSet();
         instance_.parameters_.SetParameter();
-        PLAYER _param = parameters_.GetParameter().player;
-        player_.transform.position = new Vector3(_param.pos_x, _param.pos_y, _param.pos_z);
-        player_.transform.rotation = Quaternion.AngleAxis(_param.rot_y, Vector3.up);
+        
+        Paramater _param = parameters_.GetParameter();
+        PLAYER _param_p = _param.player;
+        GENERAL_FELLOW[] _param_g = _param.general_fellow;
+        
+        player_.transform.position = new Vector3(_param_p.pos_x, _param_p.pos_y, _param_p.pos_z);
+        player_.transform.rotation = Quaternion.AngleAxis(_param_p.rot_y, Vector3.up);
+
+        //for(int i = 0; i < fellow_general_.Length; ++i)
+        //{
+        //    fellow_general_[i].transform.position = new Vector3(_param_g[i].pos_x, _param_g[i].pos_y, _param_g[i].pos_z);
+        //    fellow_general_[i].transform.rotation = Quaternion.AngleAxis(_param_g[i].rot_y, Vector3.up);
+        //}
 
         // 重力の強さを調整
         Physics.gravity = new Vector3(0.0f, -1.0f, 0.0f);
@@ -114,7 +126,7 @@ public class GameProgress : MonoBehaviour
     /// <param name="id">助けた仲間の番号</param>
     public void SetFriendWhoHelped(Fellow.fellows_ id)
     {
-        friendsWhoHelped_[((int)id) - 1] = true;
+        friendsWhoHelped_[(int)id - 1] = true;
     }
 
     /// <summary>

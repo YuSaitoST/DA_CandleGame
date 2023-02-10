@@ -15,7 +15,7 @@ public class GameResultDisplay : MonoBehaviour
     [SerializeField] Text txt_dialog_ = null;
 
     [SerializeField] float speed_dialog_fade_ = 0.016f;
-    [SerializeField] float max_dialog_fade_ = 0.73f;
+    [SerializeField] float max_dialog_fade_ = 0.9f;
     [SerializeField] float stay_loseDialog_time_ = 1.5f;
 
     int inputCount_ = 0;
@@ -36,15 +36,14 @@ public class GameResultDisplay : MonoBehaviour
         inputCount_ = 0;
 
         dialog_.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+        txt_dialog_.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
 
         if (_progress == GAME_PROGRESS.CLEAR)
         {
             panel_lose_.SetActive(false);
 
-#if UNITY_EDITOR
             img_result_.sprite = img_clears[1];    // クリア最低条件数分引く
-            txt_dialog_.text = "99人救出！";
-#else
+            
             RESULT _res = _g_progress.GetParameters().result;
             int _count = _g_progress.GetFriendWhoHelpedCount();
             // img_result_.sprite = img_clears[_g_progress.GetFriendsWhoHelped().Count(n => n) - 3];    // クリア最低条件数分引く
@@ -54,7 +53,7 @@ public class GameResultDisplay : MonoBehaviour
                 _res.b_high + 1 <= _count && _count <= _res.a_high ? 1 : 2
             ];
             txt_dialog_.text = _count + "人救出！";
-#endif
+
             StartCoroutine(animation_.PlayOneShot(OpenDialog()));
         }
         else if (_progress == GAME_PROGRESS.OVER)
@@ -91,6 +90,7 @@ public class GameResultDisplay : MonoBehaviour
         while (dialog_.color.a < max_dialog_fade_)
         {
             dialog_.color += new Color(0.0f, 0.0f, 0.0f, speed_dialog_fade_);
+            txt_dialog_.color += new Color(0.0f, 0.0f, 0.0f, speed_dialog_fade_);
             yield return null;
         }
 

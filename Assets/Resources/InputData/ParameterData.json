@@ -57,23 +57,26 @@
   "general_fellow": [
     {
       "id": 0,
-      "pos_x": 0.0,
+      "kind": 0,
+      "pos_x": 10.0,
       "pos_y": 0.0,
-      "pos_z": 0.0,
+      "pos_z": 5.0,
       "rot_y": 0.0
     },
     {
       "id": 1,
-      "pos_x": 1.0,
+      "kind": 2,
+      "pos_x": -13.0,
       "pos_y": 0.0,
-      "pos_z": 0.0,
+      "pos_z": 5.0,
       "rot_y": 30.0
     },
     {
       "id": 2,
-      "pos_x": 3.0,
+      "kind": 2,
+      "pos_x": -10.0,
       "pos_y": 0.0,
-      "pos_z": 0.0,
+      "pos_z": -13.0,
       "rot_y": 30.0
     }
   ],

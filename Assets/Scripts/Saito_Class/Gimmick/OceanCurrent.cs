@@ -21,8 +21,12 @@ public class OceanCurrent : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        float _distance = Vector3.Distance(position_, other.transform.position) * CORRECTION_POWER;
-        float _power = -DIST * Mathf.Pow(_distance, 2) + POWER;
-        InfluencedByCurrents.GetTargetList()[other.gameObject.GetComponent<InfluencedByCurrents>().GetID()].AddForce(direction_ * _power);
+        InfluencedByCurrents _target = other.gameObject.GetComponent<InfluencedByCurrents>();
+        if (_target != null)
+        {
+            float _distance = Vector3.Distance(position_, other.transform.position) * CORRECTION_POWER;
+            float _power = -DIST * Mathf.Pow(_distance, 2) + POWER;
+            InfluencedByCurrents.GetTargetList()[_target.GetID()].AddForce(direction_ * _power);
+        }
     }
 }

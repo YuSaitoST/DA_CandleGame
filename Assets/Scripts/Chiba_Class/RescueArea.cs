@@ -7,7 +7,7 @@ public class RescueArea : MonoBehaviour
     [SerializeField]
     private Fellow fellow_ = null;
 
-    [SerializeField]
+   
     private BoxCollider collider_ = null;
 
     private Transform transform_ = null;
