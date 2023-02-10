@@ -27,6 +27,8 @@ public class yadokarock : MonoBehaviour
     float time = 0;
     Mesh mesh;
     Vector3[] vertices;
+    [SerializeField, Header("Thorax_1")] GameObject atomic;
+    //[SerializeField] GameObject bulu;
 
 #if UNITY_EDITOR
     [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected)]
@@ -44,9 +46,11 @@ public class yadokarock : MonoBehaviour
     const float heightAngle = 0.0f;
     const float length = 1.5f;
     private Animator Animator;
+    bool Anima = true;
     float speed_;
     float timebent = 0.0f;
-    bool anime = true;
+    
+    private Vector3 speed = new Vector3(1, 1, 1);
 
     public float WidthAngle { get { return widthAngle; } }
     public float HeightAngle { get { return heightAngle; } }
@@ -54,13 +58,14 @@ public class yadokarock : MonoBehaviour
 
     void Start()
     {
-        Agent = GetComponent<NavMeshAgent>();
-        rigidbody = this.GetComponent<Rigidbody>();
+        Agent = gameObject.GetComponent<NavMeshAgent>();
+        rigidbody = gameObject.GetComponent<Rigidbody>();
         playerC = GameProgress.instance_.Get_PlayerC();
         targetRot = Quaternion.AngleAxis(angle, axis) * transform.rotation;
         enabled = true;
         state = ENE_STATE.STAY;
-        Animator = gameObject.transform.GetComponent<Animator>();
+        Animator = gameObject.GetComponent<Animator>();
+        atomic.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
         //SPEED=GameProgress.instance_
     }
 
@@ -112,23 +117,32 @@ public class yadokarock : MonoBehaviour
             {
                 if (Physics.Raycast(this.transform.position, posDelta, out RaycastHit hit)) 
                 {
-                    if (hit.collider == other)
+                    
+                    Debug.Log("range of view1");
+                    //if (hit.collider == other)
+                    //{
+                    
+                    Agent.destination = playerC.transform.position;
+                    GameProgress.instance_.Enemy_StartTracking();
+                    time += Time.deltaTime;
+                    if (time >= 1.0f)
                     {
-                        time += Time.deltaTime;
-                        Agent.destination = playerC.transform.position;
-                        GameProgress.instance_.Enemy_StartTracking();
-                        if (time >= 1.0f)
-                        {
-                            state = ENE_STATE.TRACKING;
-                            GameProgress.instance_.Enemy_StartTracking();
-                        }
-                        if(anime == true)
-                        {
-                            Animator.SetBool("bulubulu", true);
-                            anime = false;
-                        }
-                        Debug.Log("range of view");
+                        state = ENE_STATE.TRACKING;
+                        Debug.Log("range of view2");
                     }
+
+                    if (Anima == true)
+                    {
+                        
+                        Animator.SetBool("bulubulu", true);
+                        Anima = false;
+                        
+                        Debug.Log("range of view3");
+
+                    }
+
+                    
+                    //}
                 }
             }
         }
@@ -138,22 +152,26 @@ public class yadokarock : MonoBehaviour
     {
         //var child = transform.Find("CrabMonster 1/Armature/Root/Thorax_1");
         //var child2 = transform.Find("CrabMonster 1/Armature/Eyes");
-        //child.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-        //child2.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-        //if (time >= 1.0f)
-        //{
-        //    child.transform.localScale = new Vector3(1f, 1f, 1f);
-        //    child2.transform.localScale = new Vector3(1f, 1f, 1f);
-        //    Debug.Log("デカい");
 
-        //}
+        //atomic.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        //child2.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 
         rigidbody.velocity = Vector3.zero;
         if (state == ENE_STATE.TRACKING)
         {
             DoMove(Agent.destination);
             float dist = Vector3.Distance(playerC.transform.position, transform.position);
-            if(dist <= 0.3f)
+            Debug.Log("ココッ！");
+            if (time >= 1.2f)
+            {
+                atomic.transform.localScale += speed * Time.deltaTime;
+                //child.transform.localScale = new Vector3(1f, 1f, 1f);
+                //child2.transform.localScale = new Vector3(1f, 1f, 1f);
+                Debug.Log("デカい");
+                //if (atomic.transform.localScale =  ) ;
+            }
+
+            if (dist <= 0.3f)
             {
                 this.rigidbody.velocity = Vector3.zero;
                 Debug.Log("アンジュそこ！");
@@ -252,6 +270,7 @@ public class yadokarock : MonoBehaviour
                 if (0.1f <= diff2d.magnitude)
                 {
                     targetPosition = pos;
+                    Debug.Log("こいつ、動くぞ！");
                     break;
                 }
             }
@@ -264,6 +283,7 @@ public class yadokarock : MonoBehaviour
         float forward_x = transform.forward.x * speed_;  //*ここでenemyの速さ調節
         float forward_z = transform.forward.z * speed_;  //*ここでenemyの速さ調節
         rigidbody.velocity = new Vector3(forward_x, rigidbody.velocity.y, forward_z);
+
     }
 
     private static Mesh CreateFanMesh(float i_angle, int i_triangleCount)
