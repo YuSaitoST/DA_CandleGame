@@ -2,6 +2,7 @@
 
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// ゲームの進行状態
@@ -19,19 +20,14 @@ public class GameProgress : MonoBehaviour
 {
     static public GameProgress instance_;   // インスタンス
 
-    /*
-     * ・走る時
-     * ・爆弾使用時
-     * ・タンク取得時
-     */
-
-    [SerializeField] GameObject     player_         = null; // プレイヤー
-    [SerializeField] CameraMover    mainCamera_     = null; // メインカメラ
-    [SerializeField] Camera         minimapCamera_  = null; // マップカメラ
-    [SerializeField] ObjectCreator  creator_        = null; // オブジェクト生成
-    [SerializeField] BGMManager     bgmManager_     = null; // BGM切り替え担当
-    [SerializeField] AudioSource    audiosource_    = null; // SE再生
-    [SerializeField] AudioClip      se_death_       = null; // SE
+    [SerializeField] GameObject     player_             = null; // プレイヤー
+    [SerializeField] CameraMover    mainCamera_         = null; // メインカメラ
+    [SerializeField] Camera         minimapCamera_      = null; // マップカメラ
+    [SerializeField] ObjectCreator  creator_            = null; // オブジェクト生成
+    [SerializeField] BGMManager     bgmManager_         = null; // BGM切り替え担当
+    [SerializeField] AudioSource    audiosource_        = null; // SE再生
+    [SerializeField] AudioClip      se_death_           = null; // SE
+    [SerializeField] Text           txt_remainingNum_   = null; // 残り人数text
 
     [SerializeField] Player             sc_player_      = null;
     [SerializeField] SubmarineManager   sc_submarine_   = null;
@@ -46,6 +42,7 @@ public class GameProgress : MonoBehaviour
 
     int num_pursuers_;  // 追っている敵の数
     int num_people_saved_;  // 助けた人数
+    int num_people_remaining_;  // 残りの人数
 
 
     private void Awake()
@@ -87,11 +84,14 @@ public class GameProgress : MonoBehaviour
         // 数をリセット
         instance_.num_pursuers_ = 0;
         instance_.num_people_saved_ = 0;
+        instance_.num_people_remaining_ = _param.result.s_high;
 
         instance_.mainCamera_ = Camera.main.GetComponent<CameraMover>();
         instance_.mainCamera_.transform.rotation = Quaternion.AngleAxis(75.0f, Vector3.right);
 
         instance_.friendsWhoHelped_ = new System.Collections.Generic.List<bool>() { false, false, false, false, false };
+
+        instance_.txt_remainingNum_.text = "残り" + instance_.num_people_remaining_ + "人";
 
         StartCoroutine(TankIconActive());
     }
@@ -127,6 +127,7 @@ public class GameProgress : MonoBehaviour
     public void SetFriendWhoHelped(Fellow.fellows_ id)
     {
         friendsWhoHelped_[(int)id - 1] = true;
+        instance_.txt_remainingNum_.text = "残り" + num_people_remaining_ + "人";
     }
 
     /// <summary>
@@ -135,6 +136,7 @@ public class GameProgress : MonoBehaviour
     public void FriendWhoHelpedCount()
     {
         num_people_saved_ += 1;
+        num_people_remaining_ = Mathf.Max(num_people_remaining_ - 1, 0);
     }
 
     /// <summary>
