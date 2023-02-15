@@ -52,8 +52,10 @@ public class FellowPatrol : MonoBehaviour
         }
         else
         {
+            StopCoroutine(NextWayPoint());
             //アニメーションストップ
             animator_.SetBool("isWalking", false);
+           
             //このコンポーネントを非アクティブにする
             this.enabled = false;
         }
