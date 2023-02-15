@@ -15,7 +15,7 @@ public class Fellow : MonoBehaviour
     // 追いかけるキャラクター
 
     //プレイヤー
-    [SerializeField]
+    // [SerializeField]
     protected GameObject player_ = null;
 
     [SerializeField]
@@ -40,6 +40,12 @@ public class Fellow : MonoBehaviour
 
     [SerializeField]
     protected bool follow_flg_ = false;
+
+    [SerializeField]
+    public bool Fellow_flg_
+    {
+        get { return follow_flg_; }
+    }
 
    [SerializeField,Tooltip("無敵時間")]
     protected float life_inv_time_ = 3.0f;
@@ -183,30 +189,7 @@ public class Fellow : MonoBehaviour
 
     protected virtual void RescueProcess()
     {
-        //if (type_ == fellows_.bob)
-        //{
-        //    player_script_.fellow_oxy_bomb_ = true;
-
-        //}
-        //else if (type_ == fellows_.spencer)
-        //{
-        //    GameProgress.instance_.Radar_Contraction();
-        //}
-        //else if (type_ == fellows_.alan)
-        //{
-        //    GameProgress.instance_.Rader_TankIconActive();
-        //}
-        //else if (type_ == fellows_.catherine)
-        //{
-
-        //    player_script_.fellow_oxy_add_ = true;
-        //}
-
-        //if (!debug_ && type_ != fellows_.groupParent && type_ != fellows_.groupEntourage)
-        //{
-        //    fellotalk_.PlayTalk();
-        //    GameProgress.instance_.SetFriendWhoHelped(type_);
-        //}
+       
         
     }
 

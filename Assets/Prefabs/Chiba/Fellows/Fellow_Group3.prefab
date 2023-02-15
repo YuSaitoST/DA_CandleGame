@@ -89,7 +89,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   death_effect_: {fileID: 1143033301501619081}
   agent_: {fileID: 0}
-  player_: {fileID: 0}
   fellows_obj_: []
   fellow_: []
   chase_target_: {fileID: 0}
@@ -306,7 +305,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   death_effect_: {fileID: 106592108880000231}
   agent_: {fileID: 0}
-  player_: {fileID: 0}
   fellows_obj_: []
   fellow_: []
   chase_target_: {fileID: 0}
@@ -427,11 +425,11 @@ Transform:
   m_GameObject: {fileID: 7380102063376551931}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3.333333, y: 3.333333, z: 3.333333}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2533926669620307584}
-  m_RootOrder: 1
+  m_Father: {fileID: 8381540529750467032}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &27704108255918941
 BoxCollider:
@@ -459,7 +457,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fellow_: {fileID: 4163874928331593064}
-  collider_: {fileID: 0}
 --- !u!1 &8106358786799551404
 GameObject:
   m_ObjectHideFlags: 0
@@ -496,6 +493,7 @@ Transform:
   m_Children:
   - {fileID: 3004145276749657067}
   - {fileID: 2443628863080595061}
+  - {fileID: 4965676244745696794}
   m_Father: {fileID: 2533926669620307584}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -549,7 +547,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   death_effect_: {fileID: 2443628863080161877}
   agent_: {fileID: 0}
-  player_: {fileID: 0}
   fellows_obj_: []
   fellow_: []
   chase_target_: {fileID: 0}
@@ -637,7 +634,6 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8381540529750467032}
-  - {fileID: 4965676244745696794}
   m_Father: {fileID: 6018719940566928705}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

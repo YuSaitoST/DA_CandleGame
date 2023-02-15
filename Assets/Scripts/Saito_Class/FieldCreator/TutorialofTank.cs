@@ -4,20 +4,22 @@ using UnityEngine;
 
 public class TutorialofTank : MonoBehaviour
 {
-    static bool isTutorialClear;
+    public static List<TutorialofTank> tutorialofTanks_ = new List<TutorialofTank>();
+        
 
     // Start is called before the first frame update
     void Start()
     {
-        isTutorialClear = false;
+        tutorialofTanks_.Add(this);
     }
 
     private void OnDisable()
     {
-        if(!isTutorialClear)
+        GameObject.Find("Tutorial_Tank").GetComponent<TutorialPoint>().AutoTutorial();
+
+        foreach (TutorialofTank _tank in tutorialofTanks_)
         {
-            isTutorialClear = true;
-            GameObject.Find("Tutorial_Tank").GetComponent<TutorialPoint>().AutoTutorial();
+            _tank.enabled = false;
         }
     }
 }
