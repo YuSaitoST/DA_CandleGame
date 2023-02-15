@@ -11,12 +11,14 @@ public class GameResultDisplay : MonoBehaviour
 
     [SerializeField] BG_Scroll animation_ = null;
     [SerializeField] GameObject panel_lose_ = null;
-    [SerializeField] Image dialog_ = null;
+    [SerializeField] GameObject panel_dialog_ = null;
     [SerializeField] Text txt_dialog_ = null;
 
     [SerializeField] float speed_dialog_fade_ = 0.016f;
     [SerializeField] float max_dialog_fade_ = 0.9f;
     [SerializeField] float stay_loseDialog_time_ = 1.5f;
+
+    Image dialog_;
 
     int inputCount_ = 0;
 
@@ -27,14 +29,15 @@ public class GameResultDisplay : MonoBehaviour
         GameProgress _g_progress = GameProgress.instance_;
         GAME_PROGRESS _progress;
 
-#if UNITY_EDITOR
-        _progress = GAME_PROGRESS.CLEAR;
-#else
+//#if UNITY_EDITOR
+//        _progress = GAME_PROGRESS.OVER;
+//#else
         _progress = _g_progress.GetNowProgress();
-#endif
+//#endif
 
         inputCount_ = 0;
 
+        dialog_ = panel_dialog_.GetComponent<Image>();
         dialog_.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
         txt_dialog_.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -59,8 +62,9 @@ public class GameResultDisplay : MonoBehaviour
         else if (_progress == GAME_PROGRESS.OVER)
         {
             panel_lose_.SetActive(true);
+            panel_dialog_.SetActive(false);
             img_result_.sprite = img_clears[3];
-            StartCoroutine(Lose());
+            // StartCoroutine(Lose());
         }
     }
 
@@ -78,9 +82,11 @@ public class GameResultDisplay : MonoBehaviour
 
     IEnumerator Lose()
     {
-        yield return new WaitForSeconds(stay_loseDialog_time_);
-
-        StartCoroutine(OpenDialog());
+        while (img_result_.color.a < 1)
+        {
+            img_result_.color += new Color(0.0f, 0.0f, 0.0f, speed_dialog_fade_);
+            yield return null;
+        }
 
         yield return null;
     }

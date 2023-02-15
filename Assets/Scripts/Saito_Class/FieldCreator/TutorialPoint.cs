@@ -88,27 +88,24 @@ public class TutorialPoint : MonoBehaviour
                 yield return null;
             }
         }
-
-        yield return null;
     }
 
     IEnumerator FadeInOut()
     {
-        StartCoroutine(Fade(1, SPED_FADEIN));
+        yield return StartCoroutine(Fade(1, SPED_FADEIN));
 
         yield return new WaitForSeconds(5.0f);
 
-        StartCoroutine(Fade(-1, SPED_FADEOT));
+        yield return StartCoroutine(Fade(-1, SPED_FADEOT));
 
-        yield return null;
+        gameObject.SetActive(false);
     }
 
     IEnumerator FadeAndMission()
     {
-        StartCoroutine(Fade(1, SPED_FADEIN));
+        yield return StartCoroutine(Fade(1, SPED_FADEIN));
 
         yield return null;
-
 
         Player _player = target_.GetComponent<Player>();
 
@@ -119,7 +116,10 @@ public class TutorialPoint : MonoBehaviour
             {
                 yield return null;
             }
-            StartCoroutine(Fade(-1, SPED_FADEOT));
+
+            yield return new WaitForSeconds(5);
+
+            yield return StartCoroutine(Fade(-1, SPED_FADEOT));
         }
         else if (point_ == Point.C)
         {
@@ -130,8 +130,8 @@ public class TutorialPoint : MonoBehaviour
             }
         }
 
-        StartCoroutine(Fade(-1, SPED_FADEOT));
+        yield return StartCoroutine(Fade(-1, SPED_FADEOT));
 
-        yield return null;
+        gameObject.SetActive(false);
     }
 }

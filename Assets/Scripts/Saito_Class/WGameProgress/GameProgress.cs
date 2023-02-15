@@ -62,7 +62,7 @@ public class GameProgress : MonoBehaviour
         instance_.parameters_ = new ParametersSet();
         instance_.parameters_.SetParameter();
         
-        Paramater _param = parameters_.GetParameter();
+        Paramater _param = instance_.parameters_.GetParameter();
         PLAYER _param_p = _param.player;
         GENERAL_FELLOW[] _param_g = _param.general_fellow;
         
@@ -84,7 +84,7 @@ public class GameProgress : MonoBehaviour
         // 数をリセット
         instance_.num_pursuers_ = 0;
         instance_.num_people_saved_ = 0;
-        instance_.num_people_remaining_ = _param.result.s_high;
+        instance_.num_people_remaining_ = (instance_.num_people_remaining_ == 0) ? _param.result.s_high : instance_.num_people_remaining_;
 
         instance_.mainCamera_ = Camera.main.GetComponent<CameraMover>();
         instance_.mainCamera_.transform.rotation = Quaternion.AngleAxis(75.0f, Vector3.right);
@@ -126,7 +126,7 @@ public class GameProgress : MonoBehaviour
     /// <param name="id">助けた仲間の番号</param>
     public void SetFriendWhoHelped(Fellow.fellows_ id)
     {
-        friendsWhoHelped_[(int)id - 1] = true;
+        //friendsWhoHelped_[(int)id - 1] = true;
         instance_.txt_remainingNum_.text = "残り" + num_people_remaining_ + "人";
     }
 

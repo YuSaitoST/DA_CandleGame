@@ -15,11 +15,14 @@ public class TutorialofTank : MonoBehaviour
 
     private void OnDisable()
     {
-        GameObject.Find("Tutorial_Tank").GetComponent<TutorialPoint>().AutoTutorial();
-
-        foreach (TutorialofTank _tank in tutorialofTanks_)
+        if (GetComponent<TutorialPoint>())
         {
-            _tank.enabled = false;
+            GameObject.Find("Tutorial_Tank").GetComponent<TutorialPoint>().AutoTutorial();
+
+            foreach (TutorialofTank _tank in tutorialofTanks_)
+            {
+                _tank.enabled = false;
+            }
         }
     }
 }
