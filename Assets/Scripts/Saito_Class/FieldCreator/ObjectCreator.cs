@@ -107,15 +107,15 @@ public class ObjectCreator : MonoBehaviour
         }
 
         // ƒMƒ~ƒbƒN
-        //try
-        //{
-        //    PrefabCreater.CreateMultiplePrefabs("InputData/Gimmicksdata", pref_gimmicks_, parent_gimmick_);
+        try
+        {
+            PrefabCreater.CreateMultiplePrefabs("InputData/Gimmicksdata", pref_gimmicks_, parent_gimmick_);
 
-        //}
-        //catch (Exception e)
-        //{
-        //    Debug.Log("GimmicksData : " + e.ToString());
-        //}
+        }
+        catch (Exception e)
+        {
+            Debug.Log("GimmicksData : " + e.ToString());
+        }
 
         // ‰ó‚¹‚éŠâ
         try
