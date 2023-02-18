@@ -13,9 +13,10 @@ public class ObjectCreator : MonoBehaviour
     [SerializeField] GameObject parent_bRock_;      // 壊せる岩の親オブジェクト
     [SerializeField] GameObject parent_gimmick_;    // ギミックの親オブジェクト
     [SerializeField] GameObject parent_fellows_;    // 仲間の親オブジェクト
- 
+
     [SerializeField] GameObject[] fellows_;         // 仲間(固有)
     [SerializeField] GameObject[] pref_fellows_;    // 仲間(一般)
+    [SerializeField] GameObject[] pref_fellows_all_;    // 仲間(全て) {固有5種、一般3種 }
     [SerializeField] FelloTalk fellowTalk_;
 
     private System.Collections.Generic.List<GameObject> tanks_;
@@ -160,6 +161,18 @@ public class ObjectCreator : MonoBehaviour
         fellows_[2].transform.position = new Vector3(1.0f, 0.0f, -1.5f);
         fellows_[3].transform.position = new Vector3(-0.5f, 0.0f, -1.5f);
         fellows_[4].transform.position = new Vector3(-1.0f, 0.0f, -1.5f);
+
+
+        //// 仲間(全て)配置
+        //DataList _data_fellow = JsonUtility.FromJson<DataList>(Resources.Load<TextAsset>("InputData/FellowData").ToString());
+        //CreateData[] _list_fellow = _data_fellow.lists;
+        //RandomNumberTool _random = new RandomNumberTool(0, 8);
+        //int _num = 0;
+        //for (int i = 0; i < 10; i++)
+        //{
+        //    _num = _random.GetNoDuplicatesRN();
+        //    pref_fellows_all_[i].transform.position = new Vector3(_list_fellow[i].pos_x, _list_fellow[i].pos_y, _list_fellow[i].pos_z);
+        //}
 #else
         // 敵生成
         if (parent_enemy_ != null)
