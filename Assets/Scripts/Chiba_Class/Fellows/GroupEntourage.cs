@@ -52,7 +52,7 @@ public class GroupEntourage : Fellow
         }
 
         //ö…ŠÍ‚É‰ñû‚³‚ê‚éˆ—
-        if (player_script_.fellow_Count_ == 0 && follow_flg_)
+        if (fellowcount_script_.fellow_Count_ == 0 && follow_flg_)
         {
             row_ = 0;
             transform.position = new(0, 0, 0);
@@ -81,7 +81,7 @@ public class GroupEntourage : Fellow
         yield return new WaitForSeconds(delay_time_);
         follow_flg_ = true;
         row_ = parent_fellow_.Row_ + 1;
-        if (player_script_.fellow_Count_ > 1)
+        if (fellowcount_script_.fellow_Count_ > 1)
         {
             last_ = true;
 

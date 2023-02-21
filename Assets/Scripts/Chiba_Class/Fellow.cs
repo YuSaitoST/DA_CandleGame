@@ -55,6 +55,7 @@ public class Fellow : MonoBehaviour
 
     [SerializeField]
     protected Player player_script_ = null;
+    protected PlayerFellowCount fellowcount_script_ = null;
 
     //é©ï™Ç™ç≈å„îˆÇ©Ç«Ç§Ç©
     [SerializeField]
@@ -134,6 +135,7 @@ public class Fellow : MonoBehaviour
         player_ = GameObject.FindGameObjectWithTag("Player");
 
         player_script_ = player_.GetComponent<Player>();
+        fellowcount_script_ = player_.GetComponent<PlayerFellowCount>();
 
         collider_ = GetComponent<CapsuleCollider>();
 
@@ -176,7 +178,7 @@ public class Fellow : MonoBehaviour
             
         }
         //êˆêÖäÕÇ…âÒé˚Ç≥ÇÍÇÈèàóù
-        if (player_script_.fellow_Count_ == 0 && follow_flg_)
+        if (fellowcount_script_.fellow_Count_ == 0 && follow_flg_)
         {
             row_ = 0;
             transform.position = new(0, 0, 0);
@@ -209,7 +211,7 @@ public class Fellow : MonoBehaviour
             agent_.isStopped = true;
             animator_.SetBool("isWalking", false);
 
-            animator_.SetBool("isRunning", player_script_.Fire2_Flg__);
+            //animator_.SetBool("isRunning", player_script_.Fire2_Flg__);
             //animator_.SetFloat("Speed", 0f);
 
             //Å@ìûíÖÇµÇƒÇ¢Ç»Ç¢éûÇ≈í«Ç¢Ç©ÇØèoÇ∑ãóó£Ç…Ç»Ç¡ÇΩÇÁ
@@ -219,12 +221,12 @@ public class Fellow : MonoBehaviour
 
             animator_.SetBool("isWalking", true);
             agent_.isStopped = false;
-            if (player_script_.Fire2_Flg__)
+            if (player_script_.type_==Player.State.Dash)
             {
                 animator_.SetBool("isRunning", true);
 
             }
-            else if (!player_script_.Fire2_Flg__)
+            else if (player_script_.type_ == Player.State.Run)
             {
 
                 animator_.SetBool("isRunning", false);
@@ -254,10 +256,10 @@ public class Fellow : MonoBehaviour
     {
        
         follow_flg_ = true;
-        if (player_script_.fellow_Count_ > 1)
+        if (fellowcount_script_.fellow_Count_ > 1)
         {
             Debug.Log("A");
-            row_ = player_script_.fellow_Count_ ;
+            row_ = fellowcount_script_.fellow_Count_ ;
             //ÇŸÇ©Ç…íáä‘Ç™Ç¢ÇÈèÍçáÇ±Ç¢Ç¬Ç™ç≈å„îˆÇ…Ç»ÇÈ
             last_ = true;
 
@@ -300,7 +302,7 @@ public class Fellow : MonoBehaviour
 
     protected virtual void DeathProcess()
     {
-        player_script_.fellow_die_row_ = row_;
+        fellowcount_script_.fellow_die_row_ = row_;
 
         row_ = 0;
         animator_.SetBool("isRunning", false);
@@ -328,7 +330,7 @@ public class Fellow : MonoBehaviour
 
         if(follow_flg_)
         {
-            int _fellow_die = player_script_.fellow_die_row_;
+            int _fellow_die = fellowcount_script_.fellow_die_row_;
             if(_fellow_die <row_)
             {
                

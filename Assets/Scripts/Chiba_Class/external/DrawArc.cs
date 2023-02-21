@@ -41,7 +41,7 @@ public class DrawArc : MonoBehaviour
     /// <summary>
     /// 弾の初速度や生成座標を持つコンポーネント
     /// </summary>
-    private Player shootBullet;
+    private PlayerOxyBomb shootBullet;
 
     /// <summary>
     /// 弾の初速度
@@ -75,7 +75,7 @@ public class DrawArc : MonoBehaviour
         pointerObject.SetActive(false);
 
         // 弾の初速度や生成座標を持つコンポーネント
-        shootBullet = gameObject.GetComponent<Player>();
+        shootBullet = gameObject.GetComponent<PlayerOxyBomb>();
     }
 
     void Update()
