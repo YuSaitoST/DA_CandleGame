@@ -269,6 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atomic: {fileID: 8435493718486234287}
+  eyes_: {fileID: 5776360417189318178}
 --- !u!54 &5508484279156907843
 Rigidbody:
   m_ObjectHideFlags: 0
