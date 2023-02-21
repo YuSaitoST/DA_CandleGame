@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-//ある程度形にしたら関数を消して一つにまとめる予定
+//プレイヤーにアタッチする
 public class Player : MonoBehaviour
 {
     [Header("デバック用")]

@@ -14,7 +14,15 @@ public class InfluencedByCurrents : MonoBehaviour
     void Start()
     {
         id_=targets.Count;
-        targets.Add(GetComponent<Rigidbody>());
+        if (GetComponent<Rigidbody>())
+        {
+            targets.Add(GetComponent<Rigidbody>());
+        }
+        else
+        {
+            gameObject.AddComponent<Rigidbody>();
+            targets.Add(GetComponent<Rigidbody>());
+        }
     }
 
     void OnDestory()

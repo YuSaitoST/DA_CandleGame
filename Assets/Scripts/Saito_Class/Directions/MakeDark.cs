@@ -2,7 +2,12 @@ using UnityEngine;
 
 public class MakeDark : MonoBehaviour
 {
-    [SerializeField] bool dark_on_ = false;
+#if UNITY_EDITOR
+    public static bool dark_on_ = false;
+#else
+    public static bool dark_on_ = true;
+#endif
+
     [SerializeField] Light light_ = null;
 
     

@@ -20281,7 +20281,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: fd7d4c38536eb4240bdbda95588f19ad, type: 3}
   animation_: {fileID: 1813468716}
   panel_lose_: {fileID: 1443970652}
-  dialog_: {fileID: 899029162}
+  panel_dialog_: {fileID: 899029161}
   txt_dialog_: {fileID: 1066541131}
   speed_dialog_fade_: 0.0025
   max_dialog_fade_: 0.73
