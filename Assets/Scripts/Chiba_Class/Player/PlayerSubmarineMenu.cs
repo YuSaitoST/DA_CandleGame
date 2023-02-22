@@ -152,6 +152,7 @@ public class PlayerSubmarineMenu : MonoBehaviour
             {
                 if (oxy > 0)
                 {
+                    oxy--;
                     script_player_.GetTank();
                     CloseMenu();
                 }
