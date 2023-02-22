@@ -14,6 +14,20 @@ public class PlayerTriggerStay : MonoBehaviour
     private PlayerFellowCount script_player_count_ = null;
     [SerializeField]
     private PlayersSEPlayer sePlayer_ = null;
+    [SerializeField]
+    PlayerSubmarineMenu script_player_menu_ = null;
+
+    private void Update()
+    {
+        if(UI_.submarine_a_.activeSelf)
+        {
+            if (Input.GetButtonDown("Fire1"))
+            {
+                UI_.CloseUI();
+                script_player_menu_.OpenMenu();
+            }
+        }
+    }
     private void OnTriggerStay(Collider other)
     {
 
@@ -39,7 +53,7 @@ public class PlayerTriggerStay : MonoBehaviour
         //ƒ{ƒ“ƒx‰ñ•œ
         if (other.gameObject.CompareTag("Tank"))
         {
-            Debug.Log("ssferg");
+           
             UI_.item_ui_.SetActive(true);
 
             //fire1_range_flg_ = true;
@@ -53,7 +67,7 @@ public class PlayerTriggerStay : MonoBehaviour
         }
 
         //ö…ŠÍ
-        if (other.gameObject.CompareTag("Submarine"))
+        if (other.gameObject.CompareTag("Submarine")&&!script_player_menu_.menu_Flg)
         {
           
             if (script_player_count_.fellow_count_ > 0)
@@ -63,12 +77,10 @@ public class PlayerTriggerStay : MonoBehaviour
             }
             else
             {
-                UI_.CloseUI();
+                UI_.recovery_UI_.SetActive(false);
+                // UI_.CloseUI();
                 UI_.submarine_a_.SetActive(true);
-                if (Input.GetButton("Fire1"))
-                {
-
-                }
+               
             }
 
         }

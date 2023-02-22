@@ -53,11 +53,6 @@ public class PlayerOxyBomb : MonoBehaviour
 
     //”š’e‹­‰»ƒtƒ‰ƒO
     private bool fellow_oxy_bomb_ = false;
-    // Start is called before the first frame update
-    void Start()
-    {
-       
-    }
 
     // Update is called once per frame
     void Update()

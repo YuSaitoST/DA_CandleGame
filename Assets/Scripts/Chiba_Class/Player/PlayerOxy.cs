@@ -84,19 +84,6 @@ public class PlayerOxy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (dash_flg_)
-        {
-            //ダッシュ時は倍率分消費する
-            oxy_max_[oxy_count_] -= oxy_cost_ * oxy_cost_boost_ * Time.deltaTime;
-        }
-        else
-        {
-            oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
-
-        }
-
-
-
 
         //ボンベのゲージが0になったら次のボンベに切り替える
         if (fellow_oxy_add_)
@@ -269,6 +256,21 @@ public class PlayerOxy : MonoBehaviour
 
             oxy_max_[oxy_count_] = 33.3f;
             
+        }
+    }
+
+    //Idle状態の時呼び出し
+    public void Oxy()
+    {
+        if (dash_flg_)
+        {
+            //ダッシュ時は倍率分消費する
+            oxy_max_[oxy_count_] -= oxy_cost_ * oxy_cost_boost_ * Time.deltaTime;
+        }
+        else
+        {
+            oxy_max_[oxy_count_] -= oxy_cost_ * Time.deltaTime;
+
         }
     }
 }

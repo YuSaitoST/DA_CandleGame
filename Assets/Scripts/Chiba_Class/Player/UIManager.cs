@@ -13,6 +13,8 @@ public class UIManager : MonoBehaviour
 
     //十字キーorスティックでy座標を動かす{ 1つ目 : 408, 2つ目 : 528, 3つ目 : 648 }
     public GameObject submarine_arrow_ = null;
+    [HideInInspector]
+    public RectTransform arrow_ = null;
 
     // 「マップ表示(y : 408)」にあるとき、「submarine_map」を（902,330）に表示。...(A)
     public GameObject submarine_map_ = null;
@@ -39,7 +41,7 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        arrow_ = submarine_arrow_.GetComponent<RectTransform>();
         rescue_gauge_ = rescue_gauge_UI.GetComponent<Slider>();
 
         CloseUI();

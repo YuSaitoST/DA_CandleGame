@@ -14,8 +14,9 @@ public class Alan : Fellow
     
     protected override void RescueProcess()
     {
-        //レーダーの強化(tankの位置がレーダーで見えるように)
-        GameProgress.instance_.Rader_TankIconActive();
+        //廃止
+        ////レーダーの強化(tankの位置がレーダーで見えるように)
+        //GameProgress.instance_.Rader_TankIconActive();
 
         if (!debug_)
         {

@@ -55,7 +55,7 @@ public class Player : MonoBehaviour
         Escape,   //脱出するかの選択画面
         Death     //死
     }
-    public state type = state.Idle;
+    public state state_ = state.Idle;
 
     public enum State
     {
@@ -135,10 +135,10 @@ public class Player : MonoBehaviour
         //0になったらBloodステートに移動
         if (!script_debug_.DebugMode)
         {
-            if (script_player_oxy_.oxy_Total <= 0.01f && type != state.Death && type != state.Damage)
+            if (script_player_oxy_.oxy_Total <= 0.01f && state_ != state.Death && state_ != state.Damage && state_ != state.Menu)
             {
 
-                type = state.Blood;
+                state_ = state.Blood;
 
                 //走れなくする
                 type_ = State.Run;
@@ -158,7 +158,7 @@ public class Player : MonoBehaviour
                     script_player_oxy_.dash_flg_ = false;
                     Vector2 _stick_left = new(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
                     script_player_move_.Move(false, _stick_left);
-
+                    script_player_oxy_.Oxy();
                     break;
                 }
 
@@ -167,6 +167,7 @@ public class Player : MonoBehaviour
                     script_player_oxy_.dash_flg_ = true;
                     Vector2 _stick_left = new(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
                     script_player_move_.Move(true, _stick_left);
+                    script_player_oxy_.Oxy();
 
 
                     break;
@@ -181,7 +182,7 @@ public class Player : MonoBehaviour
 
     void Type()
     {
-        switch (type)
+        switch (state_)
         {
             case state.Idle:
                 {
@@ -208,7 +209,7 @@ public class Player : MonoBehaviour
                     if (Input.GetButtonDown("Fire3"))
                     {
 
-                        type = state.Action_Bomb;
+                        state_ = state.Action_Bomb;
                     }
 
                     break;
@@ -234,13 +235,13 @@ public class Player : MonoBehaviour
                         script_player_oxybomb_.Bomb();
                         script_player_oxybomb_.CountReset();
 
-                        type = state.Idle;
+                        state_ = state.Idle;
                     }
                     //キャンセル
                     if (Input.GetButtonDown("Fire1"))
                     {
                         script_player_oxybomb_.CountReset();
-                        type = state.Idle;
+                        state_ = state.Idle;
                     }
                     break;
                 }
@@ -260,6 +261,12 @@ public class Player : MonoBehaviour
                 }
             case state.Rescue:
                 {
+                    type_ = State.None;
+                    break;
+                }
+            case state.Menu:
+                {
+                    script_player_move_.ResetAnimator();
                     type_ = State.None;
                     break;
                 }
@@ -290,7 +297,7 @@ public class Player : MonoBehaviour
     //ゲームオーバー時に呼び出し
     public void GameOver()
     {
-        type = state.Damage;
+        state_ = state.Damage;
         //type = state.Death;
         script_player_move_.ResetAnimator();
     }
@@ -301,14 +308,14 @@ public class Player : MonoBehaviour
         if (player_life_inv_tmp_ <= 0)
         {
             //酸素ボンベの残量がないときはダメージを与えない
-            if (type != state.Blood)
+            if (state_ != state.Blood)
             {
                 //酸素ボンベにダメージを与える
                 script_player_oxy_.OxyDamage();
                 bloodDirection_.DamageDone();
             }
             //ダメージステート
-            type = state.Damage;
+            state_ = state.Damage;
 
             StartCoroutine(OnDamage());
 
@@ -321,21 +328,21 @@ public class Player : MonoBehaviour
     //スタン処理用
     IEnumerator OnDamage()
     {
-
+        script_player_move_.ResetAnimator();
 
         yield return new WaitForSeconds(knockback_stan_);
 
         if (script_player_oxy_.oxy_Total >= 0.0f)
         {
 
-            type = state.Idle;
+            state_ = state.Idle;
 
 
         }
         else
         {
 
-            type = state.Blood;
+            state_ = state.Blood;
         }
 
     }
@@ -351,11 +358,11 @@ public class Player : MonoBehaviour
 
        
         //もしstateの状態がbloodだったら
-        if (type == state.Blood)
+        if (state_ == state.Blood)
         {
            
             script_player_oxy_.OxyRecoveryBlood();
-            type = state.Idle;
+            state_ = state.Idle;
 
         }
 
@@ -365,12 +372,14 @@ public class Player : MonoBehaviour
         }
     }   
 
+    //仲間を潜水艦に回収中
     public void Rescue()
     {
+        //長押し
         if (Input.GetButton("Fire1"))
         {
             //ステートをRescue中にする
-            type = state.Rescue;
+            state_ = state.Rescue;
 
             rescue_gauge_tmp_ += Time.deltaTime;
 
@@ -382,7 +391,7 @@ public class Player : MonoBehaviour
             if (rescue_gauge_ <= rescue_gauge_tmp_)
             {
                 rescue_gauge_tmp_ = 0;
-                type = state.Idle;
+                state_ = state.Idle;
 
             
                 //仲間を回収
@@ -402,11 +411,24 @@ public class Player : MonoBehaviour
         }
         else
         {
-            type = state.Idle;
+            state_ = state.Idle;
             UI_.CloseUI();
             rescue_gauge_tmp_ = 0;
-        }
-           
+        }         
+    }
+
+    //潜水艦メニューが開かれたときに呼び出し
+    public void OpenMenu()
+    {
+        state_ = state.Menu;
+        
+
+    }
+    //潜水艦メニューが閉じられたときに呼び出し
+    public void CloseMenu()
+    {
+        state_ = state.Idle;
+
     }
 }
 
