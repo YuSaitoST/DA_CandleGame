@@ -18,6 +18,8 @@ public enum GAME_PROGRESS
 
 public class GameProgress : MonoBehaviour
 {
+    static readonly int[] fellow_number = { 0, 1, 1, 1, 1, 1, 2, 3 };
+
     static public GameProgress instance_;   // インスタンス
 
     [SerializeField] GameObject     player_             = null; // プレイヤー
@@ -112,21 +114,14 @@ public class GameProgress : MonoBehaviour
     }
 
     /// <summary>
-    /// 仲間の救出状態を取得する
-    /// </summary>
-    /// <returns>仲間の救出状態</returns>
-    public System.Collections.Generic.List<bool> GetFriendsWhoHelped()
-    {
-        return friendsWhoHelped_;
-    }
-
-    /// <summary>
     /// 助けた仲間を登録する
     /// </summary>
     /// <param name="id">助けた仲間の番号</param>
-    public void SetFriendWhoHelped(Fellow.fellows_ id)
+    /// <param name="people_num">助けた仲間の人数</param>
+    public void SetFriendWhoHelped(/*Fellow.fellows_ id*/ int people_num)
     {
-        //friendsWhoHelped_[(int)id - 1] = true;
+        num_people_saved_ += people_num;//fellow_number[(int)id];
+        num_people_remaining_ = Mathf.Max(num_people_remaining_ - num_people_saved_, 0);
         instance_.txt_remainingNum_.text = "残り" + num_people_remaining_ + "人";
     }
 
