@@ -279,7 +279,7 @@ public class Player : MonoBehaviour
         //無敵時間開始
         player_life_inv_tmp_ = player_life_inv_time_;
         script_player_count_.fellow_count_ -= 1;
-        //bloodDirection_.DamageDone();
+       
         sePlayer_.TakeDamage();
     }
 
@@ -312,6 +312,7 @@ public class Player : MonoBehaviour
             {
                 //酸素ボンベにダメージを与える
                 script_player_oxy_.OxyDamage();
+
                 bloodDirection_.DamageDone();
             }
             //ダメージステート
@@ -360,7 +361,7 @@ public class Player : MonoBehaviour
         //もしstateの状態がbloodだったら
         if (state_ == state.Blood)
         {
-           
+            bloodDirection_.DamageRecovery();
             script_player_oxy_.OxyRecoveryBlood();
             state_ = state.Idle;
 
@@ -371,6 +372,16 @@ public class Player : MonoBehaviour
             script_player_oxy_.OxyRecovery();
         }
     }   
+
+    public void GetTankSubmarine()
+    {
+        script_player_oxy_.OxyRecoverySubmarine();
+
+        //回復させてから
+        bloodDirection_.DamageRecovery();
+        //idleステートへ移行
+        state_ = state.Idle;
+    }
 
     //仲間を潜水艦に回収中
     public void Rescue()

@@ -20,7 +20,8 @@ public class GroupParent : Fellow
             //–¢À‘•‚Ì‚½‚ß‚±‚Ì‚Ü‚ÜŒÄ‚Ño‚·‚ÆƒGƒ‰[
             fellotalk_.PlayTalk();
 
-            GameProgress.instance_.SetFriendWhoHelped(fellows_.groupParent);
+            GameProgress.instance_.SetFriendWhoHelped(1);
+
         }
     }
 
