@@ -31,10 +31,10 @@ public class PlayerMove : MonoBehaviour
 
     [Header("フィールド移動制限(下限、上限)")]
     [SerializeField, Tooltip("X軸の制限")]
-    private Vector2 x_clip_ = new(-10, 10);
+    private Vector2 x_clip_ = new(-500, 500);
 
     [SerializeField, Tooltip("Y軸の制限")]
-    private Vector2 y_clip_ = new(-500, 500);
+    private Vector2 y_clip_ = new(-10, 20);
 
     [SerializeField, Tooltip("Z軸の制限")]
     private Vector2 z_clip_ = new(-500, 500);

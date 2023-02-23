@@ -201,6 +201,13 @@ public class Fellow : MonoBehaviour
 
     protected virtual void Move()
     {
+        //仲間がはぐれたら
+        if (Vector3.Distance(player_.transform.position, transform.position) > 4)
+        {
+            //プレイヤーの近くにテレポート
+            transform.position = player_.transform.position;
+        }
+
         agent_.speed = player_script_.Player_Move_;
 
         agent_.SetDestination(chase_target_.transform.position);
@@ -365,7 +372,7 @@ public class Fellow : MonoBehaviour
 
     protected virtual void OnCollisionStay(Collision collision)
     {
-       
+       // OnCollisionStay
         if (collision.gameObject.tag == "Enemy" && player_script_.Player_life_inv_tmp_ <= 0 && follow_flg_ == true)
         {
             Debug.Log("a");
