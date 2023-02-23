@@ -12,6 +12,8 @@ public class TutorialPoint : MonoBehaviour
 
     public static TutorialPoint[] isOpenTutorial = { null, null, null, null, null };
 
+    [SerializeField] AudioSource se_audiosource_ = null;
+    [SerializeField] AudioClip se_tutorial_ = null;
     [SerializeField] GameObject target_ = null; // チュートリアルの対象
     [SerializeField] Image img_talk_ = null;    // 上記画像を表示させる
     [SerializeField] Point point_ = Point.None;  // 配置位置
@@ -92,6 +94,8 @@ public class TutorialPoint : MonoBehaviour
 
     IEnumerator FadeInOut()
     {
+        se_audiosource_.PlayOneShot(se_tutorial_);
+
         yield return StartCoroutine(Fade(1, SPED_FADEIN));
 
         yield return new WaitForSeconds(5.0f);
@@ -103,6 +107,8 @@ public class TutorialPoint : MonoBehaviour
 
     IEnumerator FadeAndMission()
     {
+        se_audiosource_.PlayOneShot(se_tutorial_);
+
         yield return StartCoroutine(Fade(1, SPED_FADEIN));
 
         yield return null;
