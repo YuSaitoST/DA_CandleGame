@@ -16,8 +16,12 @@ public class ObjectCreator : MonoBehaviour
 
     [SerializeField] GameObject[] fellows_;         // 仲間(固有)
     [SerializeField] GameObject[] pref_fellows_;    // 仲間(一般)
-    [SerializeField] GameObject[] pref_fellows_all_;    // 仲間(全て) {固有5種、一般3種 }
+    [SerializeField] GameObject[] pref_fellows_single_;     // 仲間(1人)
+    [SerializeField] GameObject[] pref_fellows_party_;      // 仲間(複数)
     [SerializeField] FelloTalk fellowTalk_;
+
+    [SerializeField] int num_fellow_single_ = 20;
+    [SerializeField] int num_fellow_party_ = 5;
 
     private System.Collections.Generic.List<GameObject> tanks_;
 
@@ -72,40 +76,40 @@ public class ObjectCreator : MonoBehaviour
             Debug.Log("EnemysData : " + e.ToString());
         }
 
-        // アイテム
-        try
-        {
-            if (parent_items_ != null)
-            {
-                foreach (CreateData data in _dataList_it.lists)
-                {
-                    GameObject _obj = Instantiate(pref_items_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up));
-                    _obj.transform.parent = parent_items_.transform;
-                    if (data.kind == 0)
-                    {
-                        //_obj.GetComponent<RaderIcon>().SetActive(false);
-                        tanks_.Add(_obj);
-                    }
-                }
-            }
-            else
-            {
-                foreach (CreateData data in _dataList_en.lists)
-                {
-                    GameObject _obj = Instantiate(pref_items_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up));
-                    if (data.kind == 0)
-                    {
-                        //_obj.GetComponent<RaderIcon>().SetActive(false);
-                        tanks_.Add(_obj);
-                    }
-                }
-            }
+        //// アイテム
+        //try
+        //{
+        //    if (parent_items_ != null)
+        //    {
+        //        foreach (CreateData data in _dataList_it.lists)
+        //        {
+        //            GameObject _obj = Instantiate(pref_items_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up));
+        //            _obj.transform.parent = parent_items_.transform;
+        //            if (data.kind == 0)
+        //            {
+        //                //_obj.GetComponent<RaderIcon>().SetActive(false);
+        //                tanks_.Add(_obj);
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        foreach (CreateData data in _dataList_en.lists)
+        //        {
+        //            GameObject _obj = Instantiate(pref_items_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up));
+        //            if (data.kind == 0)
+        //            {
+        //                //_obj.GetComponent<RaderIcon>().SetActive(false);
+        //                tanks_.Add(_obj);
+        //            }
+        //        }
+        //    }
 
-        }
-        catch (Exception e)
-        {
-            Debug.Log("ItemsData : " + e.ToString());
-        }
+        //}
+        //catch (Exception e)
+        //{
+        //    Debug.Log("ItemsData : " + e.ToString());
+        //}
 
         // ギミック
         try
@@ -156,23 +160,39 @@ public class ObjectCreator : MonoBehaviour
         //}
 
         // 仲間(固有)
-        fellows_[0].transform.position = new Vector3(0.0f, 0.0f, -1.5f);
-        fellows_[1].transform.position = new Vector3(0.5f, 0.0f, -1.5f);
-        fellows_[2].transform.position = new Vector3(1.0f, 0.0f, -1.5f);
-        fellows_[3].transform.position = new Vector3(-0.5f, 0.0f, -1.5f);
-        fellows_[4].transform.position = new Vector3(-1.0f, 0.0f, -1.5f);
+        //fellows_[0].transform.position = new Vector3(0.0f, 0.0f, -1.5f);
+        //fellows_[1].transform.position = new Vector3(0.5f, 0.0f, -1.5f);
+        //fellows_[2].transform.position = new Vector3(1.0f, 0.0f, -1.5f);
+        //fellows_[3].transform.position = new Vector3(-0.5f, 0.0f, -1.5f);
+        //fellows_[4].transform.position = new Vector3(-1.0f, 0.0f, -1.5f);
 
 
-        //// 仲間(全て)配置
-        //DataList _data_fellow = JsonUtility.FromJson<DataList>(Resources.Load<TextAsset>("InputData/FellowData").ToString());
-        //CreateData[] _list_fellow = _data_fellow.lists;
-        //RandomNumberTool _random = new RandomNumberTool(0, 8);
-        //int _num = 0;
-        //for (int i = 0; i < 10; i++)
-        //{
-        //    _num = _random.GetNoDuplicatesRN();
-        //    pref_fellows_all_[i].transform.position = new Vector3(_list_fellow[i].pos_x, _list_fellow[i].pos_y, _list_fellow[i].pos_z);
-        //}
+        // 仲間(全て)配置
+        FellowData[] _list_fellow = JsonUtility.FromJson<FellowDataList>(Resources.Load<TextAsset>("InputData/FellowData_Single").ToString()).lists;
+        RandomNumberTool _random = new RandomNumberTool(0, 32);
+        int _num = 0;
+        // 1人
+        for (int i = 0; i < num_fellow_single_; i++)
+        {
+            _num = _random.GetNoDuplicatesRN();
+            pref_fellows_single_[i].transform.position = new Vector3(_list_fellow[_num].pos_x, _list_fellow[_num].pos_y, _list_fellow[_num].pos_z);
+
+            // 初期で移動する設定
+            if (_list_fellow[_num].move_start)
+            {
+
+            }
+        }
+        CreateData[] _list_fellows = JsonUtility.FromJson<DataList>(Resources.Load<TextAsset>("InputData/FellowData_Party").ToString()).lists;
+        _random = new RandomNumberTool(0, 10);
+        _num = 0;
+        // 2人・3人
+        for (int i = 0; i < num_fellow_party_; i++)
+        {
+            _num = _random.GetNoDuplicatesRN();
+            pref_fellows_party_[i].transform.position = new Vector3(_list_fellows[_num].pos_x, _list_fellows[_num].pos_y, _list_fellows[_num].pos_z);
+        }
+
 #else
         // 敵生成
         if (parent_enemy_ != null)
@@ -198,32 +218,32 @@ public class ObjectCreator : MonoBehaviour
             }
         }
 
-        // アイテム
-        if (parent_items_ != null)
-        {
-            foreach (CreateData data in _dataList_it.lists)
-            {
-                GameObject _obj = Instantiate(pref_items_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up));
-                _obj.transform.parent = parent_items_.transform;
-                if (data.kind == 0)
-                {
-                    //_obj.GetComponent<RaderIcon>().SetActive(false);
-                    tanks_.Add(_obj);
-                }
-            }
-        }
-        else
-        {
-            foreach (CreateData data in _dataList_en.lists)
-            {
-                GameObject _obj = Instantiate(pref_items_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up));
-                if (data.kind == 0)
-                {
-                    //_obj.GetComponent<RaderIcon>().SetActive(false);
-                    tanks_.Add(_obj);
-                }
-            }
-        }
+        //// アイテム
+        //if (parent_items_ != null)
+        //{
+        //    foreach (CreateData data in _dataList_it.lists)
+        //    {
+        //        GameObject _obj = Instantiate(pref_items_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up));
+        //        _obj.transform.parent = parent_items_.transform;
+        //        if (data.kind == 0)
+        //        {
+        //            //_obj.GetComponent<RaderIcon>().SetActive(false);
+        //            tanks_.Add(_obj);
+        //        }
+        //    }
+        //}
+        //else
+        //{
+        //    foreach (CreateData data in _dataList_en.lists)
+        //    {
+        //        GameObject _obj = Instantiate(pref_items_[data.kind], new Vector3(data.pos_x, data.pos_y, data.pos_z), Quaternion.AngleAxis(data.rot_y, Vector3.up));
+        //        if (data.kind == 0)
+        //        {
+        //            //_obj.GetComponent<RaderIcon>().SetActive(false);
+        //            tanks_.Add(_obj);
+        //        }
+        //    }
+        //}
 
         // ギミック
         PrefabCreater.CreateMultiplePrefabs("InputData/Gimmicksdata", pref_gimmicks_, parent_gimmick_);
