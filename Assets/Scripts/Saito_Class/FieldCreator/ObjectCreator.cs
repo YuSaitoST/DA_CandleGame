@@ -269,17 +269,43 @@ public class ObjectCreator : MonoBehaviour
         //    _obj.transform.GetChild(0).GetComponent<Fellow>().fellotalk_ = fellowTalk_;
         //}
         
-        BOB         _bob = _param.bob;
-        NIC         _nic = _param.nic;
-        SPENCER     _spe = _param.spencer;
-        ALAN        _ala = _param.alan;
-        CATHERINE   _cat = _param.catherine;
+        //BOB         _bob = _param.bob;
+        //NIC         _nic = _param.nic;
+        //SPENCER     _spe = _param.spencer;
+        //ALAN        _ala = _param.alan;
+        //CATHERINE   _cat = _param.catherine;
 
-        fellows_[0].transform.position = new Vector3(_bob.pos_x, 0.0f, _bob.pos_z);
-        fellows_[1].transform.position = new Vector3(_nic.pos_x, 0.0f, _nic.pos_z);
-        fellows_[2].transform.position = new Vector3(_spe.pos_x, 0.0f, _spe.pos_z);
-        fellows_[3].transform.position = new Vector3(_ala.pos_x, 0.0f, _ala.pos_z);
-        fellows_[4].transform.position = new Vector3(_cat.pos_x, 0.0f, _cat.pos_z);
+        //fellows_[0].transform.position = new Vector3(_bob.pos_x, 0.0f, _bob.pos_z);
+        //fellows_[1].transform.position = new Vector3(_nic.pos_x, 0.0f, _nic.pos_z);
+        //fellows_[2].transform.position = new Vector3(_spe.pos_x, 0.0f, _spe.pos_z);
+        //fellows_[3].transform.position = new Vector3(_ala.pos_x, 0.0f, _ala.pos_z);
+        //fellows_[4].transform.position = new Vector3(_cat.pos_x, 0.0f, _cat.pos_z);
+
+        // 仲間(全て)配置
+        FellowData[] _list_fellow = JsonUtility.FromJson<FellowDataList>(Resources.Load<TextAsset>("InputData/FellowData_Single").ToString()).lists;
+        RandomNumberTool _random = new RandomNumberTool(0, 32);
+        int _num = 0;
+        // 1人
+        for (int i = 0; i < num_fellow_single_; i++)
+        {
+            _num = _random.GetNoDuplicatesRN();
+            pref_fellows_single_[i].transform.position = new Vector3(_list_fellow[_num].pos_x, _list_fellow[_num].pos_y, _list_fellow[_num].pos_z);
+
+            // 初期で移動する設定
+            if (_list_fellow[_num].move_start)
+            {
+
+            }
+        }
+        CreateData[] _list_fellows = JsonUtility.FromJson<DataList>(Resources.Load<TextAsset>("InputData/FellowData_Party").ToString()).lists;
+        _random = new RandomNumberTool(0, 10);
+        _num = 0;
+        // 2人・3人
+        for (int i = 0; i < num_fellow_party_; i++)
+        {
+            _num = _random.GetNoDuplicatesRN();
+            pref_fellows_party_[i].transform.position = new Vector3(_list_fellows[_num].pos_x, _list_fellows[_num].pos_y, _list_fellows[_num].pos_z);
+        }
 #endif
     }
 
