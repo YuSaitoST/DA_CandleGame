@@ -20314,6 +20314,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName_: TitleScene
+  bgm_audioSource_: {fileID: 0}
+  se_audioSource_: {fileID: 0}
+  se_detection_: {fileID: 0}
 --- !u!114 &1813468716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20508,7 +20511,7 @@ GameObject:
   - component: {fileID: 1946590285}
   - component: {fileID: 1946590284}
   m_Layer: 0
-  m_Name: AudioSource
+  m_Name: SE_Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

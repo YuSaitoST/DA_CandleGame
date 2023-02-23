@@ -18,7 +18,7 @@ public class Spencer : Fellow
         if (!debug_)
         {
             fellotalk_.PlayTalk();
-            GameProgress.instance_.SetFriendWhoHelped(fellows_.spencer);
+            GameProgress.instance_.SetFriendWhoHelped(1);
         }
     }
 }

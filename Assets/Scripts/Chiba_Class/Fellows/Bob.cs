@@ -13,12 +13,12 @@ public class Bob : Fellow
     protected override void RescueProcess()
     {
         //ƒvƒŒƒCƒ„[‚Ì_‘f”š’e‚ª‹­‰»‚³‚ê‚é
-        player_script_.fellow_oxy_bomb_ = true;
+        player_script_.FellowOxyBomb();
 
         if (!debug_)
         {
             fellotalk_.PlayTalk();
-            GameProgress.instance_.SetFriendWhoHelped(fellows_.bob);
+            GameProgress.instance_.SetFriendWhoHelped(1);
         }
     }
 }

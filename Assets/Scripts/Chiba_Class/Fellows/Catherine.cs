@@ -13,13 +13,13 @@ public class Catherine : Fellow
     protected override void RescueProcess()
     {
         //プレイヤーの酸素ボンベの数が3つから4つになる
-        player_script_.fellow_oxy_add_ = true;
+        player_script_.FellowOxyAdd();
 
         if (!debug_)
         {
 
             fellotalk_.PlayTalk();
-            GameProgress.instance_.SetFriendWhoHelped(fellows_.catherine);
+            GameProgress.instance_.SetFriendWhoHelped(1);
         }
     }
 }

@@ -36,7 +36,8 @@ public class GroupEntourage : Fellow
             if (!rescue_flg_)
             {
 
-                GameProgress.instance_.FriendWhoHelpedCount();
+                GameProgress.instance_.SetFriendWhoHelped(1);
+
 
                 //レーダーアイコンを消す処理
                 radericon_.Detectioned();
@@ -52,7 +53,7 @@ public class GroupEntourage : Fellow
         }
 
         //潜水艦に回収される処理
-        if (player_script_.fellow_Count_ == 0 && follow_flg_)
+        if (fellowcount_script_.fellow_Count_ == 0 && follow_flg_)
         {
             row_ = 0;
             transform.position = new(0, 0, 0);
@@ -81,7 +82,7 @@ public class GroupEntourage : Fellow
         yield return new WaitForSeconds(delay_time_);
         follow_flg_ = true;
         row_ = parent_fellow_.Row_ + 1;
-        if (player_script_.fellow_Count_ > 1)
+        if (fellowcount_script_.fellow_Count_ > 1)
         {
             last_ = true;
 
