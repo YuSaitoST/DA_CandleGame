@@ -17,7 +17,8 @@ public class FellowPatrol : MonoBehaviour
 
     [SerializeField]
     [Tooltip("巡回する地点の配列")]
-    private Transform[] waypoint_ = null;
+   // private Transform[] waypoint_ = null;
+    private List<Transform> waypoint_ = new List<Transform> {};
 
     [SerializeField]
     private float wait_time_ = 3.0f;
@@ -29,6 +30,12 @@ public class FellowPatrol : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //目的地が設定されていない場合はこのスクリプトはオフにする
+        if(waypoint_.Count == 0)
+        {
+            this.enabled = false;
+        }
+
         fellow_script_ = GetComponent<Fellow>();
         agent_ = GetComponent<NavMeshAgent>();
        
@@ -70,7 +77,7 @@ public class FellowPatrol : MonoBehaviour
         agent_.isStopped = true;
 
         // 目的地の番号を１更新（右辺を剰余演算子にすることで目的地をループさせれる）
-        waypoint_index = (waypoint_index + 1) % waypoint_.Length;
+        waypoint_index = (waypoint_index + 1) % waypoint_.Count;
 
         // 目的地を次の場所に
         agent_.SetDestination(waypoint_[waypoint_index].position);
@@ -83,5 +90,19 @@ public class FellowPatrol : MonoBehaviour
 
         //アニメーション再開
         animator_.SetBool("isWalking", true);
+    }
+
+    //配列の受け取り用
+    public void SetWayPoint(Transform[] _a)
+    {
+        //リストの数だけまわす
+        for(int i = 0; i < _a.Length; i++)
+        {
+            //リストの初期化
+            waypoint_ = new List<Transform>();
+
+            //リストに追加
+            waypoint_.Add(_a[i]);
+        }
     }
 }
