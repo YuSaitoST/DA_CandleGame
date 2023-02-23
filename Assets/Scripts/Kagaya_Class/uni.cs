@@ -10,9 +10,6 @@ public class uni : MonoBehaviour
     float time = 0.0f;
     UniState state;
 
-    //[SerializeField]
-    //UniState unistate;
-
     void Start()
     {
         rigidbody = this.GetComponent<Rigidbody>();
@@ -29,12 +26,9 @@ public class uni : MonoBehaviour
             float dist = Vector3.Distance(playerC.transform.position, transform.position);
             if (dist > trackingRange)
             {
-                Debug.Log("外れた");
-
                 time += Time.deltaTime;
                 if (time >= 5.0f)
                 {
-                    Debug.Log("すいちゃん");
                     tracking = false;
                     time = 0.0f;
                     state.SmallMode();
@@ -45,30 +39,25 @@ public class uni : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "Player") //視界の範囲内の当たり判定
+        if (other.gameObject.tag == "Player") 
         {
             Vector3 posDelta = other.transform.position - this.transform.position;
             if (posDelta.magnitude > trackingRange)
                 return;
             float target_angle = Vector3.Angle(this.transform.forward, posDelta);
-            if (target_angle < angle) //target_angleがangleに収まっているかどうか
+            if (target_angle < angle) 
             {
-                //if (Physics.Raycast(this.transform.position, posDelta, out RaycastHit hit)) //Rayを使用してtargetに当たっているか判別
-                //{
-                //    if (hit.collider == other)
-                //    {
-                        tracking = true;
-                        Debug.Log("range of view");
-                        state.BigMode();
-                    
-                
+               tracking = true;
+               Debug.Log("range of ウニ");
+               state.BigMode();
             }
         }
     }
+#if UNITY_EDITOR
     void OnDrawGizmos()
     {
-        //trackingRangeの範囲を赤いワイヤーフレームで示す
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, trackingRange);
     }
+#endif
 }

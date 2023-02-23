@@ -23,7 +23,7 @@ public class yadokarock : MonoBehaviour
     Rigidbody rigidbody;
     private GameObject playerC;
     private NavMeshAgent Agent;
-    //bool enabled = true;
+    bool enabled = true;
     float time = 0.0f;
     Mesh mesh;
     Vector3[] vertices;
@@ -46,12 +46,12 @@ public class yadokarock : MonoBehaviour
     const float widthAngle = 90.0f;
     const float heightAngle = 0.0f;
     const float length = 1.5f;
-    //private Animator Animator;
+    private Animator animator;
     bool Anima = true;
     float speed_;
     float timebent = 0.0f;
-    private float speed2 = 5.0f;
-    private bool flag;
+    bool fill = true;
+    
 
     private Vector3 speed = new Vector3(0.3f, 0.3f, 0.3f);
 
@@ -66,10 +66,10 @@ public class yadokarock : MonoBehaviour
         playerC = GameProgress.instance_.Get_PlayerC();
         targetRot = Quaternion.AngleAxis(angle, axis) * transform.rotation;
         state = ENE_STATE.STAY;
-        //Animator = gameObject.GetComponent<Animator>();
+        animator = gameObject.GetComponent<Animator>();
         atomic.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-        StartCoroutine(shiver());
         eyes_.SetActive(false);
+        
         //SPEED=GameProgress.instance_
     }
 
@@ -124,7 +124,6 @@ public class yadokarock : MonoBehaviour
                     Debug.Log("range of view1");
                     //if (hit.collider == other)
                     //{
-                    
                     Agent.destination = playerC.transform.position;
                     GameProgress.instance_.Enemy_StartTracking();
                     time += Time.deltaTime;
@@ -137,21 +136,10 @@ public class yadokarock : MonoBehaviour
 
                     if (Anima == true)
                     {
-                        //Animator.SetBool("bulubulu", true);
-                        //Anima = false;
-                        //if (transform.position.z >= 3)
-                        //    flag = true;
-
-                        //else if (transform.position.z <= -3)
-                        //    flag = false;
-
-                        //if (flag)
-                        //    transform.position =
-                        //    Vector3.MoveTowards(transform.position, new Vector3(0, 0, -3), speed2 * Time.deltaTime);
-
-                        //else if (!flag)
-                        //    transform.position =
-                        //    Vector3.MoveTowards(transform.position, new Vector3(0, 0, 3), speed2 * Time.deltaTime);
+                        //StartCoroutine(shiver());
+                        animator.SetBool("bulubulu", true);
+                        Anima = false;
+                        
                         Debug.Log("range of view3");
                     }
                 }
@@ -161,19 +149,32 @@ public class yadokarock : MonoBehaviour
     
     void Update()
     {
+        if (fill == true)
+        {
+            //this.transform.localPosition = new Vector3(0.0f, -100.0f, 0.0f);
+            //Vector3 pos = this.transform.position;
+            //this.transform.position = new Vector3(pos.x, pos.y - 10.0f, pos.z);
+            fill = false;
+        }
+
+        
         //var child = transform.Find("CrabMonster 1/Armature/Root/Thorax_1");
         //var child2 = transform.Find("CrabMonster 1/Armature/Eyes");
 
         //atomic.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
         //child2.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 
-        //rigidbody.velocity = Vector3.zero;
-        //if (state == ENE_STATE.STAY)
-        //{
+        rigidbody.velocity = Vector3.zero;
 
-
-        //}
-        if (state == ENE_STATE.TRACKING)
+        if (state == ENE_STATE.STAY)
+        {
+            if (atomic.transform.localScale.x <= 0.1f)
+            {
+                atomic.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+            }
+            Debug.Log("起動");
+        }
+        else if (state == ENE_STATE.TRACKING)
         {
             DoMove(Agent.destination);
             float dist = Vector3.Distance(playerC.transform.position, transform.position);
@@ -181,12 +182,11 @@ public class yadokarock : MonoBehaviour
             if (time >= 1.0f)
             {
                 atomic.transform.localScale += speed * Time.deltaTime;
-                //child.transform.localScale = new Vector3(1f, 1f, 1f);
-                //child2.transform.localScale = new Vector3(1f, 1f, 1f);
                 Debug.Log("デカい");
                 if (atomic.transform.localScale.x > 1.0f)
                 {
-                    atomic.transform.localScale = new Vector3(1f, 1f, 1f);
+                    atomic.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                    
                 }
             }
 
@@ -198,27 +198,30 @@ public class yadokarock : MonoBehaviour
 
             if (dist > trackingRange)
             {
-                state = ENE_STATE.TRACKING_NEXT;
+                
                 rigidbody.velocity = new Vector3(0.0f, rigidbody.velocity.y, 0.0f);
                 GameProgress.instance_.Enemy_EndTracking();
                 Agent.destination = playerC.transform.position;
                 DoMove(Agent.destination);
+                state = ENE_STATE.TRACKING_NEXT;
                 Debug.Log("外れた");
             }
         }
         else if (state == ENE_STATE.TRACKING_NEXT)
         {
-            //time += Time.deltaTime;
+            time += Time.deltaTime;
             Agent.destination = playerC.transform.position;
             DoMove(Agent.destination);
             if (time >= 10.0f)
             {
-                Debug.Log("止まった");
                 rigidbody.velocity = Vector3.zero;
                 time = 0.0f;
                 GameProgress.instance_.Enemy_EndTracking();
                 eyes_.SetActive(false);
+                atomic.transform.localScale -= speed * Time.deltaTime;
                 state = ENE_STATE.STAY;
+                //sub.Rocking();
+                Debug.Log("止まった");
             }
         }
 
@@ -265,28 +268,44 @@ public class yadokarock : MonoBehaviour
         }
     }
 
-    IEnumerator shiver()
-    {
-        
-        if (time > 1.0f)
-        {
-            this.transform.position =
-            new Vector3(
-                Mathf.Sin(time),
-                transform.position.y,
-                transform.position.z
-                );
-            Debug.Log("反復横跳び");
-            yield return null;
+    //IEnumerator shiver()
+    //{
+    //    int count = 0;
+    //    while (true)
+    //    {
+    //        if (count <= 5)
+    //        {
+    //            this.transform.position =
+    //                new Vector3(
+    //                Mathf.Sin(time),
+    //                transform.position.y,
+    //                transform.position.z
+    //                );
+    //            count++;
+    //            Debug.Log("反復横跳び");
+    //            yield return null;
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("ぶっ壊して");
+    //            yield break;
+    //        }
+    //    }
 
-            this.gameObject.transform.Translate(0, 0.1f, 0);
-            if (transform.position.y > 1.0f)
-            {
-                Debug.Log("発進");
-                yield break;
-            }
-        }
-    }
+
+        //for (int i = 0; i < 255; i++)
+        //{
+        //    scelton.material.color = scelton.material.color - new Color32(0, 0, 0, 1);
+        //    yield return new WaitForSeconds(0.01f);
+        //}
+        //this.gameObject.transform.Translate(0, 0.1f, 0);
+        //if (transform.position.y > 1.0f)
+        //{
+        //    Debug.Log("発進");
+        //    yield break;
+        //}
+
+    //}
 
 #if UNITY_EDITOR
     void OnDrawGizmos()
@@ -323,7 +342,7 @@ public class yadokarock : MonoBehaviour
         float forward_x = transform.forward.x * speed_;  //*ここでenemyの速さ調節
         float forward_z = transform.forward.z * speed_;  //*ここでenemyの速さ調節
         rigidbody.velocity = new Vector3(forward_x, rigidbody.velocity.y, forward_z);
-        
+        Debug.Log("俺が、ガンダムだ");
     }
 
     private static Mesh CreateFanMesh(float i_angle, int i_triangleCount)
