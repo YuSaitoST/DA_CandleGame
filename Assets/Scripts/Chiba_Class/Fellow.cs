@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class Fellow : MonoBehaviour
 {
     protected CapsuleCollider collider_ = null;
+    protected Rigidbody rb;
  
     [SerializeField]
     protected GameObject death_effect_ = null;
@@ -122,7 +123,7 @@ public class Fellow : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
-
+        rb = GetComponent<Rigidbody>();
         death_effect_.SetActive(false);
 
 
@@ -312,9 +313,11 @@ public class Fellow : MonoBehaviour
         fellowcount_script_.fellow_die_row_ = row_;
 
         row_ = 0;
-        animator_.SetBool("isRunning", false);
-        animator_.SetBool("isWalking", false);
+    
         agent_.enabled = false;
+
+        rb.useGravity = false;
+        rb.isKinematic = true;
         collider_.enabled = false;
 
         death_effect_.SetActive(true);
@@ -328,6 +331,9 @@ public class Fellow : MonoBehaviour
         transform.position = position;
 
         transform.eulerAngles = new Vector3(90, transform.rotation.y, 0);
+
+        animator_.SetBool("isRunning", false);
+        animator_.SetBool("isWalking", false);
     }
 
 
@@ -372,50 +378,56 @@ public class Fellow : MonoBehaviour
 
     protected virtual void OnCollisionStay(Collision collision)
     {
-       // OnCollisionStay
-        if (collision.gameObject.tag == "Enemy" && player_script_.Player_life_inv_tmp_ <= 0 && follow_flg_ == true)
+
+        Debug.Log("a");
+        // OnCollisionStay
+        if (collision.gameObject.tag == "Enemy" )
         {
+            
             Debug.Log("a");
-            if (last_) //Ž©•ª‚ªÅŒã”ö‚ÌŽž
+            if (player_script_.Player_life_inv_tmp_ <= 0 && follow_flg_ == true)
             {
-                Debug.Log("ÅŒã”öŽ€–S");
-                //Ž€‚ñ‚¾‚Æ‚«‚Ìˆ—
-               
-                if (row_ != 1)
+                if (last_) //Ž©•ª‚ªÅŒã”ö‚ÌŽž
                 {
-                    for (int i = 0; i < fellows_obj_.Length; i++)
+                    Debug.Log("ÅŒã”öŽ€–S");
+                    //Ž€‚ñ‚¾‚Æ‚«‚Ìˆ—
+
+                    if (row_ != 1)
                     {
-                        if (fellow_[i].Row_ == row_ - 1)
+                        for (int i = 0; i < fellows_obj_.Length; i++)
                         {
-                            fellow_[i].Last();
-                            break;
+                            if (fellow_[i].Row_ == row_ - 1)
+                            {
+                                fellow_[i].Last();
+                                break;
+                            }
                         }
                     }
+                    DeathProcess();
+                    //gameObject.SetActive(false);
+
+
                 }
-                DeathProcess();
-                //gameObject.SetActive(false);
-
-
-            }
-            else//Ž©•ª‚ªÅŒã”ö‚Å‚Í‚È‚¢‚Æ‚«
-            {
-                Debug.Log("ÅŒã”ö‚¶‚á‚È‚¢’‡ŠÔ‚ª“–‚½‚Á‚½");
-                DeathProcess();
-                for (int i = 0; i < fellows_obj_.Length; i++)
+                else//Ž©•ª‚ªÅŒã”ö‚Å‚Í‚È‚¢‚Æ‚«
                 {
-                   
-                    fellow_[i].Death();
-                    //if (fellow_[i].Row_ == row_ + 1)
-                    //{
-                    //    fellow_[i].Death();
-                    //    break;
-                    //}
-                }
-              
+                    Debug.Log("ÅŒã”ö‚¶‚á‚È‚¢’‡ŠÔ‚ª“–‚½‚Á‚½");
+                    DeathProcess();
+                    for (int i = 0; i < fellows_obj_.Length; i++)
+                    {
 
-                //–³“GŽžŠÔŠJŽn
-                //life_inv_tmp_ = life_inv_time_;
-                //player_script_.FellowHit();
+                        fellow_[i].Death();
+                        //if (fellow_[i].Row_ == row_ + 1)
+                        //{
+                        //    fellow_[i].Death();
+                        //    break;
+                        //}
+                    }
+
+
+                    //–³“GŽžŠÔŠJŽn
+                    //life_inv_tmp_ = life_inv_time_;
+                    //player_script_.FellowHit();
+                }
             }
         }
     }

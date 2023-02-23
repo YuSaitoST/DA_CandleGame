@@ -90,7 +90,7 @@ public class Player : MonoBehaviour
     private float rescue_gauge_tmp_ = 0;
 
     [SerializeField]
-    private float rescue_gauge_ = 5.0f;
+    private float rescue_gauge_ = 1.0f;
 
     //’Eoƒtƒ‰ƒO
     [SerializeField]
