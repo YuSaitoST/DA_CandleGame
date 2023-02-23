@@ -1,0 +1,40 @@
+#define ENEMY_ON
+
+using UnityEngine;
+
+public class RaderIcon : MonoBehaviour
+{
+    [SerializeField, Tooltip("アイコン")] GameObject pref_icon_ = null;
+    GameObject icon_;
+
+    private void Start()
+    {
+        Vector3 _pos = transform.position;
+        icon_ = Instantiate(pref_icon_, new Vector3(_pos.x, 10.0f, _pos.z), Quaternion.Euler(90.0f, 0.0f, 0.0f));
+        icon_.transform.parent = transform;
+
+#if !ENEMY_ON
+        gameObject.SetActive(false);
+#endif
+    }
+
+    /// <summary>
+    /// 発見したら、アイコンを削除する
+    /// </summary>
+    public void Detectioned()
+    {
+        Destroy(icon_);
+    }
+
+    /// <summary>
+    /// 表示状態を変更する
+    /// </summary>
+    /// <param name="active"></param>
+    public void SetActive(bool active)
+    {
+        if (icon_ != null)
+        {
+            icon_.SetActive(active);
+        }
+    }
+}

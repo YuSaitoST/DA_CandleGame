@@ -36,26 +36,23 @@ public class BombManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // ファイル読み込み
-        List<string>    _data   = ResourceReader.GetCSVReadData("BombLocationPos");
-        string[]        _strPos;
+        //// ファイル読み込み
+        //List<string>    _data   = ResourceReader.GetCSVReadData("BombLocationPos");
+        //string[]        _strPos;
 
-        // プレハブ生成
-        GameObject _obj;
-        for(int i = 0; i < 4; ++i)
-        {
-            _strPos = _data[i].Split(',');
-            _obj    = Instantiate(prefab_location_, new Vector3(short.Parse(_strPos[0]), 0, short.Parse(_strPos[1])), Quaternion.identity);
-            _obj.transform.parent = transform;
-        }
+        //// プレハブ生成
+        //GameObject _obj;
+        //for(int i = 0; i < 4; ++i)
+        //{
+        //    _strPos = _data[i].Split(',');
+        //    _obj    = Instantiate(prefab_location_, new Vector3(short.Parse(_strPos[0]), 0, short.Parse(_strPos[1])), Quaternion.identity);
+        //    _obj.transform.parent = transform;
+        //}
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    /// <summary>
+    /// 全ての設置箇所に爆弾が置かれているかをチェックする
+    /// </summary>
     public void Check_AllInstalled()
     {
         bool _isInstalled = false;
@@ -67,6 +64,10 @@ public class BombManager : MonoBehaviour
         txt_gameClear_.text = "Game Clear !";
     }
 
+    /// <summary>
+    /// 全ての設置箇所に置かれているかを取得する
+    /// </summary>
+    /// <returns>設置状態</returns>
     public bool IsAllInstalled()
     {
         return isAllInstalled_;

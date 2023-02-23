@@ -1,0 +1,95 @@
+{
+  "field": {
+    "x_clip": 9.0,
+    "y_clip": 200.0,
+    "z_clip": 5
+  },
+  "player": {
+    "pos_x": -1.0,
+    "pos_y": 0.0,
+    "pos_z": 2.8,
+    "rot_y": 0.0,
+    "move_speed": 0.5,
+    "move_boost": 0.8,
+    "oxy_max": 100.0,
+    "oxy_cost_boost": 2.0,
+    "oxy_cost": 0.6,
+    "damage": 10.0,
+    "knockback_power": 0.8,
+    "knockback_power_up": 0.7,
+    "knockback_stan_": 1.0
+  },
+  "submaline": {
+    "pos_x": 0.5,
+    "pos_y": 0.0,
+    "pos_z": 0.0
+  },
+  "bob": {
+    "pos_x": -1.5,
+    "pos_y": 0.0,
+    "pos_z": 8.34,
+    "rot_y": 130.0
+  },
+  "nic": {
+    "pos_x": -11.7,
+    "pos_y": 0.0,
+    "pos_z": 1.6,
+    "rot_y": 90.0
+  },
+  "spencer": {
+    "pos_x": 0.5,
+    "pos_y": 0.0,
+    "pos_z": 4.0,
+    "rot_y": 270.0
+  },
+  "alan": {
+    "pos_x": 3.1,
+    "pos_y": 0.0,
+    "pos_z": 1.1,
+    "rot_y": 300.0
+  },
+  "catherine": {
+    "pos_x": 10.7,
+    "pos_y": 0.0,
+    "pos_z": -10.1,
+    "rot_y": 300.0
+  },
+  "general_fellow": [
+    {
+      "id": 0,
+      "kind": 0,
+      "pos_x": 10.0,
+      "pos_y": 0.0,
+      "pos_z": 5.0,
+      "rot_y": 0.0
+    },
+    {
+      "id": 1,
+      "kind": 2,
+      "pos_x": -13.0,
+      "pos_y": 0.0,
+      "pos_z": 5.0,
+      "rot_y": 30.0
+    },
+    {
+      "id": 2,
+      "kind": 2,
+      "pos_x": -10.0,
+      "pos_y": 0.0,
+      "pos_z": -13.0,
+      "rot_y": 30.0
+    }
+  ],
+  "yadokarock": {
+    "speed": 0.4
+  },
+  "yadekarock": {
+    "speed": 0.2
+  },
+  "result": {
+    "c_high": 3,
+    "b_high": 5,
+    "a_high": 8,
+    "s_high": 12
+  }
+}

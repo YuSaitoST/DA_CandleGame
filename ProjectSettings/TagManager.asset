@@ -5,6 +5,22 @@ TagManager:
   serializedVersion: 2
   tags:
   - BombArea
+  - target
+  - PC
+  - Ground
+  - PartsManager
+  - Tank
+  - Submarine
+  - OxyBomb01
+  - OxyBomb02
+  - OxyBomb03
+  - OxyBomb04
+  - OxyBomb05
+  - Enemy
+  - Fellow
+  - RescueArea
+  - MiniMap
+  - OxyBomb00
   layers:
   - Default
   - TransparentFX
@@ -13,7 +29,7 @@ TagManager:
   - Water
   - UI
   - Ground
-  - 
+  - Bomb
   - 
   - 
   - 

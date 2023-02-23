@@ -5,7 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/WaterGameScene.unity
+    guid: c080110ab9a4d9041a4559a86f036c66
+  - enabled: 1
+    path: Assets/Scenes/ResultScene.unity
+    guid: 174abd0b6cd2def40871e053b5ba0fa5
   m_configObjects: {}
