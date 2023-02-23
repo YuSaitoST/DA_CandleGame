@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 767792728941432561}
   m_Layer: 0
   m_Name: "Sea\u200BSnake(move)"
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -429,6 +429,7 @@ GameObject:
   - component: {fileID: 807282955867288138}
   - component: {fileID: 4022868800373793821}
   - component: {fileID: 551456065}
+  - component: {fileID: 250558104609705385}
   m_Layer: 0
   m_Name: Collider
   m_TagString: Enemy
@@ -461,7 +462,7 @@ PositionConstraint:
   m_Enabled: 1
   m_Weight: 1
   m_TranslationAtRest: {x: 0.010207817, y: 0.047274873, z: -0.6919591}
-  m_TranslationOffset: {x: -0.03327866, y: 0.0037491769, z: -0.11066979}
+  m_TranslationOffset: {x: -0.03327863, y: 0.0037491918, z: -0.11066973}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
@@ -484,6 +485,22 @@ CapsuleCollider:
   m_Height: 0.6
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0.25}
+--- !u!54 &250558104609705385
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5014112230379272314}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &5689285231915765578
 GameObject:
   m_ObjectHideFlags: 0
@@ -645,7 +662,7 @@ GameObject:
   - component: {fileID: 8637974587458906114}
   m_Layer: 0
   m_Name: snake
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

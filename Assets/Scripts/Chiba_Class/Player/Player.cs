@@ -90,7 +90,7 @@ public class Player : MonoBehaviour
     private float rescue_gauge_tmp_ = 0;
 
     [SerializeField]
-    private float rescue_gauge_ = 5.0f;
+    private float rescue_gauge_ = 1.0f;
 
     //脱出フラグ
     [SerializeField]
@@ -259,6 +259,12 @@ public class Player : MonoBehaviour
                     break;
 
                 }
+            case state.Death:
+                {
+                    type_ = State.None;
+                    break;
+
+                }
             case state.Rescue:
                 {
                     type_ = State.None;
@@ -297,7 +303,7 @@ public class Player : MonoBehaviour
     //ゲームオーバー時に呼び出し
     public void GameOver()
     {
-        state_ = state.Damage;
+        state_ = state.Death;
         //type = state.Death;
         script_player_move_.ResetAnimator();
     }
