@@ -22,7 +22,7 @@ public class Alan : Fellow
         {
 
             fellotalk_.PlayTalk();
-            GameProgress.instance_.SetFriendWhoHelped(fellows_.alan);
+            GameProgress.instance_.SetFriendWhoHelped(1);
         }
     }
 }

@@ -18,7 +18,7 @@ public class Bob : Fellow
         if (!debug_)
         {
             fellotalk_.PlayTalk();
-            GameProgress.instance_.SetFriendWhoHelped(fellows_.bob);
+            GameProgress.instance_.SetFriendWhoHelped(1);
         }
     }
 }

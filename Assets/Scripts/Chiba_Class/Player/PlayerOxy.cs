@@ -259,6 +259,35 @@ public class PlayerOxy : MonoBehaviour
         }
     }
 
+    //潜水艦で酸素全快
+    public void OxyRecoverySubmarine()
+    {
+        //酸素ボンベ追加フラグがtrueの場合
+        if(fellow_oxy_add_)
+        {
+            for (int i = 0; i < oxy_start_+1; i++)
+            {
+
+                oxy_max_[i] = 33.3f;
+                oxy_max_red_[i] = 33.3f;
+
+            }
+            oxy_count_ = 0;
+        }
+        //酸素ボンベ追加フラグがfalseの場合
+        else
+        {
+            for (int i = 0; i < oxy_start_; i++)
+            {
+
+                oxy_max_[i] = 33.3f;
+                oxy_max_red_[i] = 33.3f;
+
+            }
+            oxy_count_ = 0;
+        }
+    }
+
     //Idle状態の時呼び出し
     public void Oxy()
     {

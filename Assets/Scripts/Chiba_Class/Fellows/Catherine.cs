@@ -19,7 +19,7 @@ public class Catherine : Fellow
         {
 
             fellotalk_.PlayTalk();
-            GameProgress.instance_.SetFriendWhoHelped(fellows_.catherine);
+            GameProgress.instance_.SetFriendWhoHelped(1);
         }
     }
 }

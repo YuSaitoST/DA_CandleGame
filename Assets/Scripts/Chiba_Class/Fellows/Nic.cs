@@ -18,7 +18,7 @@ public class Nic : Fellow
         if (!debug_)
         {
             fellotalk_.PlayTalk();
-            GameProgress.instance_.SetFriendWhoHelped(fellows_.nic);
+            GameProgress.instance_.SetFriendWhoHelped(1);
         }
     }
 }

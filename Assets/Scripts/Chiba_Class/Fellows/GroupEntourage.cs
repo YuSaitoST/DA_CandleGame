@@ -36,7 +36,8 @@ public class GroupEntourage : Fellow
             if (!rescue_flg_)
             {
 
-                GameProgress.instance_.FriendWhoHelpedCount();
+                GameProgress.instance_.SetFriendWhoHelped(1);
+
 
                 //レーダーアイコンを消す処理
                 radericon_.Detectioned();
