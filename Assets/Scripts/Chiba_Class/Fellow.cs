@@ -164,7 +164,8 @@ public class Fellow : MonoBehaviour
             //救助されたときに一度だけ実行
             if (!rescue_flg_)
             {
-               
+                GetComponent<SetPositionInMap>().SetActive(false);
+
                 GameProgress.instance_.FriendWhoHelpedCount();
 
                 //レーダーアイコンを消す処理
