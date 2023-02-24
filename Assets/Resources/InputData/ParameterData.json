@@ -1,8 +1,8 @@
 {
   "field": {
-    "x_clip": 9.0,
-    "y_clip": 200.0,
-    "z_clip": 5
+    "x_clip": 20.0,
+    "y_clip": 5.0,
+    "z_clip": 20.0
   },
   "player": {
     "pos_x": -1.0,
@@ -84,7 +84,7 @@
     "speed": 0.4
   },
   "yadekarock": {
-    "speed": 0.2
+    "speed": 0.3
   },
   "result": {
     "c_high": 3,

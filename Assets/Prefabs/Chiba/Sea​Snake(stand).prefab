@@ -300,7 +300,7 @@ GameObject:
   - component: {fileID: 695455615}
   m_Layer: 0
   m_Name: "Sea\u200BSnake(stand)"
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -350,7 +350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d63719365f51f449b2642bd9b23d20d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stan_time_: 5
+  stan_time_: []
   animator_: {fileID: 7924334264450912994}
   stan_flg_: 0
 --- !u!1 &4534045386584842772
@@ -622,7 +622,7 @@ GameObject:
   - component: {fileID: 4684240953432615923}
   m_Layer: 0
   m_Name: snake
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -775,7 +775,7 @@ PositionConstraint:
   m_Enabled: 1
   m_Weight: 1
   m_TranslationAtRest: {x: 0, y: 0, z: 0}
-  m_TranslationOffset: {x: 0.0153488, y: -0.35375434, z: 0.10510194}
+  m_TranslationOffset: {x: 0.0153488, y: -0.3537544, z: 0.10510205}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1

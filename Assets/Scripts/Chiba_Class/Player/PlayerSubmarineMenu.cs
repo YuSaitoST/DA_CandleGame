@@ -11,6 +11,8 @@ public class PlayerSubmarineMenu : MonoBehaviour
     private PlayerFellowCount script_player_count_ = null;
     [SerializeField]
     private UIManager UI_ = null;
+    [SerializeField]
+    private MenuSE SE_ = null;
 
     private bool menu_flg_ = false;
 
@@ -115,7 +117,7 @@ public class PlayerSubmarineMenu : MonoBehaviour
                 state = menu_state_.Escape;
                 SetUI();
             }
-
+            SE_.ArrowMoveSE();
             WaitTime();
         }
         //スティックが上に倒される
@@ -132,6 +134,7 @@ public class PlayerSubmarineMenu : MonoBehaviour
                 SetUI();
                
             }
+            SE_.ArrowMoveSE();
             WaitTime();
         }
     }
@@ -144,6 +147,7 @@ public class PlayerSubmarineMenu : MonoBehaviour
             //マップを開く
             if (state == menu_state_.Map)
             {
+                SE_.DecisionSE();
                 UI_.CloseUI();
                 UI_.submarine_bigmap_.SetActive(true);
             }
@@ -153,13 +157,14 @@ public class PlayerSubmarineMenu : MonoBehaviour
                 if (oxy > 0)
                 {
                     oxy--;
-                    
+                    SE_.OxygenGetSE();
                     CloseMenu();
 
                     script_player_.GetTankSubmarine();
                 }
                 else
                 {
+                    SE_.OxygenNotSE();
                     //回復可能回数の残りが0時は何もしない
                     CloseMenu();
                 }
@@ -167,6 +172,8 @@ public class PlayerSubmarineMenu : MonoBehaviour
             //脱出
             else if (state == menu_state_.Escape)
             {
+                SE_.DecisionSE();
+
                 UI_.CloseUI();
                 //10人以上回収していたら
                 if (script_player_count_.fellow_rescue_ >= 10)
@@ -183,6 +190,8 @@ public class PlayerSubmarineMenu : MonoBehaviour
             }
             else if (state == menu_state_.EscapeOK)
             {
+                SE_.DecisionSE();
+
                 UI_.CloseUI();
                 GameProgress.instance_.GameClear();
             }

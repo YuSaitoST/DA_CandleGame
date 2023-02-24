@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class Fellow : MonoBehaviour
 {
     protected CapsuleCollider collider_ = null;
+    protected Rigidbody rb;
  
     [SerializeField]
     protected GameObject death_effect_ = null;
@@ -122,7 +123,7 @@ public class Fellow : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
-
+        rb = GetComponent<Rigidbody>();
         death_effect_.SetActive(false);
 
 
@@ -201,6 +202,13 @@ public class Fellow : MonoBehaviour
 
     protected virtual void Move()
     {
+        //仲間がはぐれたら
+        if (Vector3.Distance(player_.transform.position, transform.position) > 4)
+        {
+            //プレイヤーの近くにテレポート
+            transform.position = player_.transform.position;
+        }
+
         agent_.speed = player_script_.Player_Move_;
 
         agent_.SetDestination(chase_target_.transform.position);
@@ -305,9 +313,11 @@ public class Fellow : MonoBehaviour
         fellowcount_script_.fellow_die_row_ = row_;
 
         row_ = 0;
-        animator_.SetBool("isRunning", false);
-        animator_.SetBool("isWalking", false);
+    
         agent_.enabled = false;
+
+        rb.useGravity = false;
+        rb.isKinematic = true;
         collider_.enabled = false;
 
         death_effect_.SetActive(true);
@@ -321,6 +331,9 @@ public class Fellow : MonoBehaviour
         transform.position = position;
 
         transform.eulerAngles = new Vector3(90, transform.rotation.y, 0);
+
+        animator_.SetBool("isRunning", false);
+        animator_.SetBool("isWalking", false);
     }
 
 
@@ -365,50 +378,56 @@ public class Fellow : MonoBehaviour
 
     protected virtual void OnCollisionStay(Collision collision)
     {
-       
-        if (collision.gameObject.tag == "Enemy" && player_script_.Player_life_inv_tmp_ <= 0 && follow_flg_ == true)
+
+        Debug.Log("a");
+        // OnCollisionStay
+        if (collision.gameObject.tag == "Enemy" )
         {
+            
             Debug.Log("a");
-            if (last_) //自分が最後尾の時
+            if (player_script_.Player_life_inv_tmp_ <= 0 && follow_flg_ == true)
             {
-                Debug.Log("最後尾死亡");
-                //死んだときの処理
-               
-                if (row_ != 1)
+                if (last_) //自分が最後尾の時
                 {
-                    for (int i = 0; i < fellows_obj_.Length; i++)
+                    Debug.Log("最後尾死亡");
+                    //死んだときの処理
+
+                    if (row_ != 1)
                     {
-                        if (fellow_[i].Row_ == row_ - 1)
+                        for (int i = 0; i < fellows_obj_.Length; i++)
                         {
-                            fellow_[i].Last();
-                            break;
+                            if (fellow_[i].Row_ == row_ - 1)
+                            {
+                                fellow_[i].Last();
+                                break;
+                            }
                         }
                     }
+                    DeathProcess();
+                    //gameObject.SetActive(false);
+
+
                 }
-                DeathProcess();
-                //gameObject.SetActive(false);
-
-
-            }
-            else//自分が最後尾ではないとき
-            {
-                Debug.Log("最後尾じゃない仲間が当たった");
-                DeathProcess();
-                for (int i = 0; i < fellows_obj_.Length; i++)
+                else//自分が最後尾ではないとき
                 {
-                   
-                    fellow_[i].Death();
-                    //if (fellow_[i].Row_ == row_ + 1)
-                    //{
-                    //    fellow_[i].Death();
-                    //    break;
-                    //}
-                }
-              
+                    Debug.Log("最後尾じゃない仲間が当たった");
+                    DeathProcess();
+                    for (int i = 0; i < fellows_obj_.Length; i++)
+                    {
 
-                //無敵時間開始
-                //life_inv_tmp_ = life_inv_time_;
-                //player_script_.FellowHit();
+                        fellow_[i].Death();
+                        //if (fellow_[i].Row_ == row_ + 1)
+                        //{
+                        //    fellow_[i].Death();
+                        //    break;
+                        //}
+                    }
+
+
+                    //無敵時間開始
+                    //life_inv_tmp_ = life_inv_time_;
+                    //player_script_.FellowHit();
+                }
             }
         }
     }
