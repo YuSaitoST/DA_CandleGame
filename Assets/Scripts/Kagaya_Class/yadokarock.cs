@@ -157,13 +157,6 @@ public class yadokarock : MonoBehaviour
             fill = false;
         }
 
-        
-        //var child = transform.Find("CrabMonster 1/Armature/Root/Thorax_1");
-        //var child2 = transform.Find("CrabMonster 1/Armature/Eyes");
-
-        //atomic.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-        //child2.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-
         rigidbody.velocity = Vector3.zero;
 
         if (state == ENE_STATE.STAY)
@@ -186,8 +179,9 @@ public class yadokarock : MonoBehaviour
                 if (atomic.transform.localScale.x > 1.0f)
                 {
                     atomic.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-                    
+                    animator.SetBool("walking", true);
                 }
+                
             }
 
             if (dist <= 0.3f)
